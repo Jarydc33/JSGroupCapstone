@@ -21,6 +21,8 @@ namespace SafestRouteApplication.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Observer> Observers { get; set; }
+        public DbSet<Administrator> Administrators { get; set; }
+        public DbSet<Observee> Observees { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -34,6 +36,6 @@ namespace SafestRouteApplication.Models
 
         //public System.Data.Entity.DbSet<SafestRouteApplication.Models.Observer> Observers { get; set; }
 
-        public System.Data.Entity.DbSet<SafestRouteApplication.Models.ApplicationUser> ApplicationUsers { get; set; }
+        //public System.Data.Entity.DbSet<SafestRouteApplication.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

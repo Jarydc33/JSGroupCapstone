@@ -177,6 +177,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ObserversController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -184,10 +185,16 @@
     <Compile Include="Migrations\201904120031260_AddingObserver.Designer.cs">
       <DependentUpon>201904120031260_AddingObserver.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904120120173_AddedAdminAndObservee.cs" />
+    <Compile Include="Migrations\201904120120173_AddedAdminAndObservee.Designer.cs">
+      <DependentUpon>201904120120173_AddedAdminAndObservee.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Administrator.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Observee.cs" />
     <Compile Include="Models\Observer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -256,6 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -273,6 +281,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904120031260_AddingObserver.resx">
       <DependentUpon>201904120031260_AddingObserver.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904120120173_AddedAdminAndObservee.resx">
+      <DependentUpon>201904120120173_AddedAdminAndObservee.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
