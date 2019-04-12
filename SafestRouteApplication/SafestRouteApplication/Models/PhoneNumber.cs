@@ -7,16 +7,12 @@ using System.Web;
 
 namespace SafestRouteApplication.Models
 {
-    public class Observee
+    public class PhoneNumber
     {
+
         [Key]
         public int id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-
-        [ForeignKey("ApplicationUser")]
-        public string ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public string Number { get; set; }
 
         [ForeignKey("Observer")]
         public int ObserverId { get; set; }

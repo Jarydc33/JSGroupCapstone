@@ -7,19 +7,18 @@ using System.Web;
 
 namespace SafestRouteApplication.Models
 {
-    public class Observee
+    public class LocationComment
     {
         [Key]
         public int id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public float? Latitude { get; set; }
+        public float? Longitude { get; set; }
+        public string Comment { get; set; }
 
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser  ApplicationUser { get; set; }
 
-        [ForeignKey("Observer")]
-        public int ObserverId { get; set; }
-        public Observer Observer { get; set; }
+
     }
 }

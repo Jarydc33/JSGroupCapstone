@@ -23,6 +23,11 @@ namespace SafestRouteApplication.Models
         public DbSet<Observer> Observers { get; set; }
         public DbSet<Administrator> Administrators { get; set; }
         public DbSet<Observee> Observees { get; set; }
+        public DbSet<PhoneNumber> PhoneNumbers { get; set; }
+        public DbSet<AvoidanceRoute> AvoidanceRoutes { get; set; }
+        public DbSet<Route> Routes { get; set; }
+        public DbSet<LocationComment> LocationComments { get; set; }
+
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

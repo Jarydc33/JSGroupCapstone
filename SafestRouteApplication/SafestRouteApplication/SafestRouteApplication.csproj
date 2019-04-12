@@ -190,13 +190,21 @@
     <Compile Include="Migrations\201904120120173_AddedAdminAndObservee.Designer.cs">
       <DependentUpon>201904120120173_AddedAdminAndObservee.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904121841269_UpdatingModels.cs" />
+    <Compile Include="Migrations\201904121841269_UpdatingModels.Designer.cs">
+      <DependentUpon>201904121841269_UpdatingModels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrator.cs" />
+    <Compile Include="Models\AvoidanceRoute.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LocationComment.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Observee.cs" />
     <Compile Include="Models\Observer.cs" />
+    <Compile Include="Models\PhoneNumber.cs" />
+    <Compile Include="Models\Route.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -286,6 +294,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904120120173_AddedAdminAndObservee.resx">
       <DependentUpon>201904120120173_AddedAdminAndObservee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904121841269_UpdatingModels.resx">
+      <DependentUpon>201904121841269_UpdatingModels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
