@@ -26,12 +26,12 @@ namespace SafestRouteApplication.Controllers
                 else if (isObserverUser())
                 {
                     ViewBag.displayMenu = "Observer";
-                    return RedirectToAction("Index", "Observer");
+                    return RedirectToAction("Index", "Observers");
                 }
                 else if (isObserveeUser())
                 {
                     ViewBag.displayMenu = "Observee";
-                    return RedirectToAction("Index", "Observee");
+                    return RedirectToAction("Index", "Observees");
                 }
             }
             return View();

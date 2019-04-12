@@ -1,45 +1,57 @@
-﻿@model IEnumerable<SafestRouteApplication.Models.Observer>
-
+﻿@model SafestRouteApplication.Models.Observee
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ApplicationUser.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th></th>
-    </tr>
+<style>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+    #map {
+        height: 400px;
+        width: 700px;
+    }
+</style>
+<br />
+<div class="row">
+    <div id="map"></div>
+    <script>
 
-</table>
+        function initMap() {
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: new google.maps.LatLng(43.0389, -87.9065),
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+            })
+
+            var infowindow = new google.maps.InfoWindow({});
+
+            var allLatLongs = @Html.Raw(Json.Encode(ViewBag.LatLongs));
+
+            var marker, i
+
+            for (i = 0; i < allLatLongs.length; i += 2) {
+
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(allLatLongs[i], allLatLongs[i+1]),
+                    map: map,
+                })
+
+                google.maps.event.addListener(
+                    marker,
+                    'click',
+                    (function (marker, i) {
+                return function () {
+                    infowindow.open(map, marker)
+                        }
+            })(marker, i)
+                )
+            }
+        }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOURKEYHERE&callback=initMap"
+            async defer></script>
+
+
+</div>
