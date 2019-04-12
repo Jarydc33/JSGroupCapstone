@@ -270,6 +270,7 @@
     <Content Include="Views\Observers\Edit.cshtml" />
     <Content Include="Views\Observers\Index.cshtml" />
     <Content Include="Views\Observees\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutObservee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
