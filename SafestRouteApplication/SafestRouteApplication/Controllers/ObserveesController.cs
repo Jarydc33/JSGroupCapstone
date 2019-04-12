@@ -19,7 +19,7 @@ namespace SafestRouteApplication.Controllers
         // GET: Observers
         public ActionResult Index()
         {
-            GetCrimeData((float)41.8921264, (float)-87.6100311, (float)41.8649747, (float)-87.6192377);
+            //GetCrimeData((float)41.8921264, (float)-87.6100311, (float)41.8649747, (float)-87.6192377);
             return View();
         }
 
