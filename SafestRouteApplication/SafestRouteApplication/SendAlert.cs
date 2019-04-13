@@ -11,10 +11,10 @@ namespace SafestRouteApplication
     {
         public static void Send(string messagebody, string phoneNumber)
         {
-            const string accountSid;//Load with things
-            const string authToken;
+            //const string accountSid;//Load with things
+            //const string authToken;
 
-            TwilioClient.Init(accountSid, authToken);
+            //TwilioClient.Init(accountSid, authToken);
 
             var message = MessageResource.Create(
                 body: messagebody,
