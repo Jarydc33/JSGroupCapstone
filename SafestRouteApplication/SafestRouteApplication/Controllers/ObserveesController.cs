@@ -111,6 +111,17 @@ namespace SafestRouteApplication.Controllers
             return View(observer);
         }
 
+        public ActionResult PanicButton(int? id)
+        {
+
+            return View();
+        }
+
+        public ActionResult LeaveComment(int? id)
+        {
+            return View();
+        }
+
         public List<float> GetCrimeData(float NELat, float NELong, float SWLat, float SWLong)
         {
             AllCrime crimeFilter = new AllCrime();

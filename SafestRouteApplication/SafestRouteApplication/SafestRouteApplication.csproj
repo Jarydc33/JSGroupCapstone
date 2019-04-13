@@ -191,7 +191,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ObserveesController.cs" />
     <Compile Include="Controllers\ObserversController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="CreateRoute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

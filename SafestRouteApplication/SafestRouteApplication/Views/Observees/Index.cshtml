@@ -11,8 +11,20 @@
         height: 400px;
         width: 700px;
     }
+    #PanicButton{
+        
+    }
 </style>
 <br />
+
+<div id="CommentButton">
+    @using (Html.BeginForm())
+    {
+        @Html.ActionLink("Leave a Comment", "LeaveComment", "Observees")
+    }
+
+</div>
+
 <div class="row">
     <div id="map"></div>
     <script>
@@ -61,5 +73,11 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhQd9LdAp7Svt8uDNCepKjvqJOnOiQs4c&callback=initMap"
             async defer></script>
 
+
+</div>
+
+<div id="PanicButton">
+
+    <input type="button" value="PANIC BUTTON" onclick="@("window.location.href='" + @Url.Action("PanicButton", "Observees") + "'");" />
 
 </div>
