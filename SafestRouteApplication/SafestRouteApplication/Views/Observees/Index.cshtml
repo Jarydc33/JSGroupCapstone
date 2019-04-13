@@ -16,14 +16,21 @@
     }
 </style>
 <br />
-
-<div id="CommentButton">
-    @using (Html.BeginForm())
-    {
-        @Html.ActionLink("Leave a Comment", "LeaveComment", "Observees", new { id = Model.id})
-    }
-
+<div class="row">
+    <div id="CommentButton">
+        @using (Html.BeginForm())
+        {
+            @Html.ActionLink("Leave a Comment", "LeaveComment", "Observees", new { id = Model.id })
+        }
+    </div>
+    <div id="AddObserver">
+        @using (Html.BeginForm())
+        {
+            @Html.ActionLink("Add/Change an Observer on Your Account","ChangeObserver", "Observees")
+        }
+    </div>
 </div>
+
 
 <div class="row">
     <div id="map"></div>

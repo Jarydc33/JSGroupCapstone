@@ -291,6 +291,7 @@
     <Content Include="Views\Shared\_LayoutObservee.cshtml" />
     <Content Include="Views\Shared\_LayoutObserver.cshtml" />
     <Content Include="Views\Observees\Create.cshtml" />
+    <Content Include="Views\Observees\ChangeObserver.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -5,9 +5,11 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
 using SafestRouteApplication.Models;
 
@@ -15,6 +17,7 @@ namespace SafestRouteApplication.Controllers
 {
     public class ObserveesController : Controller
     {
+        private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Observers
@@ -123,6 +126,46 @@ namespace SafestRouteApplication.Controllers
         {
 
             return View();
+        }
+
+        public ActionResult ChangeObserver(int? id)
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChangeObserver(ApplicationUser model)
+        {
+            model.Email = "none@none.com";
+            var result = await UserManager.CreateAsync(model);
+
+            if (result.Succeeded)
+            {
+                return View();
+            }
+            else
+            {
+                string userId = User.Identity.GetUserId();
+                Observee observee = db.Observees.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
+                model = db.Users.Where(m => m.UserName == model.UserName).FirstOrDefault();
+                Observer observer = db.Observers.Where(o => o.ApplicationUserId == model.Id).FirstOrDefault();
+                observee.ObserverId = observer.id;
+                return RedirectToAction("Index");
+            }
+            
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
         }
 
         public List<float> GetCrimeData(float NELat, float NELong, float SWLat, float SWLong)
