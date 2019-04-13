@@ -124,8 +124,16 @@ namespace SafestRouteApplication.Controllers
 
         public ActionResult LeaveComment(int? id)
         {
+            LocationComment comment = new LocationComment();
+            return View(comment);
+        }
 
-            return View();
+        [HttpPost]
+        public ActionResult LeaveComment(LocationComment comments)
+        {
+            db.LocationComments.Add(comments);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         public ActionResult ChangeObserver(int? id)
@@ -156,6 +164,7 @@ namespace SafestRouteApplication.Controllers
                 {
                     Observer observer = db.Observers.Where(o => o.ApplicationUserId == model.Id).FirstOrDefault();
                     observee.ObserverId = observer.id;
+                    db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 return View();

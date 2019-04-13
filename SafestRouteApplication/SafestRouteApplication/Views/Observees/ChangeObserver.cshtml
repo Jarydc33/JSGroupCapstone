@@ -17,14 +17,6 @@
     </div>
 
     <div class="form-group">
-        @Html.Label("Enter Observer`s Email", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Change Observer" class="btn btn-default" />
         </div>

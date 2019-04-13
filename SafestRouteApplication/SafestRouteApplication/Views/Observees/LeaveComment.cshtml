@@ -1,0 +1,27 @@
+﻿@model SafestRouteApplication.Models.LocationComment
+@{
+    ViewBag.Title = "LeaveComment";
+}
+
+<h2>Leave a Comment about a location</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    @Html.TextAreaFor(model => model.Comment, new { @class = "form-control" })
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Home", "Index")
+</div>
+
+
