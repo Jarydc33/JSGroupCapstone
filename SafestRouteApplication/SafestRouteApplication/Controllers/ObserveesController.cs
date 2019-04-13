@@ -149,9 +149,16 @@ namespace SafestRouteApplication.Controllers
                 string userId = User.Identity.GetUserId();
                 Observee observee = db.Observees.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
                 model = db.Users.Where(m => m.UserName == model.UserName).FirstOrDefault();
-                Observer observer = db.Observers.Where(o => o.ApplicationUserId == model.Id).FirstOrDefault();
-                observee.ObserverId = observer.id;
-                return RedirectToAction("Index");
+
+                var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var roles = userManager.GetRoles(model.Id);
+                if (roles.Equals("Observer"))
+                {
+                    Observer observer = db.Observers.Where(o => o.ApplicationUserId == model.Id).FirstOrDefault();
+                    observee.ObserverId = observer.id;
+                    return RedirectToAction("Index");
+                }
+                return View();
             }
             
         }
