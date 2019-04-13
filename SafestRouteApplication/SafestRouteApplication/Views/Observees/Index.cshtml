@@ -20,7 +20,7 @@
 <div id="CommentButton">
     @using (Html.BeginForm())
     {
-        @Html.ActionLink("Leave a Comment", "LeaveComment", "Observees")
+        @Html.ActionLink("Leave a Comment", "LeaveComment", "Observees", new { id = Model.id})
     }
 
 </div>

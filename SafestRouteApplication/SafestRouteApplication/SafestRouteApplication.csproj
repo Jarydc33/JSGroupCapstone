@@ -207,6 +207,10 @@
     <Compile Include="Migrations\201904121841269_UpdatingModels.Designer.cs">
       <DependentUpon>201904121841269_UpdatingModels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904131438411_NullableFK.cs" />
+    <Compile Include="Migrations\201904131438411_NullableFK.Designer.cs">
+      <DependentUpon>201904131438411_NullableFK.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrator.cs" />
@@ -286,6 +290,7 @@
     <Content Include="Views\Observees\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutObservee.cshtml" />
     <Content Include="Views\Shared\_LayoutObserver.cshtml" />
+    <Content Include="Views\Observees\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -313,6 +318,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904121841269_UpdatingModels.resx">
       <DependentUpon>201904121841269_UpdatingModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904131438411_NullableFK.resx">
+      <DependentUpon>201904131438411_NullableFK.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

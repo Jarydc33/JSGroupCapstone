@@ -19,7 +19,7 @@ namespace SafestRouteApplication.Models
         public ApplicationUser ApplicationUser { get; set; }
 
         [ForeignKey("Observer")]
-        public int ObserverId { get; set; }
+        public int? ObserverId { get; set; }
         public Observer Observer { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using SafestRouteApplication.Models;
 
@@ -19,11 +20,11 @@ namespace SafestRouteApplication.Controllers
         // GET: Observers
         public ActionResult Index()
         {
-            //GetCrimeData((float)41.8921264, (float)-87.6100311, (float)41.8649747, (float)-87.6192377);
-            return View();
+            string currentUserId = User.Identity.GetUserId();
+            Observee user = db.Observees.Where(c => c.ApplicationUserId == currentUserId).FirstOrDefault();
+            return View(user);
         }
-
-        // GET: Observers/Details/5
+       
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -41,8 +42,9 @@ namespace SafestRouteApplication.Controllers
         // GET: Observers/Create
         public ActionResult Create()
         {
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email");
-            return View();
+            ViewBag.ObserverId = new SelectList(db.Observers, "Id", "Email");
+            Observee user = new Observee();
+            return View(user);
         }
 
         // POST: Observers/Create
@@ -50,17 +52,17 @@ namespace SafestRouteApplication.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,FirstName,LastName,ApplicationUserId")] Observer observer)
+        public ActionResult Create(Observee userToAdd)
         {
+            string currentUserId = User.Identity.GetUserId();
+            userToAdd.ApplicationUserId = currentUserId;
             if (ModelState.IsValid)
             {
-                db.Observers.Add(observer);
+                db.Observees.Add(userToAdd);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", observer.ApplicationUserId);
-            return View(observer);
+            return RedirectToAction("Index");
         }
 
         // GET: Observers/Edit/5
@@ -119,6 +121,7 @@ namespace SafestRouteApplication.Controllers
 
         public ActionResult LeaveComment(int? id)
         {
+
             return View();
         }
 

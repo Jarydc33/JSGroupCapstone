@@ -39,7 +39,7 @@ namespace SafestRouteApplication.Controllers
         // GET: Observers/Create
         public ActionResult Create()
         {
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email");
+            //ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "FirstName","LastName");
             return View();
         }
 
