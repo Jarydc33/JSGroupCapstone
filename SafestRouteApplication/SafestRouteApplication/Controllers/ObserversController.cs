@@ -18,8 +18,10 @@ namespace SafestRouteApplication.Controllers
         // GET: Observers
         public ActionResult Index()
         {
-            var observers = db.Observers.Include(o => o.ApplicationUser);
-            return View(observers.ToList());
+            string userId = User.Identity.GetUserId();
+            var observer = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
+            var observees = db.Observees.Where(o => o.ObserverId == observer.id).ToList();
+            return View(observees);
         }
 
         // GET: Observers/Details/5

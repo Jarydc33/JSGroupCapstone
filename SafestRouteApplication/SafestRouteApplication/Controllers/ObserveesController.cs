@@ -163,13 +163,13 @@ namespace SafestRouteApplication.Controllers
             else
             {
                 
-                var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); 
                 var roles = userManager.GetRoles(user.Id);
-                if (roles.Equals("Observer"))
+                if (roles[0].Equals("Observer"))
                 {
                     string userId = User.Identity.GetUserId();
                     Observee observee = db.Observees.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
-                    Observer observer = db.Observers.Where(o => o.ApplicationUserId == model.Id).FirstOrDefault();
+                    Observer observer = db.Observers.Where(o => o.ApplicationUserId == user.Id).FirstOrDefault();
                     observee.ObserverId = observer.id;
                     db.SaveChanges();
                     ViewBag.ObserverMessage = "That user has been added as your Observer.";
