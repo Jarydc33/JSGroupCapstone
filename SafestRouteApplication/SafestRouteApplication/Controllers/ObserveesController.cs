@@ -45,7 +45,7 @@ namespace SafestRouteApplication.Controllers
         // GET: Observers/Create
         public ActionResult Create()
         {
-            ViewBag.ObserverId = new SelectList(db.Observers, "Id", "Email");
+            //ViewBag.ObserverId = new SelectList(db.Observers, "Id", "Email");
             Observee user = new Observee();
             return View(user);
         }
@@ -151,26 +151,24 @@ namespace SafestRouteApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ChangeObserver(ApplicationUser model)
+        public ActionResult ChangeObserver(ApplicationUser model)
         {
-            model.Email = "none@none.com";
-            var result = await UserManager.CreateAsync(model);
+            var user = db.Users.Where(u => u.UserName == model.UserName).FirstOrDefault();
 
-            if (result.Succeeded)
+            if (user == null)
             {
                 ViewBag.ObserverMessage = "That UserName does not exist in the database.";
                 return View();
             }
             else
             {
-                string userId = User.Identity.GetUserId();
-                Observee observee = db.Observees.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
-                model = db.Users.Where(m => m.UserName == model.UserName).FirstOrDefault();
-
+                
                 var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                var roles = userManager.GetRoles(model.Id);
+                var roles = userManager.GetRoles(user.Id);
                 if (roles.Equals("Observer"))
                 {
+                    string userId = User.Identity.GetUserId();
+                    Observee observee = db.Observees.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
                     Observer observer = db.Observers.Where(o => o.ApplicationUserId == model.Id).FirstOrDefault();
                     observee.ObserverId = observer.id;
                     db.SaveChanges();

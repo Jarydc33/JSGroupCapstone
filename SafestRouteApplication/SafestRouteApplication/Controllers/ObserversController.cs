@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using SafestRouteApplication.Models;
 
 namespace SafestRouteApplication.Controllers
@@ -39,17 +40,16 @@ namespace SafestRouteApplication.Controllers
         // GET: Observers/Create
         public ActionResult Create()
         {
-            //ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "FirstName","LastName");
-            return View();
+            Observer user = new Observer();
+            return View(user);
         }
 
-        // POST: Observers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,FirstName,LastName,ApplicationUserId")] Observer observer)
+        public ActionResult Create(Observer observer)
         {
+            string currentUserId = User.Identity.GetUserId();
+            observer.ApplicationUserId = currentUserId;
             if (ModelState.IsValid)
             {
                 db.Observers.Add(observer);
@@ -57,7 +57,6 @@ namespace SafestRouteApplication.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", observer.ApplicationUserId);
             return View(observer);
         }
 
