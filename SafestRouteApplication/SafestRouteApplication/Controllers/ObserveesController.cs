@@ -175,7 +175,6 @@ namespace SafestRouteApplication.Controllers
                     ViewBag.ObserverMessage = "That user has been added as your Observer.";
                     return RedirectToAction("Index");
                 }
-                ViewBag.ObserverMessage = "That user is not in an Observer role and so cannot be added to your account.";
                 return View();
             }
             

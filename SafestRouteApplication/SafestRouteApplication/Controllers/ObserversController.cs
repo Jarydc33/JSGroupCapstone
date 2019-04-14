@@ -15,7 +15,6 @@ namespace SafestRouteApplication.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Observers
         public ActionResult Index()
         {
             string userId = User.Identity.GetUserId();
@@ -24,7 +23,6 @@ namespace SafestRouteApplication.Controllers
             return View(observees);
         }
 
-        // GET: Observers/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -39,7 +37,6 @@ namespace SafestRouteApplication.Controllers
             return View(observer);
         }
 
-        // GET: Observers/Create
         public ActionResult Create()
         {
             Observer user = new Observer();
@@ -62,7 +59,6 @@ namespace SafestRouteApplication.Controllers
             return View(observer);
         }
 
-        // GET: Observers/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -78,9 +74,6 @@ namespace SafestRouteApplication.Controllers
             return View(observer);
         }
 
-        // POST: Observers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,FirstName,LastName,ApplicationUserId")] Observer observer)
@@ -95,7 +88,6 @@ namespace SafestRouteApplication.Controllers
             return View(observer);
         }
 
-        // GET: Observers/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -110,7 +102,6 @@ namespace SafestRouteApplication.Controllers
             return View(observer);
         }
 
-        // POST: Observers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -121,6 +112,23 @@ namespace SafestRouteApplication.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult AddPhoneNumber()
+        {
+            PhoneNumber newNumber = new PhoneNumber();
+            return View(newNumber);
+        }
+
+        [HttpPost]
+        public ActionResult AddPhoneNumber(PhoneNumber numberToAdd)
+        {
+            string userId = User.Identity.GetUserId();
+            Observer user = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
+            numberToAdd.ObserverId = user.id;
+            db.PhoneNumbers.Add(numberToAdd);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

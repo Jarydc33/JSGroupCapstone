@@ -59,9 +59,6 @@
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.2\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -195,8 +192,6 @@
     <Compile Include="Controllers\ObserveesController.cs" />
     <Compile Include="Controllers\ObserversController.cs" />
     <Compile Include="CreateRoute.cs" />
-    <Compile Include="GeocodeRequests.cs" />
-    <Compile Include="GeolocationTracker.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -304,6 +299,7 @@
     <Content Include="Views\Observees\ChangeObserver.cshtml" />
     <Content Include="Views\Observees\LeaveComment.cshtml" />
     <Content Include="Views\Observees\PanicButton.cshtml" />
+    <Content Include="Views\Observers\AddPhoneNumber.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
