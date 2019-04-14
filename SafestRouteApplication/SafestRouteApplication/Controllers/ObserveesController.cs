@@ -118,7 +118,15 @@ namespace SafestRouteApplication.Controllers
 
         public ActionResult PanicButton(int? id)
         {
-
+            Observee panicObservee = db.Observees.Find(id);
+            Observer guardian = db.Observers.Where(o => o.id == panicObservee.ObserverId).FirstOrDefault();
+            ViewBag.PanicMessage = panicObservee.FirstName + panicObservee.LastName + "has pushed the Panic Alert button. Their location is: "; //Add Location
+            var phoneNumbers = db.PhoneNumbers.Where(p => p.ObserverId == guardian.id).ToList();
+            foreach (var number in phoneNumbers)
+            {
+                SendAlert.Send(ViewBag.PanicMessage, number.Number);
+            }
+            
             return View();
         }
 
@@ -136,9 +144,9 @@ namespace SafestRouteApplication.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult ChangeObserver(int? id)
+        public ActionResult ChangeObserver()
         {
-
+            ViewBag.ObserverMessage = "Change Observer";
             return View();
         }
 
@@ -150,6 +158,7 @@ namespace SafestRouteApplication.Controllers
 
             if (result.Succeeded)
             {
+                ViewBag.ObserverMessage = "That UserName does not exist in the database.";
                 return View();
             }
             else
@@ -165,8 +174,10 @@ namespace SafestRouteApplication.Controllers
                     Observer observer = db.Observers.Where(o => o.ApplicationUserId == model.Id).FirstOrDefault();
                     observee.ObserverId = observer.id;
                     db.SaveChanges();
+                    ViewBag.ObserverMessage = "That user has been added as your Observer.";
                     return RedirectToAction("Index");
                 }
+                ViewBag.ObserverMessage = "That user is not in an Observer role and so cannot be added to your account.";
                 return View();
             }
             

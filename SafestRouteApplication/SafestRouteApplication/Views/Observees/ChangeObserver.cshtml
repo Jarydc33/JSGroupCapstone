@@ -1,11 +1,11 @@
 ﻿@model SafestRouteApplication.Models.ApplicationUser
 
-<h2>ChangeObserver</h2>
+<h2>Change Observer</h2>
 
 @using (Html.BeginForm("ChangeObserver", "Observees"))
 {
 <div class="form-horizontal">
-    <h4>Add Observer</h4>
+    <h4>@ViewBag.ObserverMessage</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">

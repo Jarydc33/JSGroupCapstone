@@ -27,6 +27,7 @@ namespace SafestRouteApplication.Models
         public DbSet<AvoidanceRoute> AvoidanceRoutes { get; set; }
         public DbSet<Route> Routes { get; set; }
         public DbSet<LocationComment> LocationComments { get; set; }
+        public DbSet<CustomSMS> CustomSMSs { get; set; }
 
 
         public ApplicationDbContext()

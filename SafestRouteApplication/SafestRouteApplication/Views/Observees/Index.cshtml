@@ -85,6 +85,6 @@
 
 <div id="PanicButton">
 
-    <input type="button" value="PANIC BUTTON" onclick="@("window.location.href='" + @Url.Action("PanicButton", "Observees") + "'");" />
+    <input type="button" value="PANIC BUTTON" onclick="@("window.location.href='" + @Url.Action("PanicButton", "Observees", new { id = Model.id }) + "'");" />
 
 </div>

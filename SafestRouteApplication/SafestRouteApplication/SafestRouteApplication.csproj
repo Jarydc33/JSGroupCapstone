@@ -211,10 +211,15 @@
     <Compile Include="Migrations\201904131438411_NullableFK.Designer.cs">
       <DependentUpon>201904131438411_NullableFK.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904141437251_AddedCustomSMS.cs" />
+    <Compile Include="Migrations\201904141437251_AddedCustomSMS.Designer.cs">
+      <DependentUpon>201904141437251_AddedCustomSMS.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrator.cs" />
     <Compile Include="Models\AvoidanceRoute.cs" />
+    <Compile Include="Models\CustomSMS.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LocationComment.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -293,6 +298,7 @@
     <Content Include="Views\Observees\Create.cshtml" />
     <Content Include="Views\Observees\ChangeObserver.cshtml" />
     <Content Include="Views\Observees\LeaveComment.cshtml" />
+    <Content Include="Views\Observees\PanicButton.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -323,6 +329,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904131438411_NullableFK.resx">
       <DependentUpon>201904131438411_NullableFK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904141437251_AddedCustomSMS.resx">
+      <DependentUpon>201904141437251_AddedCustomSMS.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
