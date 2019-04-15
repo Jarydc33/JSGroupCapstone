@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SafestRouteApplication.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -7,39 +8,40 @@ using System.Threading.Tasks;
 
 namespace SafestRouteApplication
 {
-    public class CreateRoute
+    public static class CreateRoute
     {
-        string _lat;
-        string _long;
-        public string GeocodeLat { get { return _lat; } }
-        public string GeocodeLong { get { return _long; } }
-        HttpClient client = new HttpClient();
-        public void Retrieve(string address)
+        static Route route;
+        static HttpClient client = new HttpClient();
+        public static Route Retrieve(string start_address, string end_address, List<string> avoidances)
         {
-            string startCoordinates;
-            string endCoordinates;
-            string avoidCoordinates;
+            string startCoordinates = GeoCode.Retrieve(start_address);
+            string endCoordinates = GeoCode.Retrieve(end_address);
+            string avoidanceCoords = "";
+            foreach(string x in avoidances)
+            {
+                avoidanceCoords += avoidanceCoords + ";";
+            }
+            avoidanceCoords = avoidanceCoords.Remove(avoidanceCoords.Length - 1);
             string appId = Keys.HEREAppID;//HERE api ID
             string appCode = Keys.HEREAppCode;//HERE api Code
             string baseaddress = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id="+appId+"&app_code="+appCode+"&waypoint0="+startCoordinates+"&waypoint1="+endCoordinates+"&mode=fastest;car;traffic:disabled&avoidareas="+avoidanceCoords;
             RunDataRetrieval(baseaddress).GetAwaiter().GetResult();
+            return route;
         }
-
-        async Task RunDataRetrieval(string address)
+        static async Task RunDataRetrieval(string address)
         {
             client.BaseAddress = new Uri(address);
             try
             {
                 RequestObj jsonObj = await GetRequest(address, client).ConfigureAwait(false);
-                //_lat = jsonObj.results[0].geometry.location.lat;
-                //_long = jsonObj.results[0].geometry.location.lng;
+                route = jsonObj.response.route[0];
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
         }
-        async Task<RequestObj> GetRequest(string path, HttpClient client)
+        static async Task<RequestObj> GetRequest(string path, HttpClient client)
         {
             RequestObj jsonObj = null;
             HttpResponseMessage response = await client.GetAsync(path).ConfigureAwait(false);
@@ -185,6 +187,7 @@ namespace SafestRouteApplication
         public Mode mode { get; set; }
         public List<Leg> leg { get; set; }
         public Summary summary { get; set; }
+        public string request { get; set; }
     }
 
     public class Response
