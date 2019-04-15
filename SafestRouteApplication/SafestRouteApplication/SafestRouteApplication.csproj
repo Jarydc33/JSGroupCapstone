@@ -200,30 +200,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
-    <Compile Include="Migrations\201904120031260_AddingObserver.cs" />
-    <Compile Include="Migrations\201904120031260_AddingObserver.Designer.cs">
-      <DependentUpon>201904120031260_AddingObserver.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904120120173_AddedAdminAndObservee.cs" />
-    <Compile Include="Migrations\201904120120173_AddedAdminAndObservee.Designer.cs">
-      <DependentUpon>201904120120173_AddedAdminAndObservee.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904121841269_UpdatingModels.cs" />
-    <Compile Include="Migrations\201904121841269_UpdatingModels.Designer.cs">
-      <DependentUpon>201904121841269_UpdatingModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904131438411_NullableFK.cs" />
-    <Compile Include="Migrations\201904131438411_NullableFK.Designer.cs">
-      <DependentUpon>201904131438411_NullableFK.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904141437251_AddedCustomSMS.cs" />
-    <Compile Include="Migrations\201904141437251_AddedCustomSMS.Designer.cs">
-      <DependentUpon>201904141437251_AddedCustomSMS.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904151315117_ChangedRouteName.cs" />
-    <Compile Include="Migrations\201904151315117_ChangedRouteName.Designer.cs">
-      <DependentUpon>201904151315117_ChangedRouteName.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrator.cs" />
@@ -328,26 +304,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904120031260_AddingObserver.resx">
-      <DependentUpon>201904120031260_AddingObserver.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904120120173_AddedAdminAndObservee.resx">
-      <DependentUpon>201904120120173_AddedAdminAndObservee.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904121841269_UpdatingModels.resx">
-      <DependentUpon>201904121841269_UpdatingModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904131438411_NullableFK.resx">
-      <DependentUpon>201904131438411_NullableFK.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904141437251_AddedCustomSMS.resx">
-      <DependentUpon>201904141437251_AddedCustomSMS.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904151315117_ChangedRouteName.resx">
-      <DependentUpon>201904151315117_ChangedRouteName.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

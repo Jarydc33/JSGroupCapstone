@@ -17,14 +17,14 @@ namespace SafestRouteApplication
             string startCoordinates = GeoCode.Retrieve(start_address);
             string endCoordinates = GeoCode.Retrieve(end_address);
             string avoidanceCoords = "";
-            foreach(string x in avoidances)
+            foreach (string x in avoidances)
             {
                 avoidanceCoords += avoidanceCoords + ";";
             }
             avoidanceCoords = avoidanceCoords.Remove(avoidanceCoords.Length - 1);
             string appId = Keys.HEREAppID;//HERE api ID
             string appCode = Keys.HEREAppCode;//HERE api Code
-            string baseaddress = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id="+appId+"&app_code="+appCode+"&waypoint0="+startCoordinates+"&waypoint1="+endCoordinates+"&mode=fastest;car;traffic:disabled&avoidareas="+avoidanceCoords;
+            string baseaddress = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=" + appId + "&app_code=" + appCode + "&waypoint0=" + startCoordinates + "&waypoint1=" + endCoordinates + "&mode=fastest;car;traffic:disabled&avoidareas=" + avoidanceCoords;
             RunDataRetrieval(baseaddress).GetAwaiter().GetResult();
             return route;
         }
