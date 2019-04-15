@@ -8,111 +8,155 @@ namespace TestLab1
 {
     public class CreateRoute
     {
-        List<Coordinate> _safePoints;
-        List<Coordinate> _avoidPoints;
-        List<Coordinate> _intermediates;
-        Coordinate _currentLocation;
-        Coordinate _nextLocation;
-        Coordinate _startLocation;
-        Coordinate _endLocation;
-        public List<Coordinate> Intermediates { get { return _safePoints; } }
-        public Coordinate Start { get { return _startLocation; } }
-        public Coordinate End { get { return _endLocation; } }
 
-        public CreateRoute(Coordinate startPoint, Coordinate endPoint, List<Coordinate> avoidPoints)
-        {
-            _startLocation = startPoint;
-            _currentLocation = startPoint;
-            _endLocation = endPoint;
-            _avoidPoints = avoidPoints;
-            PopulateIntermediates();
-            DetermineSafePoints();
-        }
-        public CreateRoute(double startPointx, double startPointy, double endPointx, double endPointy)
-        {
-            _startLocation = new Coordinate(startPointx, startPointy);
-            _currentLocation = new Coordinate(startPointx, startPointy);
-            _endLocation = new Coordinate(endPointx, endPointy);
-            PopulateIntermediates();
-            DetermineSafePoints();
-        }
 
-        private void DetermineSafePoints()
-        {
-            double distance_Start_End = MathSupp.Distance(_currentLocation, _endLocation);
-            if (!DetectCollisions(_currentLocation, _endLocation))
-            {
-                return;
-            }
-            double max = 100000000;
-            Coordinate maxCoordinate = new Coordinate(0, 0);
-            double interdistance;
-            foreach (Coordinate x in _intermediates)
-            {
-                interdistance = MathSupp.Distance(_endLocation, x);
-                if (interdistance < max && DetectCollisions(x, _currentLocation))
-                {
-                    max = interdistance;
-                    maxCoordinate = x;
-                }
-            }
-            _safePoints.Add(maxCoordinate);
-            DetermineSafePoints();
-        }
-        private bool DetectCollisions(Coordinate coord1, Coordinate coord2)
-        {
-            double m = coord1.latitude - coord2.latitude / coord1.longitude - coord2.longitude;
-            double b = coord2.latitude - (m * coord1.longitude);
-            foreach (Coordinate x in _avoidPoints)
-            {
-                if ((m * x.longitude + b) < x.latitude + .00004 && (m * x.longitude + b) > x.latitude - .00004)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        private void PopulateIntermediates()
-        {
-            _intermediates = new List<Coordinate>();
-            for (int x = 0; x < _avoidPoints.Count; x++)
-            {
-                for (int y = 0; y < _avoidPoints.Count; y++)
-                {
-                    _intermediates.Add(MathSupp.MidPoint(_avoidPoints[x], _avoidPoints[y]));
-                }
-            }
-        }
     }
-    public static class MathSupp
+    public class MetaInfo
     {
-        public static Coordinate MidPoint(Coordinate coord1, Coordinate coord2)
-        {
-            Coordinate midpoint = new Coordinate();
-            midpoint.longitude = (coord1.longitude + coord2.longitude) / 2;
-            midpoint.latitude = (coord1.latitude + coord2.latitude) / 2; ;
-            return midpoint;
-        }
-        public static double Distance(Coordinate coord1, Coordinate coord2)
-        {
-            double distance = Math.Pow(Math.Pow((coord2.longitude - coord1.longitude), 2) + Math.Pow((coord2.latitude - coord1.latitude), 2), .5);
-            return Math.Abs(distance);
-        }
+        public DateTime timestamp { get; set; }
+        public string mapVersion { get; set; }
+        public string moduleVersion { get; set; }
+        public string interfaceVersion { get; set; }
+        public List<string> availableMapVersion { get; set; }
     }
-    public class Coordinate
+
+    public class MappedPosition
     {
-        public double latitude { get; set; }//y
-        public double longitude { get; set; }//x
-        public Coordinate()
-        {
-
-        }
-        public Coordinate(double x, double y)
-        {
-            latitude = y;
-            longitude = x;
-        }
+        public double latitude { get; set; }
+        public double longitude { get; set; }
     }
 
+    public class OriginalPosition
+    {
+        public double latitude { get; set; }
+        public double longitude { get; set; }
+    }
+
+    public class Waypoint
+    {
+        public string linkId { get; set; }
+        public MappedPosition mappedPosition { get; set; }
+        public OriginalPosition originalPosition { get; set; }
+        public string type { get; set; }
+        public double spot { get; set; }
+        public string sideOfStreet { get; set; }
+        public string mappedRoadName { get; set; }
+        public string label { get; set; }
+        public int shapeIndex { get; set; }
+    }
+
+    public class Mode
+    {
+        public string type { get; set; }
+        public List<string> transportModes { get; set; }
+        public string trafficMode { get; set; }
+        public List<object> feature { get; set; }
+    }
+
+    public class MappedPosition2
+    {
+        public double latitude { get; set; }
+        public double longitude { get; set; }
+    }
+
+    public class OriginalPosition2
+    {
+        public double latitude { get; set; }
+        public double longitude { get; set; }
+    }
+
+    public class Start
+    {
+        public string linkId { get; set; }
+        public MappedPosition2 mappedPosition { get; set; }
+        public OriginalPosition2 originalPosition { get; set; }
+        public string type { get; set; }
+        public double spot { get; set; }
+        public string sideOfStreet { get; set; }
+        public string mappedRoadName { get; set; }
+        public string label { get; set; }
+        public int shapeIndex { get; set; }
+    }
+
+    public class MappedPosition3
+    {
+        public double latitude { get; set; }
+        public double longitude { get; set; }
+    }
+
+    public class OriginalPosition3
+    {
+        public double latitude { get; set; }
+        public double longitude { get; set; }
+    }
+
+    public class End
+    {
+        public string linkId { get; set; }
+        public MappedPosition3 mappedPosition { get; set; }
+        public OriginalPosition3 originalPosition { get; set; }
+        public string type { get; set; }
+        public double spot { get; set; }
+        public string sideOfStreet { get; set; }
+        public string mappedRoadName { get; set; }
+        public string label { get; set; }
+        public int shapeIndex { get; set; }
+    }
+
+    public class Position
+    {
+        public double latitude { get; set; }
+        public double longitude { get; set; }
+    }
+
+    public class Maneuver
+    {
+        public Position position { get; set; }
+        public string instruction { get; set; }
+        public int travelTime { get; set; }
+        public int length { get; set; }
+        public string id { get; set; }
+        public string _type { get; set; }
+    }
+
+    public class Leg
+    {
+        public Start start { get; set; }
+        public End end { get; set; }
+        public int length { get; set; }
+        public int travelTime { get; set; }
+        public List<Maneuver> maneuver { get; set; }
+    }
+
+    public class Summary
+    {
+        public int distance { get; set; }
+        public int trafficTime { get; set; }
+        public int baseTime { get; set; }
+        public List<string> flags { get; set; }
+        public string text { get; set; }
+        public int travelTime { get; set; }
+        public string _type { get; set; }
+    }
+
+    public class Route
+    {
+        public List<Waypoint> waypoint { get; set; }
+        public Mode mode { get; set; }
+        public List<Leg> leg { get; set; }
+        public Summary summary { get; set; }
+    }
+
+    public class Response
+    {
+        public MetaInfo metaInfo { get; set; }
+        public List<Route> route { get; set; }
+        public string language { get; set; }
+    }
+
+    public class RootObject
+    {
+        public Response response { get; set; }
+    }
 
 }

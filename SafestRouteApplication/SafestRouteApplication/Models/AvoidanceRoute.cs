@@ -12,8 +12,10 @@ namespace SafestRouteApplication.Models
 
         [Key]
         public int id { get; set; }
-        public float Latitude { get; set; }
-        public float Longitude { get; set; }
+        public float TopLeftLatitude { get; set; }
+        public float TopLeftLongitude { get; set; }
+        public float BottomRightLatitude { get; set; }
+        public float BottomRightLongitude { get; set; }
         public string Reason { get; set; }
 
         [ForeignKey("Observee")]
