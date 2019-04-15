@@ -7,10 +7,10 @@ namespace SafestRouteApplication
 {
     public static class Keys
     {
-        public string GoogleKey { get { return "           "; } }
-        public string HEREAppID { get { return "           "; } }
-        public string HEREAppCode { get { return "           "; } }
-        public string TwilioKey { get { return "          "; } }
-        public string TwilioToken { get { return "          "; } }
+        public static string GoogleKey { get { return "           "; } }
+        public static string HEREAppID { get { return "           "; } }
+        public static string HEREAppCode { get { return "           "; } }
+        public static string TwilioKey { get { return "          "; } }
+        public static string TwilioToken { get { return "          "; } }
     }
 }

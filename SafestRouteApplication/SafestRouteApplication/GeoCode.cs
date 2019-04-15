@@ -15,7 +15,7 @@ namespace SafestRouteApplication
         public static string Retrieve(string address)
         {
             string formattedAddress = address.Replace(' ', '+');
-            string Key = "";//GoogleAPIKEY
+            string Key = Keys.GoogleKey;//GoogleAPIKEY
             string baseaddress = "https://maps.googleapis.com/maps/api/geocode/json?address="+formattedAddress+"&key="+Key;
             RunDataRetrieval(baseaddress).GetAwaiter().GetResult();
             return (_lat + "," + _long);

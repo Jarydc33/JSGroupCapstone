@@ -19,8 +19,8 @@ namespace SafestRouteApplication
             string startCoordinates;
             string endCoordinates;
             string avoidCoordinates;
-            string appId;//HERE api ID
-            string appCode;//HERE api Code
+            string appId = Keys.HEREAppID;//HERE api ID
+            string appCode = Keys.HEREAppCode;//HERE api Code
             string baseaddress = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id="+appId+"&app_code="+appCode+"&waypoint0="+startCoordinates+"&waypoint1="+endCoordinates+"&mode=fastest;car;traffic:disabled&avoidareas="+avoidanceCoords;
             RunDataRetrieval(baseaddress).GetAwaiter().GetResult();
         }
