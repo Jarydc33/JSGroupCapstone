@@ -200,6 +200,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
+    <Compile Include="Migrations\201904151443381_InitialMigration.cs" />
+    <Compile Include="Migrations\201904151443381_InitialMigration.Designer.cs">
+      <DependentUpon>201904151443381_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904151520050_fkForSavedRoutes.cs" />
+    <Compile Include="Migrations\201904151520050_fkForSavedRoutes.Designer.cs">
+      <DependentUpon>201904151520050_fkForSavedRoutes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrator.cs" />
@@ -208,6 +216,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LocationComment.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NavigationViewModel.cs" />
     <Compile Include="Models\Observee.cs" />
     <Compile Include="Models\Observer.cs" />
     <Compile Include="Models\PhoneNumber.cs" />
@@ -287,6 +296,7 @@
     <Content Include="Views\Observers\AddPhoneNumber.cshtml" />
     <Content Include="Views\Observees\Edit.cshtml" />
     <Content Include="Views\Observees\Details.cshtml" />
+    <Content Include="Views\Observees\Navigate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -304,6 +314,14 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201904151443381_InitialMigration.resx">
+      <DependentUpon>201904151443381_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904151520050_fkForSavedRoutes.resx">
+      <DependentUpon>201904151520050_fkForSavedRoutes.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
