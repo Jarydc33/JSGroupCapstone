@@ -1,15 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestLab1
+namespace SafestRouteApplication
 {
     public class CreateRoute
     {
+        string _lat;
+        string _long;
+        public string GeocodeLat { get { return _lat; } }
+        public string GeocodeLong { get { return _long; } }
+        HttpClient client = new HttpClient();
+        public void Retrieve(string address)
+        {
+            string startCoordinates;
+            string endCoordinates;
+            string avoidCoordinates;
+            string appId;//HERE api ID
+            string appCode;//HERE api Code
+            string baseaddress = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id="+appId+"&app_code="+appCode+"&waypoint0="+startCoordinates+"&waypoint1="+endCoordinates+"&mode=fastest;car;traffic:disabled&avoidareas="+avoidanceCoords;
+            RunDataRetrieval(baseaddress).GetAwaiter().GetResult();
+        }
 
+        async Task RunDataRetrieval(string address)
+        {
+            client.BaseAddress = new Uri(address);
+            try
+            {
+                RequestObj jsonObj = await GetRequest(address, client).ConfigureAwait(false);
+                //_lat = jsonObj.results[0].geometry.location.lat;
+                //_long = jsonObj.results[0].geometry.location.lng;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        async Task<RequestObj> GetRequest(string path, HttpClient client)
+        {
+            RequestObj jsonObj = null;
+            HttpResponseMessage response = await client.GetAsync(path).ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                jsonObj = await response.Content.ReadAsAsync<RequestObj>();
 
+            }
+            return jsonObj;
+        }
     }
     public class MetaInfo
     {
@@ -154,7 +194,7 @@ namespace TestLab1
         public string language { get; set; }
     }
 
-    public class RootObject
+    public class RequestObj
     {
         public Response response { get; set; }
     }
