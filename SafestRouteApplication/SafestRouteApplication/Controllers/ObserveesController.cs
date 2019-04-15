@@ -155,7 +155,28 @@ namespace SafestRouteApplication.Controllers
         public ActionResult ChangeObserver()
         {
             ViewBag.ObserverMessage = "Change Observer";
+            ViewBag.RemoveObserverMessage = "Remove Observer";
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult RemoveObserver(ApplicationUser model)
+        {
+            string userId = User.Identity.GetUserId();
+            Observee observee = db.Observees.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
+            Observer observer = db.Observers.Where(o => o.ApplicationUser.UserName == model.UserName).FirstOrDefault();
+
+            if(observer == null)
+            {
+                ViewBag.RemoveObserverMessage = "That Observer UserName is not associated with your account.";
+                return View("ChangeObserver");
+            }
+            else
+            {
+                observee.ObserverId = null;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
