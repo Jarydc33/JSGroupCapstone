@@ -19,12 +19,18 @@ namespace SafestRouteApplication
             string avoidanceCoords = "";
             foreach (string x in avoidances)
             {
-                avoidanceCoords += avoidanceCoords + ";";
+                avoidanceCoords += avoidanceCoords + "!";
             }
             avoidanceCoords = avoidanceCoords.Remove(avoidanceCoords.Length - 1);
             string appId = Keys.HEREAppID;//HERE api ID
             string appCode = Keys.HEREAppCode;//HERE api Code
             string baseaddress = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=" + appId + "&app_code=" + appCode + "&waypoint0=" + startCoordinates + "&waypoint1=" + endCoordinates + "&mode=fastest;car;traffic:disabled&avoidareas=" + avoidanceCoords;
+            RunDataRetrieval(baseaddress).GetAwaiter().GetResult();
+            return route;
+        }
+        public static Route Retrieve(string request)
+        {
+            string baseaddress = request;
             RunDataRetrieval(baseaddress).GetAwaiter().GetResult();
             return route;
         }

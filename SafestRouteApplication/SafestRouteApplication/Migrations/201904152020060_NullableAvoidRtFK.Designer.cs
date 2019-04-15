@@ -7,13 +7,13 @@ namespace SafestRouteApplication.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class FullyUpdatedDB : IMigrationMetadata
+    public sealed partial class NullableAvoidRtFK : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(FullyUpdatedDB));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(NullableAvoidRtFK));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904151526289_FullyUpdatedDB"; }
+            get { return "201904152020060_NullableAvoidRtFK"; }
         }
         
         string IMigrationMetadata.Source

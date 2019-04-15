@@ -29,7 +29,6 @@ namespace SafestRouteApplication.Models
         public DbSet<LocationComment> LocationComments { get; set; }
         public DbSet<CustomSMS> CustomSMSs { get; set; }
 
-
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
