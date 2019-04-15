@@ -20,7 +20,6 @@ namespace SafestRouteApplication.Controllers
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Observers
         public ActionResult Index()
         {
             string currentUserId = User.Identity.GetUserId();
@@ -34,25 +33,23 @@ namespace SafestRouteApplication.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Observer observer = db.Observers.Find(id);
-            if (observer == null)
+            Observee observee = db.Observees.Find(id);
+            observee.ApplicationUser = db.Users.Where(u => u.Id == observee.ApplicationUserId).FirstOrDefault();
+            observee.Observer = db.Observers.Where(o => o.id == observee.ObserverId).FirstOrDefault();
+            observee.Observer.ApplicationUser = db.Users.Where(u => u.Id == observee.Observer.ApplicationUserId).FirstOrDefault();
+            if (observee == null)
             {
                 return HttpNotFound();
             }
-            return View(observer);
+            return View(observee);
         }
 
-        // GET: Observers/Create
         public ActionResult Create()
         {
-            //ViewBag.ObserverId = new SelectList(db.Observers, "Id", "Email");
             Observee user = new Observee();
             return View(user);
         }
 
-        // POST: Observers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Observee userToAdd)
@@ -68,40 +65,38 @@ namespace SafestRouteApplication.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Observers/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Observer observer = db.Observers.Find(id);
-            if (observer == null)
+            Observee observee = db.Observees.Find(id);
+            //observee.Observer = db.Observers.Where(o => o.id == observee.ObserverId).FirstOrDefault();
+            if (observee == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", observer.ApplicationUserId);
-            return View(observer);
+            
+            return View(observee);
         }
 
-        // POST: Observers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,FirstName,LastName,ApplicationUserId")] Observer observer)
+        public ActionResult Edit(Observee observee)
         {
+            string userId = User.Identity.GetUserId();
+            Observee user = db.Observees.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                db.Entry(observer).State = EntityState.Modified;
+                user.FirstName = observee.FirstName;
+                user.LastName = observee.LastName;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", observer.ApplicationUserId);
-            return View(observer);
+            return View(observee);
         }
 
-        // GET: Observers/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -139,6 +134,7 @@ namespace SafestRouteApplication.Controllers
         [HttpPost]
         public ActionResult LeaveComment(LocationComment comments)
         {
+            comments.ApplicationUserId = User.Identity.GetUserId();
             db.LocationComments.Add(comments);
             db.SaveChanges();
             return RedirectToAction("Index");

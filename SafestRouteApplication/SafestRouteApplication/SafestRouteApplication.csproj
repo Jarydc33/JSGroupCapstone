@@ -300,6 +300,8 @@
     <Content Include="Views\Observees\LeaveComment.cshtml" />
     <Content Include="Views\Observees\PanicButton.cshtml" />
     <Content Include="Views\Observers\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Observees\Edit.cshtml" />
+    <Content Include="Views\Observees\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
