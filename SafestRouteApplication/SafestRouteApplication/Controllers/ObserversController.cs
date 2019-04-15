@@ -27,7 +27,8 @@ namespace SafestRouteApplication.Controllers
         {
             string userId = User.Identity.GetUserId();
             Observer observer = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
-            //ob
+            var phoneNumbers = db.PhoneNumbers.Where(p => p.ObserverId == observer.id).ToList();
+            ViewBag.PhoneNumbers = phoneNumbers;
             return View(observer);
         }
 
@@ -102,6 +103,7 @@ namespace SafestRouteApplication.Controllers
 
         public ActionResult AddPhoneNumber()
         {
+            ViewBag.RemovalMessage = "Phone Number Removal";
             PhoneNumber newNumber = new PhoneNumber();
             return View(newNumber);
         }
@@ -115,6 +117,24 @@ namespace SafestRouteApplication.Controllers
             db.PhoneNumbers.Add(numberToAdd);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult RemovePhoneNumber(PhoneNumber numberToRemove)
+        {
+            PhoneNumber removal = db.PhoneNumbers.Where(p => p.Number == numberToRemove.Number).FirstOrDefault();
+            if(removal == null)
+            {
+                ViewBag.RemovalMessage = "That phone number was not on your account";
+                return View("AddPhoneNumber");
+            }
+            else
+            {
+                db.PhoneNumbers.Remove(removal);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            
         }
         
         protected override void Dispose(bool disposing)

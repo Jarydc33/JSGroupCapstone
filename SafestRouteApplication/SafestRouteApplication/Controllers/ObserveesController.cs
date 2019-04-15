@@ -123,7 +123,7 @@ namespace SafestRouteApplication.Controllers
         {
             Observee panicObservee = db.Observees.Find(id);
             Observer guardian = db.Observers.Where(o => o.id == panicObservee.ObserverId).FirstOrDefault();
-            ViewBag.PanicMessage = panicObservee.FirstName + panicObservee.LastName + "has pushed the Panic Alert button. Their location is: "; //Add Location
+            ViewBag.PanicMessage = panicObservee.FirstName +" " + panicObservee.LastName + " has pushed the Panic Alert button. Their location is: "; //Add Location
             var phoneNumbers = db.PhoneNumbers.Where(p => p.ObserverId == guardian.id).ToList();
             foreach (var number in phoneNumbers)
             {
@@ -140,9 +140,13 @@ namespace SafestRouteApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult LeaveComment(LocationComment comments)
+        public ActionResult LeaveComment(LocationComment comments, string Address)
         {
+            var location = GeoCode.Retrieve(Address);
+            string[] coordinates = location.Split(',');
             comments.ApplicationUserId = User.Identity.GetUserId();
+            comments.Latitude = coordinates[0];
+            comments.Longitude = coordinates[1];
             db.LocationComments.Add(comments);
             db.SaveChanges();
             return RedirectToAction("Index");

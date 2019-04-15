@@ -224,6 +224,10 @@
     <Compile Include="Migrations\201904151315117_ChangedRouteName.Designer.cs">
       <DependentUpon>201904151315117_ChangedRouteName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904151416515_LocationFloatToString.cs" />
+    <Compile Include="Migrations\201904151416515_LocationFloatToString.Designer.cs">
+      <DependentUpon>201904151416515_LocationFloatToString.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrator.cs" />
@@ -347,6 +351,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904151315117_ChangedRouteName.resx">
       <DependentUpon>201904151315117_ChangedRouteName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904151416515_LocationFloatToString.resx">
+      <DependentUpon>201904151416515_LocationFloatToString.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
