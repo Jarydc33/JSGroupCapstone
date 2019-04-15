@@ -25,7 +25,7 @@ namespace SafestRouteApplication.Models
         public DbSet<Observee> Observees { get; set; }
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
         public DbSet<AvoidanceRoute> AvoidanceRoutes { get; set; }
-        public DbSet<Route> Routes { get; set; }
+        public DbSet<SavedRoute> Routes { get; set; }
         public DbSet<LocationComment> LocationComments { get; set; }
         public DbSet<CustomSMS> CustomSMSs { get; set; }
 

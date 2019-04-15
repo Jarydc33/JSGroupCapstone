@@ -4,6 +4,10 @@
 }
 
 
+<p> @Html.ActionLink("Edit Account Details","Edit")
+    @Html.ActionLink("View Account Information", "Details")    
+</p>
+
 
 <table class="table">
     <tr>
@@ -26,9 +30,9 @@
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
 
-            <td>
-                @Html.ActionLink("View User", "Details", new { id = item.id })
-            </td>
+            @*<td>
+                @Html.ActionLink("View User", "ObserveeDetails", new { id = item.id })
+            </td>*@
         </tr>
     }
 

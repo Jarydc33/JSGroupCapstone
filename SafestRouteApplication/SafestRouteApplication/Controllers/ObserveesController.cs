@@ -35,8 +35,16 @@ namespace SafestRouteApplication.Controllers
             }
             Observee observee = db.Observees.Find(id);
             observee.ApplicationUser = db.Users.Where(u => u.Id == observee.ApplicationUserId).FirstOrDefault();
-            observee.Observer = db.Observers.Where(o => o.id == observee.ObserverId).FirstOrDefault();
-            observee.Observer.ApplicationUser = db.Users.Where(u => u.Id == observee.Observer.ApplicationUserId).FirstOrDefault();
+            try
+            {
+                observee.Observer = db.Observers.Where(o => o.id == observee.ObserverId).FirstOrDefault();
+                observee.Observer.ApplicationUser = db.Users.Where(u => u.Id == observee.Observer.ApplicationUserId).FirstOrDefault();
+            }
+            catch
+            {
+                observee.Observer = null;
+            }
+            
             if (observee == null)
             {
                 return HttpNotFound();
