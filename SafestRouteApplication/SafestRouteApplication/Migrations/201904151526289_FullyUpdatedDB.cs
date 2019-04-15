@@ -3,7 +3,7 @@ namespace SafestRouteApplication.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class fkForSavedRoutes : DbMigration
+    public partial class FullyUpdatedDB : DbMigration
     {
         public override void Up()
         {

@@ -18,7 +18,5 @@ namespace SafestRouteApplication.Models
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
-        public IEnumerable<Observee> Observees { get; set; }
-
     }
 }

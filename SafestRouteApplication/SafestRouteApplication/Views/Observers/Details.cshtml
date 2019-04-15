@@ -1,4 +1,4 @@
-﻿@model SafestRouteApplication.Models.Observer
+﻿@model SafestRouteApplication.Models.ObserverDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -9,14 +9,8 @@
 <div>
     <h4>Observer</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ApplicationUser.Email)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ApplicationUser.Email)
-        </dd>
+    <dl class="dl-horizontal">
 
         <dt>
             @Html.DisplayNameFor(model => model.FirstName)
@@ -36,6 +30,27 @@
 
     </dl>
 </div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Phone Numbers on Your Account")
+        </th>
+
+    </tr>
+    @foreach (var item in Model.Numbers)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
     @Html.ActionLink("Back to List", "Index")

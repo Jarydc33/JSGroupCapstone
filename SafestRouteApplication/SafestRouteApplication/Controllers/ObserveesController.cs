@@ -123,7 +123,7 @@ namespace SafestRouteApplication.Controllers
         {
             Observee panicObservee = db.Observees.Find(id);
             Observer guardian = db.Observers.Where(o => o.id == panicObservee.ObserverId).FirstOrDefault();
-            ViewBag.PanicMessage = panicObservee.FirstName + panicObservee.LastName + "has pushed the Panic Alert button. Their location is: "; //Add Location
+            ViewBag.PanicMessage = panicObservee.FirstName +" " + panicObservee.LastName + " has pushed the Panic Alert button. Their location is: "; //Add Location
             var phoneNumbers = db.PhoneNumbers.Where(p => p.ObserverId == guardian.id).ToList();
             foreach (var number in phoneNumbers)
             {
@@ -140,9 +140,13 @@ namespace SafestRouteApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult LeaveComment(LocationComment comments)
+        public ActionResult LeaveComment(LocationComment comments, string Address)
         {
+            var location = GeoCode.Retrieve(Address);
+            string[] coordinates = location.Split(',');
             comments.ApplicationUserId = User.Identity.GetUserId();
+            comments.Latitude = coordinates[0];
+            comments.Longitude = coordinates[1];
             db.LocationComments.Add(comments);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -151,7 +155,28 @@ namespace SafestRouteApplication.Controllers
         public ActionResult ChangeObserver()
         {
             ViewBag.ObserverMessage = "Change Observer";
+            ViewBag.RemoveObserverMessage = "Remove Observer";
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult RemoveObserver(ApplicationUser model)
+        {
+            string userId = User.Identity.GetUserId();
+            Observee observee = db.Observees.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
+            Observer observer = db.Observers.Where(o => o.ApplicationUser.UserName == model.UserName).FirstOrDefault();
+
+            if(observer == null)
+            {
+                ViewBag.RemoveObserverMessage = "That Observer UserName is not associated with your account.";
+                return View("ChangeObserver");
+            }
+            else
+            {
+                observee.ObserverId = null;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
