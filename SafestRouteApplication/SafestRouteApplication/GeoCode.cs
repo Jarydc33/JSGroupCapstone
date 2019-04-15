@@ -47,19 +47,19 @@ namespace SafestRouteApplication
             return jsonObj;
         }
     }
-    class GeoCodeObj
+    public class GeoCodeObj
     {
         public Results[] results { get; set; }
     }
-    class Results
+    public class Results
     {
         public Geometry geometry { get; set; }
     }
-    class Geometry
+    public class Geometry
     {
         public Location location { get; set; }
     }
-    class Location
+    public class Location
     {
         public string lat { get; set; }
         public string lng { get; set; }

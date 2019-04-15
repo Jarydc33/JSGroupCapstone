@@ -7,13 +7,13 @@ namespace SafestRouteApplication.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddedAdminAndObservee : IMigrationMetadata
+    public sealed partial class fkForSavedRoutes : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedAdminAndObservee));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(fkForSavedRoutes));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904120120173_AddedAdminAndObservee"; }
+            get { return "201904151520050_fkForSavedRoutes"; }
         }
         
         string IMigrationMetadata.Source

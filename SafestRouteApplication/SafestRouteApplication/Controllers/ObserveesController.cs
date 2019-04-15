@@ -269,6 +269,22 @@ namespace SafestRouteApplication.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        public ActionResult Navigate()
+        {
+            NavigationViewModel navData = new NavigationViewModel();
+            //navData.routes = db.SavedRoutes.Where(r => r.name)
+
+            return View(navData);
+        }
+        //[HttpPost]
+        //public ActionResult Navigate()
+        //{
+
+
+        //    return View();
+        //}
     }
 
 
@@ -318,4 +334,5 @@ namespace SafestRouteApplication.Controllers
         public float[] coordinates { get; set; }
     }
 
+    
 }
