@@ -27,7 +27,7 @@
     <div id="map"></div>
     <script>
         var platform = new H.service.Platform({
-            
+           
         });
 
         // Retrieve the target element for the map:
@@ -48,16 +48,18 @@
         // Create the parameters for the routing request:
         var routingParameters = {
             // The routing mode:
-            'mode': 'fastest;car',
+            'mode': 'fastest;pedestrian',
             // The start point of the route:
-            'waypoint0': 'geo!50.1120423728813,8.68340740740811',
+            'waypoint0': 'geo!@Model.route.waypoint[0].mappedPosition.latitude,@Model.route.waypoint[0].mappedPosition.longitude',
             // The end point of the route:
-            'waypoint1': 'geo!52.5309916298853,13.3846220493377',
+            'waypoint1': 'geo!@Model.route.waypoint[1].mappedPosition.latitude,@Model.route.waypoint[1].mappedPosition.longitude',
             // To retrieve the shape of the route we choose the route
             // representation mode 'display'
+            'avoidareas': ' ',
             'representation': 'display'
         };
-
+        //43.038779, -87.914753
+        //43.035961, -87.910161
         // Define a callback function to process the routing response:
         var onResult = function (result) {
             var route,
@@ -79,7 +81,6 @@
                     var parts = point.split(',');
                     linestring.pushLatLngAlt(parts[0], parts[1]);
                 });
-
                 // Retrieve the mapped positions of the requested waypoints:
                 startPoint = route.waypoint[0].mappedPosition;
                 endPoint = route.waypoint[1].mappedPosition;

@@ -204,6 +204,10 @@
     <Compile Include="Migrations\201904152020060_NullableAvoidRtFK.Designer.cs">
       <DependentUpon>201904152020060_NullableAvoidRtFK.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904152204457_jsrequestparamstoRoute.cs" />
+    <Compile Include="Migrations\201904152204457_jsrequestparamstoRoute.Designer.cs">
+      <DependentUpon>201904152204457_jsrequestparamstoRoute.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrator.cs" />
@@ -319,6 +323,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904152020060_NullableAvoidRtFK.resx">
       <DependentUpon>201904152020060_NullableAvoidRtFK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904152204457_jsrequestparamstoRoute.resx">
+      <DependentUpon>201904152204457_jsrequestparamstoRoute.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

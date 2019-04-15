@@ -324,15 +324,16 @@ namespace SafestRouteApplication.Controllers
         {
             Route route;
             string id = User.Identity.GetUserId();
+            var thisId = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e.id).FirstOrDefault();
+            List<AvoidanceRoute> avoidMarks = db.AvoidanceRoutes.Where(e => e.ObserveeId == thisId || e.ObserveeId == null).ToList();
+            List<string> avoidCoords = new List<string>();
+            foreach (AvoidanceRoute x in avoidMarks)
+            {
+                avoidCoords.Add(x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
+            }
             if (navData.routeRequest == null)
             {
-                var thisId = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e.id).FirstOrDefault();
-                List<AvoidanceRoute> avoidMarks = db.AvoidanceRoutes.Where(e => e.ObserveeId == thisId || e.ObserveeId == null).ToList();
-                List<string> avoidCoords = new List<string>();
-                foreach(AvoidanceRoute x in avoidMarks)
-                {
-                    avoidCoords.Add(x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
-                }
+               
                 route = CreateRoute.Retrieve(navData.StartAddress, navData.EndAddress, avoidCoords);
                 View(route);
             }
