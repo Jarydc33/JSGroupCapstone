@@ -25,11 +25,14 @@ namespace SafestRouteApplication.Controllers
 
         public ActionResult Details()
         {
+            ObserverDetailsViewModel details = new ObserverDetailsViewModel();
             string userId = User.Identity.GetUserId();
             Observer observer = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
             var phoneNumbers = db.PhoneNumbers.Where(p => p.ObserverId == observer.id).ToList();
-            ViewBag.PhoneNumbers = phoneNumbers;
-            return View(observer);
+            details.FirstName = observer.FirstName;
+            details.LastName = observer.LastName;
+            details.Numbers = phoneNumbers;
+            return View(details);
         }
 
         public ActionResult Create()

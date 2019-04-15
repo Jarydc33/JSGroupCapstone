@@ -200,17 +200,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
-    <Compile Include="Migrations\201904151443381_InitialMigration.cs" />
-    <Compile Include="Migrations\201904151443381_InitialMigration.Designer.cs">
-      <DependentUpon>201904151443381_InitialMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904151520050_fkForSavedRoutes.cs" />
-    <Compile Include="Migrations\201904151520050_fkForSavedRoutes.Designer.cs">
-      <DependentUpon>201904151520050_fkForSavedRoutes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904151416515_LocationFloatToString.cs" />
-    <Compile Include="Migrations\201904151416515_LocationFloatToString.Designer.cs">
-      <DependentUpon>201904151416515_LocationFloatToString.cs</DependentUpon>
+    <Compile Include="Migrations\201904151526289_FullyUpdatedDB.cs" />
+    <Compile Include="Migrations\201904151526289_FullyUpdatedDB.Designer.cs">
+      <DependentUpon>201904151526289_FullyUpdatedDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -223,6 +215,7 @@
     <Compile Include="Models\NavigationViewModel.cs" />
     <Compile Include="Models\Observee.cs" />
     <Compile Include="Models\Observer.cs" />
+    <Compile Include="Models\ObserverDetailsViewModel.cs" />
     <Compile Include="Models\PhoneNumber.cs" />
     <Compile Include="Models\SavedRoute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -320,14 +313,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904151443381_InitialMigration.resx">
-      <DependentUpon>201904151443381_InitialMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904151520050_fkForSavedRoutes.resx">
-      <DependentUpon>201904151520050_fkForSavedRoutes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904151416515_LocationFloatToString.resx">
-      <DependentUpon>201904151416515_LocationFloatToString.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904151526289_FullyUpdatedDB.resx">
+      <DependentUpon>201904151526289_FullyUpdatedDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

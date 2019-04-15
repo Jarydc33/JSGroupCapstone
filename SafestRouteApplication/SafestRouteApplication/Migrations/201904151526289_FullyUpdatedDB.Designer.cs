@@ -7,13 +7,13 @@ namespace SafestRouteApplication.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class LocationFloatToString : IMigrationMetadata
+    public sealed partial class FullyUpdatedDB : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(LocationFloatToString));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(FullyUpdatedDB));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904151416515_LocationFloatToString"; }
+            get { return "201904151526289_FullyUpdatedDB"; }
         }
         
         string IMigrationMetadata.Source
