@@ -17,18 +17,10 @@
 </style>
 <br />
 <div class="row">
-    <div id="CommentButton">
-        @using (Html.BeginForm())
-        {
-            @Html.ActionLink("Leave a Comment", "LeaveComment", "Observees", new { id = Model.id })
-        }
-    </div>
-    <div id="AddObserver">
-        @using (Html.BeginForm())
-        {
-            @Html.ActionLink("Add/Change an Observer on Your Account","ChangeObserver", "Observees")
-        }
-    </div>
+        @Html.ActionLink("Leave a Comment", "LeaveComment") |
+        @Html.ActionLink("Add/Change an Observer on Your Account", "ChangeObserver", "Observees") |
+        @Html.ActionLink("Edit Account Info", "Edit", new { id = Model.id }) |
+        @Html.ActionLink("View Account Info", "Details", new { id = Model.id})
 </div>
 
 
