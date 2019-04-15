@@ -220,6 +220,10 @@
     <Compile Include="Migrations\201904141437251_AddedCustomSMS.Designer.cs">
       <DependentUpon>201904141437251_AddedCustomSMS.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904151315117_ChangedRouteName.cs" />
+    <Compile Include="Migrations\201904151315117_ChangedRouteName.Designer.cs">
+      <DependentUpon>201904151315117_ChangedRouteName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrator.cs" />
@@ -231,7 +235,7 @@
     <Compile Include="Models\Observee.cs" />
     <Compile Include="Models\Observer.cs" />
     <Compile Include="Models\PhoneNumber.cs" />
-    <Compile Include="Models\Route.cs" />
+    <Compile Include="Models\SavedRoute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SendAlert.cs" />
     <Compile Include="Startup.cs" />
@@ -340,6 +344,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904141437251_AddedCustomSMS.resx">
       <DependentUpon>201904141437251_AddedCustomSMS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904151315117_ChangedRouteName.resx">
+      <DependentUpon>201904151315117_ChangedRouteName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

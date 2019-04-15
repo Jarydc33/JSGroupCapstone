@@ -23,17 +23,11 @@ namespace SafestRouteApplication.Controllers
             return View(observees);
         }
 
-        public ActionResult Details(int? id)
+        public ActionResult Details()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Observer observer = db.Observers.Find(id);
-            if (observer == null)
-            {
-                return HttpNotFound();
-            }
+            string userId = User.Identity.GetUserId();
+            Observer observer = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
+            //ob
             return View(observer);
         }
 
@@ -59,32 +53,26 @@ namespace SafestRouteApplication.Controllers
             return View(observer);
         }
 
-        public ActionResult Edit(int? id)
+        public ActionResult Edit()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Observer observer = db.Observers.Find(id);
-            if (observer == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", observer.ApplicationUserId);
+            string userId = User.Identity.GetUserId();
+            Observer observer = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
             return View(observer);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,FirstName,LastName,ApplicationUserId")] Observer observer)
+        public ActionResult Edit(Observer observer)
         {
+            string userId = User.Identity.GetUserId();
+            Observer observerToChange = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                db.Entry(observer).State = EntityState.Modified;
+                observerToChange.FirstName = observer.FirstName;
+                observerToChange.LastName = observer.LastName;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", observer.ApplicationUserId);
             return View(observer);
         }
 
