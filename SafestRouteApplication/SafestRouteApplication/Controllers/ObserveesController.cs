@@ -270,17 +270,29 @@ namespace SafestRouteApplication.Controllers
         public ActionResult Navigate()
         {
             NavigationViewModel navData = new NavigationViewModel();
-            //navData.routes = db.SavedRoutes.Where(r => r.name)
-
+            string id = User.Identity.GetUserId();
+            navData.routes = db.SavedRoutes.Where(r => r.Observee.ApplicationUserId == id).Select(x => new SelectListItem() { Value = x.name, Text = x.name }).ToList();
+            
             return View(navData);
         }
-        //[HttpPost]
-        //public ActionResult Navigate()
-        //{
+        [HttpPost]
+        public ActionResult Navigate(NavigationViewModel navData)
+        {
+            if(navData.selectedRoute != null)
+            {
+                RedirectToAction("Navigate");
+            }
+            else if (navData.StartAddress != null && navData.EndAddress != null)
+            {
+                RedirectToAction("Navigate");
+            }
+            else
+            {
+                View();
+            }
 
-
-        //    return View();
-        //}
+            return View();
+        }
     }
 
 
