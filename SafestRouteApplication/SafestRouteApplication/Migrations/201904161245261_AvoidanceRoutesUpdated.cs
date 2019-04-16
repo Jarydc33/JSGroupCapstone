@@ -3,15 +3,16 @@ namespace SafestRouteApplication.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class NullableAvoidRtFK : DbMigration
+    public partial class AvoidanceRoutesUpdated : DbMigration
     {
         public override void Up()
         {
             DropForeignKey("dbo.AvoidanceRoutes", "ObserveeId", "dbo.Observees");
             DropIndex("dbo.AvoidanceRoutes", new[] { "ObserveeId" });
+            AddColumn("dbo.SavedRoutes", "waypoint1", c => c.String());
+            AddColumn("dbo.SavedRoutes", "waypoint2", c => c.String());
+            AddColumn("dbo.SavedRoutes", "avoidstring", c => c.String());
             AlterColumn("dbo.AvoidanceRoutes", "ObserveeId", c => c.Int());
-            AlterColumn("dbo.LocationComments", "Latitude", c => c.String());
-            AlterColumn("dbo.LocationComments", "Longitude", c => c.String());
             CreateIndex("dbo.AvoidanceRoutes", "ObserveeId");
             AddForeignKey("dbo.AvoidanceRoutes", "ObserveeId", "dbo.Observees", "id");
         }
@@ -20,9 +21,10 @@ namespace SafestRouteApplication.Migrations
         {
             DropForeignKey("dbo.AvoidanceRoutes", "ObserveeId", "dbo.Observees");
             DropIndex("dbo.AvoidanceRoutes", new[] { "ObserveeId" });
-            AlterColumn("dbo.LocationComments", "Longitude", c => c.Single());
-            AlterColumn("dbo.LocationComments", "Latitude", c => c.Single());
             AlterColumn("dbo.AvoidanceRoutes", "ObserveeId", c => c.Int(nullable: false));
+            DropColumn("dbo.SavedRoutes", "avoidstring");
+            DropColumn("dbo.SavedRoutes", "waypoint2");
+            DropColumn("dbo.SavedRoutes", "waypoint1");
             CreateIndex("dbo.AvoidanceRoutes", "ObserveeId");
             AddForeignKey("dbo.AvoidanceRoutes", "ObserveeId", "dbo.Observees", "id", cascadeDelete: true);
         }

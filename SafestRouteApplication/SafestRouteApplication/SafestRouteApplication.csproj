@@ -200,18 +200,15 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
-    <Compile Include="Migrations\201904152020060_NullableAvoidRtFK.cs" />
-    <Compile Include="Migrations\201904152020060_NullableAvoidRtFK.Designer.cs">
-      <DependentUpon>201904152020060_NullableAvoidRtFK.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904152204457_jsrequestparamstoRoute.cs" />
-    <Compile Include="Migrations\201904152204457_jsrequestparamstoRoute.Designer.cs">
-      <DependentUpon>201904152204457_jsrequestparamstoRoute.cs</DependentUpon>
+    <Compile Include="Migrations\201904161245261_AvoidanceRoutesUpdated.cs" />
+    <Compile Include="Migrations\201904161245261_AvoidanceRoutesUpdated.Designer.cs">
+      <DependentUpon>201904161245261_AvoidanceRoutesUpdated.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrator.cs" />
     <Compile Include="Models\AvoidanceRoute.cs" />
+    <Compile Include="Models\AvoidanceRouteViewModel.cs" />
     <Compile Include="Models\CustomSMS.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LocationComment.cs" />
@@ -321,11 +318,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904152020060_NullableAvoidRtFK.resx">
-      <DependentUpon>201904152020060_NullableAvoidRtFK.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904152204457_jsrequestparamstoRoute.resx">
-      <DependentUpon>201904152204457_jsrequestparamstoRoute.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904161245261_AvoidanceRoutesUpdated.resx">
+      <DependentUpon>201904161245261_AvoidanceRoutesUpdated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

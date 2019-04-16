@@ -7,13 +7,13 @@ namespace SafestRouteApplication.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class jsrequestparamstoRoute : IMigrationMetadata
+    public sealed partial class AvoidanceRoutesUpdated : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(jsrequestparamstoRoute));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AvoidanceRoutesUpdated));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904152204457_jsrequestparamstoRoute"; }
+            get { return "201904161245261_AvoidanceRoutesUpdated"; }
         }
         
         string IMigrationMetadata.Source

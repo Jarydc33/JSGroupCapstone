@@ -82,13 +82,25 @@ namespace SafestRouteApplication.Controllers
 
         public ActionResult AddCustomAvoidance()
         {
-            AvoidanceRoute newRoute = new AvoidanceRoute();
+            AvoidanceRouteViewModel newRoute = new AvoidanceRouteViewModel();
+            string userId = User.Identity.GetUserId();
+            Observer observer = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
+            newRoute.Observees = new SelectList(db.Observees.Where(o => o.ObserverId == observer.id).ToList(),"id","FirstName");
             return View(newRoute);
         }
 
         [HttpPost]
-        public ActionResult AddCustomAvoidance(AvoidanceRoute routeToAdd)
+        public ActionResult AddCustomAvoidance(AvoidanceRouteViewModel newRoute)
         {
+            AvoidanceRoute routeToAdd = new AvoidanceRoute();
+            newRoute.id = int.Parse(newRoute.ObserveeId);
+            Observee observee = db.Observees.Where(o => o.id == newRoute.id).FirstOrDefault();
+            routeToAdd.BottomRightLatitude = newRoute.BottomRightLatitude;
+            routeToAdd.BottomRightLongitude = newRoute.BottomRightLongitude;
+            routeToAdd.TopLeftLatitude = newRoute.TopLeftLatitude;
+            routeToAdd.TopLeftLongitude = newRoute.TopLeftLongitude;
+            routeToAdd.Reason = newRoute.Reason;
+            routeToAdd.ObserveeId = observee.id;
             db.AvoidanceRoutes.Add(routeToAdd);
             db.SaveChanges();
             return RedirectToAction("Index");
