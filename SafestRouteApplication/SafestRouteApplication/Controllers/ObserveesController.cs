@@ -142,11 +142,7 @@ namespace SafestRouteApplication.Controllers
         [HttpPost]
         public ActionResult LeaveComment(LocationComment comments)
         {
-            //var location = GeoCode.Retrieve(Address);
-            //string[] coordinates = location.Split(',');
             comments.ApplicationUserId = User.Identity.GetUserId();
-            //comments.Latitude = coordinates[0];
-            //comments.Longitude = coordinates[1];
             db.LocationComments.Add(comments);
             db.SaveChanges();
             return RedirectToAction("Index");
