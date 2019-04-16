@@ -19,10 +19,7 @@ namespace SafestRouteApplication.Models
         public string Reason { get; set; }
 
         [ForeignKey("Observee")]
-        public int ObserveeId { get; set; }
+        public int? ObserveeId { get; set; }
         public Observee Observee { get; set; }
-
-
-
     }
 }

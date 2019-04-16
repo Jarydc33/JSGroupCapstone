@@ -16,6 +16,9 @@ namespace SafestRouteApplication.Models
         public string start_location { set; get; }
         public string start_latitude { set; get; }
         public string start_longitude { set; get; }
+        public string waypoint1 { set; get; }
+        public string waypoint2 { set; get; }
+        public string avoidstring { set; get; }
         public string end_location { set; get; }
         public string end_latitude { set; get; }
         public string end_logitude { set; get; }

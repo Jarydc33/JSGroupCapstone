@@ -200,9 +200,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
-    <Compile Include="Migrations\201904151526289_FullyUpdatedDB.cs" />
-    <Compile Include="Migrations\201904151526289_FullyUpdatedDB.Designer.cs">
-      <DependentUpon>201904151526289_FullyUpdatedDB.cs</DependentUpon>
+    <Compile Include="Migrations\201904152020060_NullableAvoidRtFK.cs" />
+    <Compile Include="Migrations\201904152020060_NullableAvoidRtFK.Designer.cs">
+      <DependentUpon>201904152020060_NullableAvoidRtFK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904152204457_jsrequestparamstoRoute.cs" />
+    <Compile Include="Migrations\201904152204457_jsrequestparamstoRoute.Designer.cs">
+      <DependentUpon>201904152204457_jsrequestparamstoRoute.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -218,6 +222,7 @@
     <Compile Include="Models\ObserverDetailsViewModel.cs" />
     <Compile Include="Models\PhoneNumber.cs" />
     <Compile Include="Models\SavedRoute.cs" />
+    <Compile Include="Models\ShowRouteViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SendAlert.cs" />
     <Compile Include="Startup.cs" />
@@ -231,9 +236,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="mapsjs.htm" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\isc.rim.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -295,6 +302,7 @@
     <Content Include="Views\Observees\Details.cshtml" />
     <Content Include="Views\Observees\Navigate.cshtml" />
     <Content Include="Views\Observers\AddCustomAvoidance.cshtml" />
+    <Content Include="Views\Observees\ShowRoute.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -314,8 +322,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904151526289_FullyUpdatedDB.resx">
-      <DependentUpon>201904151526289_FullyUpdatedDB.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904152020060_NullableAvoidRtFK.resx">
+      <DependentUpon>201904152020060_NullableAvoidRtFK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904152204457_jsrequestparamstoRoute.resx">
+      <DependentUpon>201904152204457_jsrequestparamstoRoute.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

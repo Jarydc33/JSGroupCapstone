@@ -295,19 +295,59 @@ namespace SafestRouteApplication.Controllers
         public ActionResult Navigate()
         {
             NavigationViewModel navData = new NavigationViewModel();
-            //navData.routes = db.SavedRoutes.Where(r => r.name)
-
+            string id = User.Identity.GetUserId();
+            navData.routes = db.SavedRoutes.Where(r => r.Observee.ApplicationUserId == id).Select(x => new SelectListItem() { Value = x.name, Text = x.name }).ToList();
+            
             return View(navData);
         }
-        //[HttpPost]
-        //public ActionResult Navigate()
-        //{
+        [HttpPost]
+        public ActionResult Navigate(NavigationViewModel navData)
+        {
+            string id = User.Identity.GetUserId();
+            if (navData.selectedRoute != null)
+            {
+                navData.routeRequest = db.SavedRoutes.Where(r => r.Observee.ApplicationUserId == id && r.name == navData.selectedRoute).Select(e => e.routeRequest).FirstOrDefault();
 
+                return RedirectToAction("ShowRoute", navData);
+            }
+            else if (navData.StartAddress != null && navData.EndAddress != null)
+            {
+                return RedirectToAction("ShowRoute", navData);
+            }
+            else
+            {
+               return View();
+            }
 
-        //    return View();
-        //}
+        }
+        public ActionResult ShowRoute(NavigationViewModel navData)
+        {
+            Route route;
+            string id = User.Identity.GetUserId();
+            var thisId = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e.id).FirstOrDefault();
+            List<AvoidanceRoute> avoidMarks = db.AvoidanceRoutes.Where(e => e.ObserveeId == thisId || e.ObserveeId == null).ToList();
+            List<string> avoidCoords = new List<string>();
+            foreach (AvoidanceRoute x in avoidMarks)
+            {
+                avoidCoords.Add(x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
+            }
+            if (navData.routeRequest == null)
+            {
+               
+                route = CreateRoute.Retrieve(navData.StartAddress, navData.EndAddress, avoidCoords);
+                View(route);
+            }
+            else
+            {
+                route = CreateRoute.Retrieve(navData.routeRequest);
+            }
+            ShowRouteViewModel model = new ShowRouteViewModel();
+            model.route = route;
+            model.observee = db.Observees.Where(e => e.ApplicationUserId == id).FirstOrDefault();
+            return View(model);
+        }
     }
-
+   
 
 
     public class AllCrime
