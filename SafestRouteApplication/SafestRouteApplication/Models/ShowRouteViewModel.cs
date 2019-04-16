@@ -9,7 +9,9 @@ namespace SafestRouteApplication.Models
     {
         public Observee observee { get; set; }
         public Route route { get; set; }
+        public SavedRoute savedRoute{ get; set;}
         public string keycode { get { return Keys.HEREAppCode; } }
         public string keyid { get { return Keys.HEREAppID; } }
+        public string avoid { get; set; }
     }
 }

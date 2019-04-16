@@ -18,7 +18,7 @@ namespace SafestRouteApplication.Models
         [Display(Name = "Navigate To")]
         public string EndAddress { get; set; }
         public bool routeSelected { get; set; }
-        public string routeRequest { get; set; }
+        public SavedRoute route { get; set; }
 
     }
 }

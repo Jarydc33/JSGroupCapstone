@@ -302,6 +302,7 @@
     <Content Include="Views\Observees\Details.cshtml" />
     <Content Include="Views\Observees\Navigate.cshtml" />
     <Content Include="Views\Observers\AddCustomAvoidance.cshtml" />
+    <Content Include="Views\Observees\ShowRoute.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

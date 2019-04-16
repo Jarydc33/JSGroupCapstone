@@ -17,7 +17,7 @@ namespace SafestRouteApplication
             string formattedAddress = address.Replace(' ', '+');
             string Key = Keys.GoogleKey;//GoogleAPIKEY
             string baseaddress = "https://maps.googleapis.com/maps/api/geocode/json?address="+formattedAddress+"&key="+Key;
-            RunDataRetrieval(baseaddress).GetAwaiter().GetResult();
+            RunDataRetrieval(baseaddress).GetAwaiter().GetResult();//Need to solidify for synchronous use. both start and end trying to use same static class. 
             return (_lat + "," + _long);
         }
 
@@ -34,6 +34,7 @@ namespace SafestRouteApplication
             {
                 Console.WriteLine(e.Message);
             }
+            return;
         }
         static async Task<GeoCodeObj> GetRequest(string path, HttpClient client)
         {

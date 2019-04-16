@@ -220,11 +220,15 @@ namespace SafestRouteApplication.Controllers
                 _userManager = value;
             }
         }
-
-        public List<float> GetCrimeData(float NELat, float NELong, float SWLat, float SWLong)
+        public string GetCrimeData(double startlat, double startlong, double stoplat, double stoplong)
         {
+            double NWLong;
+            double NWLat;
+            double SELong;
+            double SELat;
             AllCrime crimeFilter = new AllCrime();
             List<float> filtered = new List<float>();
+            string avoid = "";
             string url = "https://data.cityofchicago.org/resource/6zsd-86xi.json";
             WebRequest requestObject = WebRequest.Create(url);
             requestObject.Method = "GET";
@@ -239,36 +243,62 @@ namespace SafestRouteApplication.Controllers
                 sr.Close();
             }
 
-            //float NWLong = NELong; dont need
-            //float NWLat = SWLat;
-            //float SELong = SWLong;
-            //float SELat = NELat;
-
             crimeFilter.Property1 = JsonConvert.DeserializeObject<Class1[]>(urlResult);
 
             for (int i = 0; i < crimeFilter.Property1.Length; i++)
             {
                 try
                 {
-                    float longProperty = crimeFilter.Property1[i].location.coordinates[0];
-                    float latProperty = crimeFilter.Property1[i].location.coordinates[1];
-                    if (longProperty <= NELong && longProperty >= SWLong)
+
+                    double longProperty = crimeFilter.Property1[i].location.coordinates[0];
+                    double latProperty = crimeFilter.Property1[i].location.coordinates[1];
+                    if(startlat < stoplat && startlong < stoplong)
                     {
-                        if (latProperty <= NELat && latProperty >= SWLat)
+                        NWLat = stoplat;
+                        NWLong = startlong;
+                        SELat = startlat;
+                        SELong = stoplong;
+                    }
+                    else if (startlat > stoplat && startlong< stoplong)
+                    {
+                        NWLat = startlat;
+                        NWLong = startlong;
+                        SELat = stoplat;
+                        SELong = stoplong;
+                    }
+                    else if (startlat > stoplat && startlong > stoplong)
+                    {
+                        NWLat = startlat;
+                        NWLong = stoplong;
+                        SELat = stoplat;
+                        SELong = startlong;
+                    }
+                    else 
+                    {
+                        NWLat = stoplat;
+                        NWLong = stoplong;
+                        SELat = startlat;
+                        SELong = startlong;
+                    }
+                    if (longProperty >= NWLong && longProperty <= SELong)
+                    {
+                        if (latProperty <= NWLat && latProperty >= SELat)
                         {
-                            filtered.Add(crimeFilter.Property1[i].location.coordinates[0]);
-                            filtered.Add(crimeFilter.Property1[i].location.coordinates[1]);
+                            avoid += ((latProperty + .0004) + "," + (longProperty + .0004) + ";" + (latProperty - .0004) + "," + (longProperty - .0004) + "!");
                         }
 
                     }
+
                 }
                 catch
                 {
 
                 }
             }
+            avoid = avoid.Remove(avoid.Length - 1);
 
-            return filtered;
+            //return avoid;
+            return "";
         }
 
         // POST: Observers/Delete/5
@@ -280,15 +310,6 @@ namespace SafestRouteApplication.Controllers
             db.Observers.Remove(observer);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
 
 
@@ -303,49 +324,81 @@ namespace SafestRouteApplication.Controllers
         [HttpPost]
         public ActionResult Navigate(NavigationViewModel navData)
         {
+            ShowRouteViewModel model = new ShowRouteViewModel();
             string id = User.Identity.GetUserId();
             if (navData.selectedRoute != null)
             {
-                navData.routeRequest = db.SavedRoutes.Where(r => r.Observee.ApplicationUserId == id && r.name == navData.selectedRoute).Select(e => e.routeRequest).FirstOrDefault();
-
-                return RedirectToAction("ShowRoute", navData);
+                model.savedRoute = db.SavedRoutes.Where(r => r.Observee.ApplicationUserId == id && r.name == navData.selectedRoute).Select(e => e).FirstOrDefault();
+                model.observee = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e).FirstOrDefault();
+                model.avoid = GetCrimeData(Double.Parse(model.savedRoute.start_latitude), Double.Parse(model.savedRoute.start_longitude), Double.Parse(model.savedRoute.end_latitude), Double.Parse(model.savedRoute.end_logitude));
+                var thisId = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e.id).FirstOrDefault();
+                List<AvoidanceRoute> avoidMarks = db.AvoidanceRoutes.Where(e => e.ObserveeId == thisId || e.ObserveeId == null).ToList();
+                List<string> avoidCoords = new List<string>();
+                foreach (AvoidanceRoute x in avoidMarks)
+                {
+                    avoidCoords.Add(x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
+                    if (model.avoid != "")
+                    {
+                        model.avoid += "!";
+                    }
+                    model.avoid += (x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
+                }
+                model.route = CreateRoute.Retrieve(model.savedRoute.routeRequest);
             }
             else if (navData.StartAddress != null && navData.EndAddress != null)
             {
-                return RedirectToAction("ShowRoute", navData);
+                string startcoord = GeoCode.Retrieve(navData.StartAddress);
+                string[] waypoint1 = startcoord.Split(',');
+                string stopcoord = GeoCode.Retrieve(navData.EndAddress);
+                string[] waypoint2 = stopcoord.Split(',');
+                model.observee = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e).FirstOrDefault();
+                model.avoid = GetCrimeData(Double.Parse(waypoint1[0]), Double.Parse(waypoint1[1]), Double.Parse(waypoint2[0]), Double.Parse(waypoint2[1]));
+                var thisId = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e.id).FirstOrDefault();
+                List<AvoidanceRoute> avoidMarks = db.AvoidanceRoutes.Where(e => e.ObserveeId == thisId || e.ObserveeId == null).ToList();
+                List<string> avoidCoords = new List<string>();
+                foreach (AvoidanceRoute x in avoidMarks)
+                {
+                    avoidCoords.Add(x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
+                    if (model.avoid != "")
+                    {
+                        model.avoid += "!";
+                    }
+                    model.avoid += (x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
+                }
+                model.route = CreateRoute.Retrieve(startcoord, stopcoord, avoidCoords);
             }
             else
             {
                return View();
             }
+            return View("ShowRoute", model);
 
         }
-        public ActionResult ShowRoute(NavigationViewModel navData)
-        {
-            Route route;
-            string id = User.Identity.GetUserId();
-            var thisId = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e.id).FirstOrDefault();
-            List<AvoidanceRoute> avoidMarks = db.AvoidanceRoutes.Where(e => e.ObserveeId == thisId || e.ObserveeId == null).ToList();
-            List<string> avoidCoords = new List<string>();
-            foreach (AvoidanceRoute x in avoidMarks)
-            {
-                avoidCoords.Add(x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
-            }
-            if (navData.routeRequest == null)
-            {
+        //public ActionResult ShowRoute(ShowRouteViewModel model)
+        //{
+        //    string id = User.Identity.GetUserId();
+        //    model.observee = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e).FirstOrDefault();
+        //    model.avoid = GetCrimeData(Double.Parse(model.savedRoute.start_latitude), Double.Parse(model.savedRoute.start_longitude), Double.Parse(model.savedRoute.end_latitude), Double.Parse(model.savedRoute.end_logitude));
+        //    var thisId = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e.id).FirstOrDefault();
+        //    List<AvoidanceRoute> avoidMarks = db.AvoidanceRoutes.Where(e => e.ObserveeId == thisId || e.ObserveeId == null).ToList();
+        //    List<string> avoidCoords = new List<string>();
+        //    foreach (AvoidanceRoute x in avoidMarks)
+        //    {
+        //        avoidCoords.Add(x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
+        //        model.avoid += ("!"+x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
+        //    }
+        //    if (model.savedRoute.routeRequest == null)
+        //    {
                
-                route = CreateRoute.Retrieve(navData.StartAddress, navData.EndAddress, avoidCoords);
-                View(route);
-            }
-            else
-            {
-                route = CreateRoute.Retrieve(navData.routeRequest);
-            }
-            ShowRouteViewModel model = new ShowRouteViewModel();
-            model.route = route;
-            model.observee = db.Observees.Where(e => e.ApplicationUserId == id).FirstOrDefault();
-            return View(model);
-        }
+        //       // model.route = CreateRoute.Retrieve(navData.StartAddress, navData.EndAddress, avoidCoords);
+        //    }
+        //    else
+        //    {
+        //        model.route = CreateRoute.Retrieve(model.savedRoute.routeRequest);
+        //    }
+        //    model.observee = db.Observees.Where(e => e.ApplicationUserId == id).FirstOrDefault();
+        //    return View(model);
+        //}
     }
    
 
