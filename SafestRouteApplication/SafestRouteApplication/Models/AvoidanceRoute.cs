@@ -12,6 +12,7 @@ namespace SafestRouteApplication.Models
 
         [Key]
         public int id { get; set; }
+        public string RouteName { get; set; }
         public float TopLeftLatitude { get; set; }
         public float TopLeftLongitude { get; set; }
         public float BottomRightLatitude { get; set; }
@@ -21,5 +22,9 @@ namespace SafestRouteApplication.Models
         [ForeignKey("Observee")]
         public int? ObserveeId { get; set; }
         public Observee Observee { get; set; }
+
+        [ForeignKey("Observer")]
+        public int? ObserverId { get; set; }
+        public Observer Observer { get; set; }
     }
 }

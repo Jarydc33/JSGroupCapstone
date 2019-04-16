@@ -85,6 +85,7 @@ namespace SafestRouteApplication.Controllers
             AvoidanceRouteViewModel newRoute = new AvoidanceRouteViewModel();
             string userId = User.Identity.GetUserId();
             Observer observer = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
+            newRoute.RouteNames = new SelectList(db.AvoidanceRoutes.Where(a => a.ObserverId == observer.id).ToList(),"id","RouteName");
             newRoute.Observees = new SelectList(db.Observees.Where(o => o.ObserverId == observer.id).ToList(),"id","FirstName");
             return View(newRoute);
         }
@@ -93,6 +94,8 @@ namespace SafestRouteApplication.Controllers
         public ActionResult AddCustomAvoidance(AvoidanceRouteViewModel newRoute)
         {
             AvoidanceRoute routeToAdd = new AvoidanceRoute();
+            string userId = User.Identity.GetUserId();
+            Observer observer = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
             newRoute.id = int.Parse(newRoute.ObserveeId);
             Observee observee = db.Observees.Where(o => o.id == newRoute.id).FirstOrDefault();
             routeToAdd.BottomRightLatitude = newRoute.BottomRightLatitude;
@@ -100,12 +103,22 @@ namespace SafestRouteApplication.Controllers
             routeToAdd.TopLeftLatitude = newRoute.TopLeftLatitude;
             routeToAdd.TopLeftLongitude = newRoute.TopLeftLongitude;
             routeToAdd.Reason = newRoute.Reason;
+            routeToAdd.RouteName = newRoute.Name;
             routeToAdd.ObserveeId = observee.id;
+            routeToAdd.ObserverId = observer.id;
             db.AvoidanceRoutes.Add(routeToAdd);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        
+
+        public ActionResult RemoveAvoidanceRoute(AvoidanceRouteViewModel routeToRemove)
+        {
+            AvoidanceRoute removal = db.AvoidanceRoutes.Find(routeToRemove.id);
+            db.AvoidanceRoutes.Remove(removal);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         public ActionResult Delete(int? id)
         {
             if (id == null)

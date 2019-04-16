@@ -7,13 +7,13 @@ namespace SafestRouteApplication.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AvoidanceRoutesUpdated : IMigrationMetadata
+    public sealed partial class ReaddingDB : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AvoidanceRoutesUpdated));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ReaddingDB));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904161245261_AvoidanceRoutesUpdated"; }
+            get { return "201904161416056_ReaddingDB"; }
         }
         
         string IMigrationMetadata.Source

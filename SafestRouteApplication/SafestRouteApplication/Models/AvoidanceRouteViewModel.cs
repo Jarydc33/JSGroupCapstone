@@ -9,6 +9,8 @@ namespace SafestRouteApplication.Models
     public class AvoidanceRouteViewModel
     {
         public int? id { get; set; }
+        public IEnumerable<SelectListItem> RouteNames { get; set; }
+        public string Name { get; set; }
         public float TopLeftLatitude { get; set; }
         public float TopLeftLongitude { get; set; }
         public float BottomRightLatitude { get; set; }

@@ -200,9 +200,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
-    <Compile Include="Migrations\201904161245261_AvoidanceRoutesUpdated.cs" />
-    <Compile Include="Migrations\201904161245261_AvoidanceRoutesUpdated.Designer.cs">
-      <DependentUpon>201904161245261_AvoidanceRoutesUpdated.cs</DependentUpon>
+    <Compile Include="Migrations\201904161416056_ReaddingDB.cs" />
+    <Compile Include="Migrations\201904161416056_ReaddingDB.Designer.cs">
+      <DependentUpon>201904161416056_ReaddingDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -318,8 +318,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904161245261_AvoidanceRoutesUpdated.resx">
-      <DependentUpon>201904161245261_AvoidanceRoutesUpdated.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904161416056_ReaddingDB.resx">
+      <DependentUpon>201904161416056_ReaddingDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
