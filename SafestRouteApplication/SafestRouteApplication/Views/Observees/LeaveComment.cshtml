@@ -4,29 +4,74 @@
 }
 
 <h2>Leave a Comment about a location</h2>
+
+<style>
+
+    #map {
+        height: 400px;
+        width: 700px;
+    }
+</style>
+<div class="row">
+    <div id="map"></div>
+    <script>
+        var allMarkers = new Array(), j = 0, marker, coords = new Array();
+        function initMap() {
+            var i = 0, firstTime = true;
+            var myLatLng = new google.maps.LatLng(41.881832, -87.623177);
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: myLatLng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+            })
+
+            google.maps.event.addListener(map, 'click', function (event) {
+                if (j > 0) {
+                    allMarkers[j - 1].setMap(null);
+                }
+                coords[i] = event.latLng.lat();
+                $('#Latitude').val(coords[0]);
+                coords[i + 1] = event.latLng.lng();
+                $('#Longitude').val(coords[1]);
+                placeMarker(event.latLng);
+            });
+
+            function placeMarker(location) {
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+                allMarkers[j] = marker;
+                j++;
+                map.setCenter(location);
+            }
+        }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
+            async defer></script>
+</div>
+
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(a => a.Latitude)
+    @Html.HiddenFor(a => a.Longitude)
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Leave a Comment", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Comment, new { @class = "form-control" })
+            </div>
+        </div>
 
-<div class="form-horizontal">
-    <div class="form-group">
-        @Html.Label("Address", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.Editor("address", new { htmlAttributes = new { @class = "form-control" } })
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
         </div>
     </div>
-    @Html.TextAreaFor(model => model.Comment, new { @class = "form-control" })
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
-
-<div>
-    @Html.ActionLink("Home", "Index")
-</div>
 
 

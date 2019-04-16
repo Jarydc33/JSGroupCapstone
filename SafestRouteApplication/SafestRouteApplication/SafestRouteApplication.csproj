@@ -68,6 +68,12 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.4\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.4\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -189,29 +195,28 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ObserveesController.cs" />
     <Compile Include="Controllers\ObserversController.cs" />
+    <Compile Include="Controllers\WebApi\CommentsController.cs" />
     <Compile Include="CreateRoute.cs" />
     <Compile Include="GeoCode.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
-    <Compile Include="Migrations\201904152020060_NullableAvoidRtFK.cs" />
-    <Compile Include="Migrations\201904152020060_NullableAvoidRtFK.Designer.cs">
-      <DependentUpon>201904152020060_NullableAvoidRtFK.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904152204457_jsrequestparamstoRoute.cs" />
-    <Compile Include="Migrations\201904152204457_jsrequestparamstoRoute.Designer.cs">
-      <DependentUpon>201904152204457_jsrequestparamstoRoute.cs</DependentUpon>
+    <Compile Include="Migrations\201904161416056_ReaddingDB.cs" />
+    <Compile Include="Migrations\201904161416056_ReaddingDB.Designer.cs">
+      <DependentUpon>201904161416056_ReaddingDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrator.cs" />
     <Compile Include="Models\AvoidanceRoute.cs" />
+    <Compile Include="Models\AvoidanceRouteViewModel.cs" />
     <Compile Include="Models\CustomSMS.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LocationComment.cs" />
@@ -322,11 +327,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904152020060_NullableAvoidRtFK.resx">
-      <DependentUpon>201904152020060_NullableAvoidRtFK.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904152204457_jsrequestparamstoRoute.resx">
-      <DependentUpon>201904152204457_jsrequestparamstoRoute.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904161416056_ReaddingDB.resx">
+      <DependentUpon>201904161416056_ReaddingDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

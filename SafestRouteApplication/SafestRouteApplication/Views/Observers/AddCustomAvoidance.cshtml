@@ -1,4 +1,4 @@
-﻿@model SafestRouteApplication.Models.AvoidanceRoute
+﻿@model SafestRouteApplication.Models.AvoidanceRouteViewModel
 @{
     /**/
 
@@ -72,16 +72,41 @@
     @Html.HiddenFor(model => model.id)
 
     <div class="form-group">
+        @Html.Label("Route Name", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="form-group">
         @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextAreaFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.TextAreaFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })@*fix*@
         </div>
+    </div>
+
+    <div class="form-group">Please select Observee to add this route to.</div>
+    <div class="form-group">
+        @Html.DropDownListFor(model => model.ObserveeId, (SelectList)Model.Observees, new { @class = "form-control", required = "Select Observee" })
     </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
+            <input type="submit" value="Add Route" class="btn btn-default" />
         </div>
     </div>
 </div>
+}
+
+@using (Html.BeginForm("RemoveAvoidanceRoute", "Observers"))
+{
+    <div class="form-group">Please select the route to remove.</div>
+    <div class="form-group">
+        @Html.DropDownListFor(model => model.id, (SelectList)Model.RouteNames, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Remove Route" class="btn btn-default" />
+        </div>
+    </div>
 }
