@@ -80,6 +80,20 @@ namespace SafestRouteApplication.Controllers
             return View(observer);
         }
 
+        public ActionResult AddCustomAvoidance()
+        {
+            AvoidanceRoute newRoute = new AvoidanceRoute();
+            return View(newRoute);
+        }
+
+        [HttpPost]
+        public ActionResult AddCustomAvoidance(AvoidanceRoute routeToAdd)
+        {
+            db.AvoidanceRoutes.Add(routeToAdd);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        
         public ActionResult Delete(int? id)
         {
             if (id == null)
