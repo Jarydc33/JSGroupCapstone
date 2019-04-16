@@ -1,0 +1,67 @@
+﻿@model SafestRouteApplication.Models.AvoidanceRouteViewModel
+@{
+    ViewBag.Title = "ViewAvoidanceRoute";
+}
+
+<h2>ViewAvoidanceRoute</h2>
+
+
+
+@using (Html.BeginForm("ViewAvoidanceRoute", "Observers"))
+{
+    <div class="form-horizontal">
+        <h3>View a Route</h3>
+        <div class="form-group">Please select the route to view.</div>
+        <div class="form-group">
+            @Html.DropDownListFor(model => model.id, (SelectList)Model.RouteNames, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="View Route" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+
+    #map {
+        height: 400px;
+        width: 700px;
+    }
+</style>
+<br />
+<div class="row">
+    <div id="map"></div>
+    <script>
+
+        function initMap() {
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: new google.maps.LatLng(41.881832, -87.623177),
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+            })
+
+            var infowindow = new google.maps.InfoWindow({});
+            placeMarkers();
+            function placeMarkers() {
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(@Model.TopLeftLatitude,@Model.TopLeftLongitude),
+                    map: map,
+                })
+                var secondmarker = new google.maps.Marker({
+                    position: new google.maps.LatLng(@Model.BottomRightLatitude,@Model.BottomRightLongitude),
+                    map: map,
+                })
+            }
+
+        }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOURKEY&callback=initMap"
+            async defer></script>
+
+
+</div>

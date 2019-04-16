@@ -22,7 +22,7 @@ namespace SafestRouteApplication.Controllers
             var observees = db.Observees.Where(o => o.ObserverId == observer.id).ToList();
             return View(observees);
         }
-
+        
         public ActionResult Details()
         {
             ObserverDetailsViewModel details = new ObserverDetailsViewModel();
@@ -117,6 +117,24 @@ namespace SafestRouteApplication.Controllers
             db.AvoidanceRoutes.Remove(removal);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult ViewAvoidanceRoute(AvoidanceRouteViewModel routeToFind)
+        {
+            string userId = User.Identity.GetUserId();
+            Observer observer = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
+            routeToFind.RouteNames = new SelectList(db.AvoidanceRoutes.Where(r => r.ObserverId == observer.id).ToList(), "id", "RouteName");
+            if (routeToFind.id == null)
+            {
+                return View(routeToFind);
+            }
+            AvoidanceRoute foundRoute = db.AvoidanceRoutes.Where(r => r.id == routeToFind.id).FirstOrDefault();
+            routeToFind.Reason = foundRoute.Reason;
+            routeToFind.BottomRightLatitude = foundRoute.BottomRightLatitude;
+            routeToFind.BottomRightLongitude = foundRoute.BottomRightLongitude;
+            routeToFind.TopLeftLatitude = foundRoute.TopLeftLatitude;
+            routeToFind.TopLeftLongitude = foundRoute.TopLeftLongitude;
+            return View(routeToFind);
         }
 
         public ActionResult Delete(int? id)

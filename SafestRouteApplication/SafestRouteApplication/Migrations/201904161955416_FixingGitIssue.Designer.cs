@@ -7,13 +7,13 @@ namespace SafestRouteApplication.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class ReaddingDB : IMigrationMetadata
+    public sealed partial class FixingGitIssue : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ReaddingDB));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(FixingGitIssue));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904161416056_ReaddingDB"; }
+            get { return "201904161955416_FixingGitIssue"; }
         }
         
         string IMigrationMetadata.Source
