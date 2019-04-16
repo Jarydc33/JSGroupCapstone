@@ -12,15 +12,33 @@ namespace SafestRouteApplication.Controllers.WebApi
     {
 
         private readonly ApplicationDbContext db;
+        public EditedComments[] Property1 { get; set; }
         public CommentsController()
         {
             db = new ApplicationDbContext();
         }
 
         // GET api/comments
-        public IEnumerable<LocationComment> GetComments()
+        public IEnumerable<EditedComments> GetComments()
         {
-            return db.LocationComments.ToList();
+            var edited = db.LocationComments.ToList();
+            List<EditedComments> changeComments = new List<EditedComments>();
+            foreach (var thing in edited)
+            {
+                EditedComments temp = new EditedComments();
+                temp.Latitude = thing.Latitude;
+                temp.Longitude = thing.Longitude;
+                temp.Comment = thing.Comment;
+                changeComments.Add(temp);
+            }
+            return changeComments;
         }
+    }
+
+    public class EditedComments
+    {
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+        public string Comment { get; set; }
     }
 }
