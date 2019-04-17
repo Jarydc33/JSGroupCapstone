@@ -48,27 +48,6 @@ namespace SafestRouteApplication
             return route;
         }
         static Route route;
-       
-        //public static Route Retrieves(string start_address, string end_address, List<string> avoidances)
-        //{
-        //    GeoCode geo = new GeoCode();
-        //    string startCoordinates = geo.Retrieve(start_address);
-        //    string endCoordinates = geo.Retrieve(end_address);
-        //    string avoidanceCoords = "";
-        //    foreach (string x in avoidances)
-        //    {
-        //        avoidanceCoords += avoidanceCoords + "!";
-        //    }
-        //    if (avoidanceCoords.Length > 0)
-        //    {
-        //        avoidanceCoords = avoidanceCoords.Remove(avoidanceCoords.Length - 1);
-        //    }
-        //    string appId = Keys.HEREAppID;//HERE api ID
-        //    string appCode = Keys.HEREAppCode;//HERE api Code
-        //    string baseaddress = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=" + appId + "&app_code=" + appCode + "&waypoint0=" + startCoordinates + "&waypoint1=" + endCoordinates + "&mode=fastest;car;traffic:disabled&avoidareas=" + avoidanceCoords;
-        //    RunDataRetrieval(baseaddress).GetAwaiter().GetResult();
-        //    return route;
-        //}
         public static Route Retrieve(string request)
         {
             string baseaddress = request;
@@ -227,12 +206,18 @@ namespace SafestRouteApplication
         public int travelTime { get; set; }
         public string _type { get; set; }
     }
-
+    public class Note
+    {
+        public string type { get; set; }
+        public string code { get; set; }
+        public string text { get; set; }
+    }
     public class Route
     {
         public List<Waypoint> waypoint { get; set; }
         public Mode mode { get; set; }
         public List<Leg> leg { get; set; }
+        public List<Note> note { get; set; }
         public Summary summary { get; set; }
         public string request { get; set; }
     }
