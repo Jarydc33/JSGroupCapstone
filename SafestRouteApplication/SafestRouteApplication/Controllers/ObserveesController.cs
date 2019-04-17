@@ -393,18 +393,9 @@ namespace SafestRouteApplication.Controllers
             List<string> phoneNumbers = db.PhoneNumbers.Where(e => e.ObserverId == routeData.observee.ObserverId).Select(e => e.Number).ToList();
             foreach(string x in phoneNumbers)
             {
-                SendAlert.Send(Message, x);
+                //SendAlert.Send(Message, x);
             }
             return View(routeData);
-        }
-        [HttpPost]
-        public ActionResult TraverseRoute(SavedRoute routeData)
-        {
-            SavedRoute newRoute = TempData["myRoute"] as SavedRoute;
-            newRoute.name = routeData.name;
-            db.SavedRoutes.Add(newRoute);
-            db.SaveChanges();
-            return View("Index");
         }
         public ActionResult RouteComplete()
         {
@@ -414,10 +405,10 @@ namespace SafestRouteApplication.Controllers
             List<string> phoneNumbers = db.PhoneNumbers.Where(e => e.ObserverId == observee.ObserverId).Select(e => e.Number).ToList();
             foreach (string x in phoneNumbers)
             {
-                SendAlert.Send(Message, x);
+                //SendAlert.Send(Message, x);
             }
 
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
     }

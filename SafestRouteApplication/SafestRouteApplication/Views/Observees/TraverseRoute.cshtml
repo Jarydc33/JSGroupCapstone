@@ -121,11 +121,9 @@
     </table>
 </div>
 <div id="StopButton">
-    <input type="button" value="Route Complete" onclick="@("window.location.href='" + @Url.Action("TraverseRoute", "Observees", Model) + "'");" />
+    <input type="button" value="Route Complete" onclick="@("window.location.href='" + @Url.Action("RouteComplete", "Observees", Model) + "'");" />
 </div>
-<div id="SaveButton">
-    <input type="button" value="Save Route" onclick="@("window.location.href='" + @Url.Action("SaveRoute", "Observees", Model) + "'");" />
-</div>
+
 
 
 
