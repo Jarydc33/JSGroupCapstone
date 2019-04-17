@@ -390,7 +390,11 @@ namespace SafestRouteApplication.Controllers
         {
             ShowRouteViewModel routeData = TempData["myModel"] as ShowRouteViewModel;
             string Message = routeData.observee.FirstName +" "+ routeData.observee.LastName + " has begun their route";
-            //SendAlert(Message, );
+            List<string> phoneNumbers = db.PhoneNumbers.Where(e => e.ObserverId == routeData.observee.ObserverId).Select(e => e.Number).ToList();
+            foreach(string x in phoneNumbers)
+            {
+                SendAlert.Send(Message, x);
+            }
             return View(routeData);
         }
         [HttpPost]
@@ -404,7 +408,14 @@ namespace SafestRouteApplication.Controllers
         }
         public ActionResult RouteComplete()
         {
-            
+            string id = User.Identity.GetUserId();
+            Observee observee = db.Observees.Where(e => e.ApplicationUserId == id).FirstOrDefault();
+            string Message = observee.FirstName + " " + observee.LastName + " has completed their route safely!";
+            List<string> phoneNumbers = db.PhoneNumbers.Where(e => e.ObserverId == observee.ObserverId).Select(e => e.Number).ToList();
+            foreach (string x in phoneNumbers)
+            {
+                SendAlert.Send(Message, x);
+            }
 
             return View("Index");
         }
