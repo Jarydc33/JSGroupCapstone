@@ -15,11 +15,12 @@
     }
 </style>
 <br />
-<div class="row">
-    @Html.ActionLink("Leave a Comment", "LeaveComment") |
-    @Html.ActionLink("Add/Change an Observer on Your Account", "ChangeObserver", "Observees") |
-    @Html.ActionLink("Edit Account Info", "Edit", new { id = Model.observee.id }) |
-    @Html.ActionLink("View Account Info", "Details", new { id = Model.observee.id })
+<div class="SideBar">
+    @Html.ActionLink(" • Leave a Comment", "LeaveComment", "Observees", new { @class = "ActionClass" }) <br />
+    @Html.ActionLink(" • Add/Change an Observer on Your Account", "ChangeObserver", "Observees", new { @class = "ActionClass" }) <br />
+    @Html.ActionLink(" • Edit Account Info", "Edit", "Observees", new { @class = "ActionClass" }) <br />
+    @Html.ActionLink(" • View Account Info", "Details", "Observees", new { @class = "ActionClass" })<br />
+    @Html.ActionLink(" • Navigate a Route", "Navigate", "Observees", new { @class = "ActionClass" })<br />
 </div>
 
 

@@ -389,7 +389,8 @@ namespace SafestRouteApplication.Controllers
         public ActionResult TraverseRoute()
         {
             ShowRouteViewModel routeData = TempData["myModel"] as ShowRouteViewModel;
-            
+            string Message = routeData.observee.FirstName +" "+ routeData.observee.LastName + " has begun their route";
+            //SendAlert(Message, );
             return View(routeData);
         }
         [HttpPost]
@@ -399,6 +400,12 @@ namespace SafestRouteApplication.Controllers
             newRoute.name = routeData.name;
             db.SavedRoutes.Add(newRoute);
             db.SaveChanges();
+            return View("Index");
+        }
+        public ActionResult RouteComplete()
+        {
+            
+
             return View("Index");
         }
 

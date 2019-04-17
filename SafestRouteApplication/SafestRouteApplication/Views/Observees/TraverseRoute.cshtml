@@ -15,13 +15,6 @@
     }
 </style>
 <br />
-<div class="row">
-    @Html.ActionLink("Leave a Comment", "LeaveComment") |
-    @Html.ActionLink("Add/Change an Observer on Your Account", "ChangeObserver", "Observees") |
-    @Html.ActionLink("Edit Account Info", "Edit", new { id = Model.observee.id }) |
-    @Html.ActionLink("View Account Info", "Details", new { id = Model.observee.id })
-</div>
-
 
 <div class="row">
     <div id="map"></div>
@@ -128,7 +121,7 @@
     </table>
 </div>
 <div id="StopButton">
-    <input type="button" value="Route Complete" onclick="@("window.location.href='" + @Url.Action("StopButton", "Observees", Model) + "'");" />
+    <input type="button" value="Route Complete" onclick="@("window.location.href='" + @Url.Action("TraverseRoute", "Observees", Model) + "'");" />
 </div>
 <div id="SaveButton">
     <input type="button" value="Save Route" onclick="@("window.location.href='" + @Url.Action("SaveRoute", "Observees", Model) + "'");" />
