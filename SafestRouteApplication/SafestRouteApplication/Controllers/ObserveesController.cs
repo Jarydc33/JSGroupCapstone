@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -225,7 +226,34 @@ namespace SafestRouteApplication.Controllers
             }
 
             crimeFilter.Property1 = JsonConvert.DeserializeObject<Class1[]>(urlResult);
-
+            if (startlat < stoplat && startlong < stoplong)
+            {
+                NWLat = stoplat;
+                NWLong = startlong;
+                SELat = startlat;
+                SELong = stoplong;
+            }
+            else if (startlat > stoplat && startlong < stoplong)
+            {
+                NWLat = startlat;
+                NWLong = startlong;
+                SELat = stoplat;
+                SELong = stoplong;
+            }
+            else if (startlat > stoplat && startlong > stoplong)
+            {
+                NWLat = startlat;
+                NWLong = stoplong;
+                SELat = stoplat;
+                SELong = startlong;
+            }
+            else
+            {
+                NWLat = stoplat;
+                NWLong = stoplong;
+                SELat = startlat;
+                SELong = startlong;
+            }
             for (int i = 0; i < crimeFilter.Property1.Length; i++)
             {
                 try
@@ -233,34 +261,7 @@ namespace SafestRouteApplication.Controllers
 
                     double longProperty = crimeFilter.Property1[i].location.coordinates[0];
                     double latProperty = crimeFilter.Property1[i].location.coordinates[1];
-                    if(startlat < stoplat && startlong < stoplong)
-                    {
-                        NWLat = stoplat;
-                        NWLong = startlong;
-                        SELat = startlat;
-                        SELong = stoplong;
-                    }
-                    else if (startlat > stoplat && startlong< stoplong)
-                    {
-                        NWLat = startlat;
-                        NWLong = startlong;
-                        SELat = stoplat;
-                        SELong = stoplong;
-                    }
-                    else if (startlat > stoplat && startlong > stoplong)
-                    {
-                        NWLat = startlat;
-                        NWLong = stoplong;
-                        SELat = stoplat;
-                        SELong = startlong;
-                    }
-                    else 
-                    {
-                        NWLat = stoplat;
-                        NWLong = stoplong;
-                        SELat = startlat;
-                        SELong = startlong;
-                    }
+                   
                     if (longProperty >= NWLong && longProperty <= SELong)
                     {
                         if (latProperty <= NWLat && latProperty >= SELat)
@@ -276,10 +277,14 @@ namespace SafestRouteApplication.Controllers
 
                 }
             }
-            avoid = avoid.Remove(avoid.Length - 1);
+            if(avoid.Length > 0)
+            {
+                avoid = avoid.Remove(avoid.Length - 1);
+            }
+            
 
             //return avoid;
-            return "";
+            return avoid;
         }
 
         // POST: Observers/Delete/5
@@ -328,9 +333,10 @@ namespace SafestRouteApplication.Controllers
             }
             else if (navData.StartAddress != null && navData.EndAddress != null)
             {
-                string startcoord = GeoCode.Retrieve(navData.StartAddress);
+                GeoCode geo = new GeoCode();
+                string startcoord = geo.Retrieve(navData.StartAddress);
                 string[] waypoint1 = startcoord.Split(',');
-                string stopcoord = GeoCode.Retrieve(navData.EndAddress);
+                string stopcoord = geo.Retrieve(navData.EndAddress);
                 string[] waypoint2 = stopcoord.Split(',');
                 model.observee = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e).FirstOrDefault();
                 model.avoid = GetCrimeData(Double.Parse(waypoint1[0]), Double.Parse(waypoint1[1]), Double.Parse(waypoint2[0]), Double.Parse(waypoint2[1]));
@@ -346,40 +352,48 @@ namespace SafestRouteApplication.Controllers
                     }
                     model.avoid += (x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
                 }
-                model.route = CreateRoute.Retrieve(startcoord, stopcoord, avoidCoords);
+                model.route = CreateRoute.Retrieve(startcoord, stopcoord, model.avoid);
             }
             else
             {
                return View();
             }
+            TempData["myModel"] = model;
             return View("ShowRoute", model);
-
         }
-        //public ActionResult ShowRoute(ShowRouteViewModel model)
-        //{
-        //    string id = User.Identity.GetUserId();
-        //    model.observee = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e).FirstOrDefault();
-        //    model.avoid = GetCrimeData(Double.Parse(model.savedRoute.start_latitude), Double.Parse(model.savedRoute.start_longitude), Double.Parse(model.savedRoute.end_latitude), Double.Parse(model.savedRoute.end_logitude));
-        //    var thisId = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e.id).FirstOrDefault();
-        //    List<AvoidanceRoute> avoidMarks = db.AvoidanceRoutes.Where(e => e.ObserveeId == thisId || e.ObserveeId == null).ToList();
-        //    List<string> avoidCoords = new List<string>();
-        //    foreach (AvoidanceRoute x in avoidMarks)
-        //    {
-        //        avoidCoords.Add(x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
-        //        model.avoid += ("!"+x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
-        //    }
-        //    if (model.savedRoute.routeRequest == null)
-        //    {
-               
-        //       // model.route = CreateRoute.Retrieve(navData.StartAddress, navData.EndAddress, avoidCoords);
-        //    }
-        //    else
-        //    {
-        //        model.route = CreateRoute.Retrieve(model.savedRoute.routeRequest);
-        //    }
-        //    model.observee = db.Observees.Where(e => e.ApplicationUserId == id).FirstOrDefault();
-        //    return View(model);
-        //}
+        public ActionResult SaveRoute()
+        {
+            ShowRouteViewModel routeData = TempData["myModel"] as ShowRouteViewModel;
+            SavedRoute newRoute = new SavedRoute();
+            newRoute.start_latitude = routeData.route.waypoint[0].mappedPosition.latitude.ToString();
+            newRoute.start_longitude = routeData.route.waypoint[0].mappedPosition.longitude.ToString();
+            newRoute.end_latitude = routeData.route.waypoint[1].mappedPosition.latitude.ToString();
+            newRoute.end_logitude = routeData.route.waypoint[1].mappedPosition.longitude.ToString();
+            newRoute.waypoint1 = newRoute.start_latitude + "," + newRoute.start_longitude;
+            newRoute.waypoint2 = newRoute.end_latitude + "," + newRoute.end_logitude;
+            newRoute.avoidstring = routeData.avoid;
+            newRoute.routeRequest = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=" + Keys.HEREAppID + "&app_code=" + Keys.HEREAppCode + "&waypoint0=" + newRoute.waypoint1 + "&waypoint1=" + newRoute.waypoint2 + "&mode=fastest;pedestrian;traffic:disabled&avoidareas=" + newRoute.avoidstring;
+            TempData["myRoute"] = newRoute;
+            return View(newRoute);
+        }
+        [HttpPost]
+        public ActionResult SaveRoute(SavedRoute routeData)
+        {
+            SavedRoute newRoute = TempData["myRoute"] as SavedRoute;
+            newRoute.name = routeData.name;
+            //newRoute.start_latitude = routeData.start_latitude;
+            //newRoute.start_longitude = routeData.start_longitude;
+            //newRoute.end_latitude = routeData.end_latitude;
+            //newRoute.end_logitude = routeData.end_logitude;
+            //newRoute.waypoint1 = routeData.waypoint1;
+            //newRoute.waypoint2 = routeData.waypoint2;
+            //newRoute.avoidstring = routeData.avoidstring;
+            //newRoute.routeRequest = routeData.routeRequest;
+            db.SavedRoutes.Add(newRoute);
+            db.SaveChanges();
+            return View("Index");
+        }
+
     }
    
 
