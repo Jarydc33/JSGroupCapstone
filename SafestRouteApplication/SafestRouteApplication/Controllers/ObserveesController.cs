@@ -380,6 +380,7 @@ namespace SafestRouteApplication.Controllers
         {
             ShowRouteViewModel routeData = TempData["myModel"] as ShowRouteViewModel;
             SavedRoute newRoute = new SavedRoute();
+            newRoute.ObserveeId = routeData.observee.id;
             newRoute.start_latitude = routeData.route.waypoint[0].mappedPosition.latitude.ToString();
             newRoute.start_longitude = routeData.route.waypoint[0].mappedPosition.longitude.ToString();
             newRoute.end_latitude = routeData.route.waypoint[1].mappedPosition.latitude.ToString();
