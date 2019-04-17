@@ -3,7 +3,7 @@ namespace SafestRouteApplication.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initializedbAGAIN : DbMigration
+    public partial class fixitplease : DbMigration
     {
         public override void Up()
         {

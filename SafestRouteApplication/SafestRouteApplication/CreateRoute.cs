@@ -15,23 +15,15 @@ namespace SafestRouteApplication
     public static class CreateRoute
     {
         static HttpClient client = new HttpClient();
-        public static Route Retrieve(string start_address, string end_address, List<string> avoidances)
+        public static Route Retrieve(string start_address, string end_address, string avoidances)
         {
             GeoCode geo = new GeoCode();
             string startCoordinates = geo.Retrieve(start_address);
             string endCoordinates = geo.Retrieve(end_address);
-            string avoidanceCoords = "";
-            foreach (string x in avoidances)
-            {
-                avoidanceCoords += avoidanceCoords + "!";
-            }
-            if (avoidanceCoords.Length > 0)
-            {
-                avoidanceCoords = avoidanceCoords.Remove(avoidanceCoords.Length - 1);
-            }
+            string avoidanceCoords = avoidances;
             string appId = Keys.HEREAppID;//HERE api ID
             string appCode = Keys.HEREAppCode;//HERE api Code
-            string baseaddress = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=" + appId + "&app_code=" + appCode + "&waypoint0=" + startCoordinates + "&waypoint1=" + endCoordinates + "&mode=fastest;car;traffic:disabled&avoidareas=" + avoidanceCoords;
+            string baseaddress = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=" + appId + "&app_code=" + appCode + "&waypoint0=" + startCoordinates + "&waypoint1=" + endCoordinates + "&mode=fastest;pedestrian;traffic:disabled&avoidareas=" + avoidanceCoords;
             WebRequest requestObject = WebRequest.Create(baseaddress);
             requestObject.Method = "GET";
             HttpWebResponse responseObject = null;
@@ -57,26 +49,26 @@ namespace SafestRouteApplication
         }
         static Route route;
        
-        public static Route Retrieves(string start_address, string end_address, List<string> avoidances)
-        {
-            GeoCode geo = new GeoCode();
-            string startCoordinates = geo.Retrieve(start_address);
-            string endCoordinates = geo.Retrieve(end_address);
-            string avoidanceCoords = "";
-            foreach (string x in avoidances)
-            {
-                avoidanceCoords += avoidanceCoords + "!";
-            }
-            if (avoidanceCoords.Length > 0)
-            {
-                avoidanceCoords = avoidanceCoords.Remove(avoidanceCoords.Length - 1);
-            }
-            string appId = Keys.HEREAppID;//HERE api ID
-            string appCode = Keys.HEREAppCode;//HERE api Code
-            string baseaddress = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=" + appId + "&app_code=" + appCode + "&waypoint0=" + startCoordinates + "&waypoint1=" + endCoordinates + "&mode=fastest;car;traffic:disabled&avoidareas=" + avoidanceCoords;
-            RunDataRetrieval(baseaddress).GetAwaiter().GetResult();
-            return route;
-        }
+        //public static Route Retrieves(string start_address, string end_address, List<string> avoidances)
+        //{
+        //    GeoCode geo = new GeoCode();
+        //    string startCoordinates = geo.Retrieve(start_address);
+        //    string endCoordinates = geo.Retrieve(end_address);
+        //    string avoidanceCoords = "";
+        //    foreach (string x in avoidances)
+        //    {
+        //        avoidanceCoords += avoidanceCoords + "!";
+        //    }
+        //    if (avoidanceCoords.Length > 0)
+        //    {
+        //        avoidanceCoords = avoidanceCoords.Remove(avoidanceCoords.Length - 1);
+        //    }
+        //    string appId = Keys.HEREAppID;//HERE api ID
+        //    string appCode = Keys.HEREAppCode;//HERE api Code
+        //    string baseaddress = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=" + appId + "&app_code=" + appCode + "&waypoint0=" + startCoordinates + "&waypoint1=" + endCoordinates + "&mode=fastest;car;traffic:disabled&avoidareas=" + avoidanceCoords;
+        //    RunDataRetrieval(baseaddress).GetAwaiter().GetResult();
+        //    return route;
+        //}
         public static Route Retrieve(string request)
         {
             string baseaddress = request;

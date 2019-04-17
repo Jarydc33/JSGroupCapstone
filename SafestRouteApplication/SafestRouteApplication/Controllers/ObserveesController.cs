@@ -292,7 +292,11 @@ namespace SafestRouteApplication.Controllers
 
                 }
             }
-            avoid = avoid.Remove(avoid.Length - 1);
+            if(avoid.Length > 0)
+            {
+                avoid = avoid.Remove(avoid.Length - 1);
+            }
+            
 
             //return avoid;
             return avoid;
@@ -363,7 +367,7 @@ namespace SafestRouteApplication.Controllers
                     }
                     model.avoid += (x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
                 }
-                model.route = CreateRoute.Retrieve(startcoord, stopcoord, avoidCoords);
+                model.route = CreateRoute.Retrieve(startcoord, stopcoord, model.avoid);
             }
             else
             {

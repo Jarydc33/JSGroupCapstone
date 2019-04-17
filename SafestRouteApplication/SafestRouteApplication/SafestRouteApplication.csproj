@@ -212,13 +212,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Keys.cs" />
-    <Compile Include="Migrations\201904162037404_initializedbAGAIN.cs" />
-    <Compile Include="Migrations\201904162037404_initializedbAGAIN.Designer.cs">
-      <DependentUpon>201904162037404_initializedbAGAIN.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904170218021_establishdbAGAIN.cs" />
-    <Compile Include="Migrations\201904170218021_establishdbAGAIN.Designer.cs">
-      <DependentUpon>201904170218021_establishdbAGAIN.cs</DependentUpon>
+    <Compile Include="Migrations\201904171448516_fixitplease.cs" />
+    <Compile Include="Migrations\201904171448516_fixitplease.Designer.cs">
+      <DependentUpon>201904171448516_fixitplease.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -372,11 +368,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904162037404_initializedbAGAIN.resx">
-      <DependentUpon>201904162037404_initializedbAGAIN.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904170218021_establishdbAGAIN.resx">
-      <DependentUpon>201904170218021_establishdbAGAIN.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904171448516_fixitplease.resx">
+      <DependentUpon>201904171448516_fixitplease.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
