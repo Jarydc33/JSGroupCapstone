@@ -373,9 +373,42 @@ namespace SafestRouteApplication.Controllers
             {
                return View();
             }
+            TempData["myModel"] = model;
             return View("ShowRoute", model);
-
         }
+        public ActionResult SaveRoute()
+        {
+            ShowRouteViewModel routeData = TempData["myModel"] as ShowRouteViewModel;
+            SavedRoute newRoute = new SavedRoute();
+            newRoute.start_latitude = routeData.route.waypoint[0].mappedPosition.latitude.ToString();
+            newRoute.start_longitude = routeData.route.waypoint[0].mappedPosition.longitude.ToString();
+            newRoute.end_latitude = routeData.route.waypoint[1].mappedPosition.latitude.ToString();
+            newRoute.end_logitude = routeData.route.waypoint[1].mappedPosition.longitude.ToString();
+            newRoute.waypoint1 = newRoute.start_latitude + "," + newRoute.start_longitude;
+            newRoute.waypoint2 = newRoute.end_latitude + "," + newRoute.end_logitude;
+            newRoute.avoidstring = routeData.avoid;
+            newRoute.routeRequest = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=" + Keys.HEREAppID + "&app_code=" + Keys.HEREAppCode + "&waypoint0=" + newRoute.waypoint1 + "&waypoint1=" + newRoute.waypoint2 + "&mode=fastest;pedestrian;traffic:disabled&avoidareas=" + newRoute.avoidstring;
+            TempData["myRoute"] = newRoute;
+            return View(newRoute);
+        }
+        [HttpPost]
+        public ActionResult SaveRoute(SavedRoute routeData)
+        {
+            SavedRoute newRoute = TempData["myRoute"] as SavedRoute;
+            newRoute.name = routeData.name;
+            //newRoute.start_latitude = routeData.start_latitude;
+            //newRoute.start_longitude = routeData.start_longitude;
+            //newRoute.end_latitude = routeData.end_latitude;
+            //newRoute.end_logitude = routeData.end_logitude;
+            //newRoute.waypoint1 = routeData.waypoint1;
+            //newRoute.waypoint2 = routeData.waypoint2;
+            //newRoute.avoidstring = routeData.avoidstring;
+            //newRoute.routeRequest = routeData.routeRequest;
+            db.SavedRoutes.Add(newRoute);
+            db.SaveChanges();
+            return View("Index");
+        }
+
     }
    
 

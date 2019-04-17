@@ -1,7 +1,7 @@
-﻿@model  SafestRouteApplication.Models.ShowRouteViewModel
+﻿@model  SafestRouteApplication.Models.SavedRoute
 @{
-    ViewBag.Title = "Show Route";
-    TempData.Keep("myModel");
+    ViewBag.Title = "Save Route";
+    TempData.Keep("myRoute");
 }
 
 
@@ -15,17 +15,19 @@
     }
 </style>
 <br />
-<div class="row">
-    @Html.ActionLink("Leave a Comment", "LeaveComment") |
-    @Html.ActionLink("Add/Change an Observer on Your Account", "ChangeObserver", "Observees") |
-    @Html.ActionLink("Edit Account Info", "Edit", new { id = Model.observee.id }) |
-    @Html.ActionLink("View Account Info", "Details", new { id = Model.observee.id })
-</div>
-
-
-<div class="row">
-    <div id="map"></div>
-    <script>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <h3>Name This Route: </h3>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div id="map"></div>
+        <script>
         var platform = new H.service.Platform({
             'app_id': 'Ic57q8KhWDvrpuK1lsP6',
             'app_code': 'qrVujTnPZqcdy1pVuimZrQ'
@@ -47,12 +49,12 @@
             // The routing mode:
             'mode': 'fastest;pedestrian;traffic:disabled',
             // The start point of the route:
-            'waypoint0': 'geo!@Model.route.waypoint[0].mappedPosition.latitude,@Model.route.waypoint[0].mappedPosition.longitude',
+            'waypoint0': 'geo!@Model.waypoint1',
             // The end point of the route:
-            'waypoint1': 'geo!@Model.route.waypoint[1].mappedPosition.latitude,@Model.route.waypoint[1].mappedPosition.longitude',
+            'waypoint1': 'geo!@Model.waypoint2',
             // To retrieve the shape of the route we choose the route
             // representation mode 'display'
-            'avoidareas': '@Model.avoid',
+            'avoidareas': '@Model.avoidstring',
             'representation': 'display'
         };
         //43.038779, -87.914753
@@ -108,29 +110,18 @@
             function (error) {
                 alert(error.message);
             });
-    </script>
+        </script>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save Route" class="btn btn-default" />
+        </div>
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+}
 
 
-</div>
-
-<div id="PanicButton">
-
-    <input type="button" value="PANIC BUTTON" onclick="@("window.location.href='" + @Url.Action("PanicButton", "Observees", new { id = Model.observee.id }) + "'");" />
-
-</div>
-<div id="route" class="directions">
-    <table>
-        @{ foreach (var x in Model.route.leg[0].maneuver)
-            {
-                <tr><td>@Html.Raw(x.instruction)</td></tr>
-            }
-        }
-    </table>
-</div>
-<div id="StartButton">
-    <input type="button" value="Start Route" onclick="@("window.location.href='" + @Url.Action("PanicButton", "Observees", new { id = Model.observee.id }) + "'");" />
-</div>
-<div id="SaveButton">
-    <input type="button" value="Save Route" onclick="@("window.location.href='" + @Url.Action("SaveRoute", "Observees", Model) + "'");" />
-</div>
 
