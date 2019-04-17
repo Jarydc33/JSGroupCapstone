@@ -27,28 +27,11 @@ namespace SafestRouteApplication.Controllers
             return View(user);
         }
        
-        public ActionResult Details(int? id)
+        public ActionResult Details()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Observee observee = db.Observees.Find(id);
-            observee.ApplicationUser = db.Users.Where(u => u.Id == observee.ApplicationUserId).FirstOrDefault();
-            try
-            {
-                observee.Observer = db.Observers.Where(o => o.id == observee.ObserverId).FirstOrDefault();
-                observee.Observer.ApplicationUser = db.Users.Where(u => u.Id == observee.Observer.ApplicationUserId).FirstOrDefault();
-            }
-            catch
-            {
-                observee.Observer = null;
-            }
-            
-            if (observee == null)
-            {
-                return HttpNotFound();
-            }
+            string userId = User.Identity.GetUserId();
+            Observee observee = db.Observees.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
+            observee.ApplicationUser = db.Users.Find(userId);
             return View(observee);
         }
 
@@ -73,19 +56,10 @@ namespace SafestRouteApplication.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Edit(int? id)
+        public ActionResult Edit()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Observee observee = db.Observees.Find(id);
-            //observee.Observer = db.Observers.Where(o => o.id == observee.ObserverId).FirstOrDefault();
-            if (observee == null)
-            {
-                return HttpNotFound();
-            }
-            
+            string userId = User.Identity.GetUserId();
+            Observee observee = db.Observees.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
             return View(observee);
         }
 
@@ -124,18 +98,29 @@ namespace SafestRouteApplication.Controllers
             Observee panicObservee = db.Observees.Find(id);
             Observer guardian = db.Observers.Where(o => o.id == panicObservee.ObserverId).FirstOrDefault();
             ViewBag.PanicMessage = panicObservee.FirstName +" " + panicObservee.LastName + " has pushed the Panic Alert button. Their location is: "; //Add Location
-            var phoneNumbers = db.PhoneNumbers.Where(p => p.ObserverId == guardian.id).ToList();
-            foreach (var number in phoneNumbers)
+            try
             {
-                SendAlert.Send(ViewBag.PanicMessage, number.Number);
+                var phoneNumbers = db.PhoneNumbers.Where(p => p.ObserverId == guardian.id).ToList();
+                foreach (var number in phoneNumbers)
+                {
+                    SendAlert.Send(ViewBag.PanicMessage, number.Number);
+                }
             }
+            catch
+            {
+                return View();
+            }
+            
             
             return View();
         }
 
-        public ActionResult LeaveComment(int? id)
+        public ActionResult LeaveComment()
         {
             LocationComment comment = new LocationComment();
+            string userId = User.Identity.GetUserId();
+            Observee observee = db.Observees.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
+            comment.ApplicationUserId = observee.ApplicationUserId;
             return View(comment);
         }
 
@@ -150,7 +135,7 @@ namespace SafestRouteApplication.Controllers
 
         public ActionResult ChangeObserver()
         {
-            ViewBag.ObserverMessage = "Change Observer";
+            ViewBag.ObserverMessage = "Add/Change Observer";
             ViewBag.RemoveObserverMessage = "Remove Observer";
             return View();
         }

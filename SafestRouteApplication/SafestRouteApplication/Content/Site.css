@@ -1,17 +1,88 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #A64949;
+    color: #402B32;
+    background-image: url('Images/aerial.jpg');
+    
 }
 
-/* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
+.HomeBody {
+    background-color: #BFAE99;
+    color: #402B32;
+    opacity: .75;
+    border-radius: 5px 5px;
+}
+.HomePageHeader {
+    opacity: .75;
+    border-radius: 5px 5px;
+    box-shadow: 5px 5px black;
+    color: #BFAE99;
+    background-color: #402B32;
+    text-align: center;
+}
+/*.test {
+    background-color: #BFAE99;
+    color: #402B32;
+    opacity: .75;
+    border-radius: 5px 5px;
+}*/
+.dl-horizontal {
+    opacity: .75;
+    border-radius: 5px 5px;
+    box-shadow: 5px 5px black;
+    background-color: #402B32;
+    color: #BFAE99;
+}
+
+#map {
+    height: 400px;
+    width: 700px;
+    border-radius: 5px 5px;
+    box-shadow: 5px 5px gray;
+}
+
+#PanicButton {
+    background-color: #BF2A2A;
+    color: white;
+    margin-top:5%;
+    margin-left:30%;
+}
+
+a.ActionClass {
+    color: #BFAE99;
+}
+
+label.control-label {
+    background-color: #402B32;
+    opacity: .75;
+    border-radius: 5px 5px;
+    box-shadow: 5px 5px black;
+    color: #BFAE99;
+}
+.table {
+    background-color: #402B32;
+    color: #BFAE99;
+    height: 100%;
+    opacity: .75;
+    border-radius: 5px 5px;
+    box-shadow: 5px 5px black;
+}
+
+.SideBar {
+    
+    background-color: #402B32;
+    height: 100%;
+    opacity: .75;
+    border-radius: 5px 5px;
+    box-shadow: 5px 5px black;
+}
+
 .dl-horizontal dt {
     white-space: normal;
 }

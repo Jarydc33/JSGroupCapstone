@@ -163,7 +163,7 @@ namespace SafestRouteApplication.Controllers
 
         public ActionResult AddPhoneNumber()
         {
-            ViewBag.RemovalMessage = "Phone Number Removal";
+            ViewBag.RemovalMessage = "Remove a Number";
             PhoneNumber newNumber = new PhoneNumber();
             return View(newNumber);
         }
