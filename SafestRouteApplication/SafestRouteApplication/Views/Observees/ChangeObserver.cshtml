@@ -1,11 +1,75 @@
 ﻿@model SafestRouteApplication.Models.ApplicationUser
 
-<h2>Change Observer</h2>
 
-@using (Html.BeginForm("ChangeObserver", "Observees"))
+<div class="HomePageHeader">
+    <h2>Observer Edit</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="SideBar">
+            @Html.ActionLink(" • Leave a Comment", "LeaveComment", "Observees", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • Edit Account Info", "Edit", "Observees", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • View Account Info", "Details", "Observees", new { @class = "ActionClass" })<br />
+        </div>
+
+    </div>
+    <div class="col-md-8">
+        @using (Html.BeginForm("ChangeObserver", "Observees"))
+        {
+        <div class="form-horizontal">
+            <div class="HomePageHeader">
+                <h4>@ViewBag.ObserverMessage</h4>
+            </div>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.Label("Enter Observer`s UserName", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add/Change Observer" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+        }
+
+        @using (Html.BeginForm("RemoveObserver", "Observees"))
+        {
+            <div class="form-horizontal">
+                <div class="HomePageHeader">
+                    <h4>@ViewBag.RemoveObserverMessage</h4>
+                </div>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.Label("Enter Observer`s UserName", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Remove Observer" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+@*@using (Html.BeginForm("ChangeObserver", "Observees"))
 {
     <div class="form-horizontal">
-        <h4>@ViewBag.ObserverMessage</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -44,5 +108,5 @@
             </div>
         </div>
     </div>
-}
+}*@
 

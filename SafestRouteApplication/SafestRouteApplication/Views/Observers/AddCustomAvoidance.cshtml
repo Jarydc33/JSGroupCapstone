@@ -5,110 +5,107 @@
     ViewBag.Title = "AddCustomAvoidance";
 }
 
-<h2>AddCustomAvoidance</h2>
+<div class="HomePageHeader">
+    <h2>Add a Custom Avoidance Route</h2>
+</div>
 
-<style>
-
-    #map {
-        height: 400px;
-        width: 700px;
-    }
-</style>
 <div class="row">
-    <div id="map"></div>
-    <script>
-        var allMarkers = new Array(), j = 0, marker, coords = new Array();
-        function initMap() {
-            var i = 0, firstTime = true;
-            var myLatLng = new google.maps.LatLng(41.881832, -87.623177);
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 13,
-                center: myLatLng,
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-            })
+    <div class="col-md-4">
+        <div class="SideBar">
+            @Html.ActionLink(" • Edit Account Details", "Edit", "Observers", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • Add/Edit Phone Numbers", "AddPhoneNumber", "Observers", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • View Account Information", "Details", "Observers", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • View an Avoidance Route", "ViewAvoidanceRoute", "Observers", new { @class = "ActionClass" })<br />
+        </div>
+        @using (Html.BeginForm())
+        {
+            <div class="form-horizontal">
+                @Html.HiddenFor(a => a.BottomRightLatitude)
+                @Html.HiddenFor(a => a.BottomRightLongitude)
+                @Html.HiddenFor(a => a.TopLeftLatitude)
+                @Html.HiddenFor(a => a.TopLeftLongitude)
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.id)
 
-            google.maps.event.addListener(map, 'click', function (event) {
-                if (j > 1) {
-                    allMarkers[j - 1].setMap(null);
-                }
-                coords[i] = event.latLng.lat();
-                $('#BottomRightLatitude').val(coords[0]);
-                $('#TopLeftLatitude').val(coords[2]);
-                coords[i + 1] = event.latLng.lng();
-                $('#BottomRightLongitude').val(coords[1]);
-                $('#TopLeftLongitude').val(coords[3]);
-                if (firstTime) {
-                    i = 2;
-                    firstTime = false;
-                }
-                placeMarker(event.latLng);
-            });
+                <div class="form-group">
+                    @Html.Label("Route Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="HomePageHeader"><h4>Observee to Add to This Route</h4></div>
+                @Html.DropDownListFor(model => model.ObserveeId, (SelectList)Model.Observees, new { @class = "form-control", required = "Select Observee" })
 
-            function placeMarker(location) {
-                marker = new google.maps.Marker({
-                    position: location,
-                    map: map
-                });
-                allMarkers[j] = marker;
-                j++;
-                map.setCenter(location);
-            }
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Add Route" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
         }
 
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
-            async defer></script>
+        @using (Html.BeginForm("RemoveAvoidanceRoute", "Observers"))
+        {
+            <div class="HomePageHeader"> <h4>Route to Remove</h4></div>
+            @Html.DropDownListFor(model => model.id, (SelectList)Model.RouteNames, new { @class = "form-control" })
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Remove Route" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-8">
+        <div id="map"></div>
+        <script>
+            var allMarkers = new Array(), j = 0, marker, coords = new Array();
+            function initMap() {
+                var i = 0, firstTime = true;
+                var myLatLng = new google.maps.LatLng(41.881832, -87.623177);
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 13,
+                    center: myLatLng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                })
+
+                google.maps.event.addListener(map, 'click', function (event) {
+                    if (j > 1) {
+                        allMarkers[j - 1].setMap(null);
+                    }
+                    coords[i] = event.latLng.lat();
+                    $('#BottomRightLatitude').val(coords[0]);
+                    $('#TopLeftLatitude').val(coords[2]);
+                    coords[i + 1] = event.latLng.lng();
+                    $('#BottomRightLongitude').val(coords[1]);
+                    $('#TopLeftLongitude').val(coords[3]);
+                    if (firstTime) {
+                        i = 2;
+                        firstTime = false;
+                    }
+                    placeMarker(event.latLng);
+                });
+
+                function placeMarker(location) {
+                    marker = new google.maps.Marker({
+                        position: location,
+                        map: map
+                    });
+                    allMarkers[j] = marker;
+                    j++;
+                    map.setCenter(location);
+                }
+            }
+
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
+                async defer></script>
+    </div>
 </div>
-@using (Html.BeginForm())
-{
-<div class="form-horizontal">
-    <h4>Observer</h4>
-    @Html.HiddenFor(a => a.BottomRightLatitude)
-    @Html.HiddenFor(a => a.BottomRightLongitude)
-    @Html.HiddenFor(a => a.TopLeftLatitude)
-    @Html.HiddenFor(a => a.TopLeftLongitude)
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.id)
-
-    <div class="form-group">
-        @Html.Label("Route Name", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })@*fix*@
-        </div>
-    </div>
-
-    <div class="form-group">Please select Observee to add this route to.</div>
-    <div class="form-group">
-        @Html.DropDownListFor(model => model.ObserveeId, (SelectList)Model.Observees, new { @class = "form-control", required = "Select Observee" })
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Add Route" class="btn btn-default" />
-        </div>
-    </div>
-</div>
-}
-
-@using (Html.BeginForm("RemoveAvoidanceRoute", "Observers"))
-{
-    <div class="form-group">Please select the route to remove.</div>
-    <div class="form-group">
-        @Html.DropDownListFor(model => model.id, (SelectList)Model.RouteNames, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Remove Route" class="btn btn-default" />
-        </div>
-    </div>
-}
-
-@Html.ActionLink("View Your Avoidance Routes", "ViewAvoidanceRoute")

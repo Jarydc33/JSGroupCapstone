@@ -3,38 +3,40 @@
     ViewBag.Title = "ViewAvoidanceRoute";
 }
 
-<h2>ViewAvoidanceRoute</h2>
+<div class="HomePageHeader">
+    <h2>View Avoidance Route</h2>
+</div>
 
-
-
-@using (Html.BeginForm("ViewAvoidanceRoute", "Observers"))
-{
-    <div class="form-horizontal">
-        <h3>View a Route</h3>
-        <div class="form-group">Please select the route to view.</div>
-        <div class="form-group">
-            @Html.DropDownListFor(model => model.id, (SelectList)Model.RouteNames, new { @class = "form-control" })
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="View Route" class="btn btn-default" />
-            </div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="SideBar">
+            @Html.ActionLink(" • Edit Account Details", "Edit", "Observers", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • Add/Edit Phone Numbers", "AddPhoneNumber", "Observers", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • View Account Information", "Details", "Observers", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • Create/Remove an Avoidance Route", "AddCustomAvoidance", "Observers", new { @class = "ActionClass" })<br />
         </div>
     </div>
-}
+    <div class="col-md-8">
+        @using (Html.BeginForm("ViewAvoidanceRoute", "Observers"))
+        {
+            <div class="form-horizontal">
+                <h3>View a Route</h3>
+                <div class="form-group">Please select the route to view.</div>
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.id, (SelectList)Model.RouteNames, new { @class = "form-control" })
+                </div>
 
-<style>
-
-    #map {
-        height: 400px;
-        width: 700px;
-    }
-</style>
-<br />
-<div class="row">
-    <div id="map"></div>
-    <script>
+                <div class="form-group">
+                    <div class="col-md-8">
+                        <input type="submit" value="View Route" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+        <br/>
+        <div class="row">
+            <div id="map"></div>
+            <script>
 
         function initMap() {
 
@@ -59,9 +61,12 @@
 
         }
 
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOURKEY&callback=initMap"
-            async defer></script>
+            </script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=YOURKEY&callback=initMap"
+                    async defer></script>
 
 
+        </div>
+    </div>
 </div>
+
