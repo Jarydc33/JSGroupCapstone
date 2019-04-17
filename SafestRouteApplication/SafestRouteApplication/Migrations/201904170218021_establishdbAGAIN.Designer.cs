@@ -7,13 +7,13 @@ namespace SafestRouteApplication.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class FixingGitIssue : IMigrationMetadata
+    public sealed partial class establishdbAGAIN : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(FixingGitIssue));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(establishdbAGAIN));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904161955416_FixingGitIssue"; }
+            get { return "201904170218021_establishdbAGAIN"; }
         }
         
         string IMigrationMetadata.Source

@@ -1,27 +1,76 @@
-﻿using SafestRouteApplication.Models;
+﻿using Newtonsoft.Json;
+using SafestRouteApplication.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SafestRouteApplication
 {
     public static class CreateRoute
     {
-        static Route route;
         static HttpClient client = new HttpClient();
         public static Route Retrieve(string start_address, string end_address, List<string> avoidances)
         {
-            string startCoordinates = GeoCode.Retrieve(start_address);
-            string endCoordinates = GeoCode.Retrieve(end_address);
+            GeoCode geo = new GeoCode();
+            string startCoordinates = geo.Retrieve(start_address);
+            string endCoordinates = geo.Retrieve(end_address);
             string avoidanceCoords = "";
             foreach (string x in avoidances)
             {
                 avoidanceCoords += avoidanceCoords + "!";
             }
-            avoidanceCoords = avoidanceCoords.Remove(avoidanceCoords.Length - 1);
+            if (avoidanceCoords.Length > 0)
+            {
+                avoidanceCoords = avoidanceCoords.Remove(avoidanceCoords.Length - 1);
+            }
+            string appId = Keys.HEREAppID;//HERE api ID
+            string appCode = Keys.HEREAppCode;//HERE api Code
+            string baseaddress = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=" + appId + "&app_code=" + appCode + "&waypoint0=" + startCoordinates + "&waypoint1=" + endCoordinates + "&mode=fastest;car;traffic:disabled&avoidareas=" + avoidanceCoords;
+            WebRequest requestObject = WebRequest.Create(baseaddress);
+            requestObject.Method = "GET";
+            HttpWebResponse responseObject = null;
+            responseObject = (HttpWebResponse)requestObject.GetResponse();
+            string urlResult = null;
+            using (Stream stream = responseObject.GetResponseStream())
+            {
+                StreamReader sr = new StreamReader(stream);
+                urlResult = sr.ReadToEnd();
+                sr.Close();
+            }
+            Route route;
+            RequestObj jsonObj = JsonConvert.DeserializeObject<RequestObj>(urlResult);
+            try
+            {
+                route = jsonObj.response.route[0]; 
+            }
+            catch
+            {
+                return null;
+            }
+            return route;
+        }
+        static Route route;
+       
+        public static Route Retrieves(string start_address, string end_address, List<string> avoidances)
+        {
+            GeoCode geo = new GeoCode();
+            string startCoordinates = geo.Retrieve(start_address);
+            string endCoordinates = geo.Retrieve(end_address);
+            string avoidanceCoords = "";
+            foreach (string x in avoidances)
+            {
+                avoidanceCoords += avoidanceCoords + "!";
+            }
+            if (avoidanceCoords.Length > 0)
+            {
+                avoidanceCoords = avoidanceCoords.Remove(avoidanceCoords.Length - 1);
+            }
             string appId = Keys.HEREAppID;//HERE api ID
             string appCode = Keys.HEREAppCode;//HERE api Code
             string baseaddress = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=" + appId + "&app_code=" + appCode + "&waypoint0=" + startCoordinates + "&waypoint1=" + endCoordinates + "&mode=fastest;car;traffic:disabled&avoidareas=" + avoidanceCoords;
@@ -39,7 +88,7 @@ namespace SafestRouteApplication
             client.BaseAddress = new Uri(address);
             try
             {
-                RequestObj jsonObj = await GetRequest(address, client).ConfigureAwait(false);
+                RequestObj jsonObj = await GetRequest(address, client);
                 route = jsonObj.response.route[0];
             }
             catch (Exception e)
@@ -50,7 +99,7 @@ namespace SafestRouteApplication
         static async Task<RequestObj> GetRequest(string path, HttpClient client)
         {
             RequestObj jsonObj = null;
-            HttpResponseMessage response = await client.GetAsync(path).ConfigureAwait(false);
+            HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
                 jsonObj = await response.Content.ReadAsAsync<RequestObj>();
