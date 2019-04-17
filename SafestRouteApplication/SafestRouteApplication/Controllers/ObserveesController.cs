@@ -384,7 +384,7 @@ namespace SafestRouteApplication.Controllers
             newRoute.name = routeData.name;
             db.SavedRoutes.Add(newRoute);
             db.SaveChanges();
-            return View("Index");
+            return RedirectToAction("Index");
         }
         public ActionResult TraverseRoute()
         {
