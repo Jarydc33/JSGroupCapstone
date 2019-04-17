@@ -382,14 +382,21 @@ namespace SafestRouteApplication.Controllers
         {
             SavedRoute newRoute = TempData["myRoute"] as SavedRoute;
             newRoute.name = routeData.name;
-            //newRoute.start_latitude = routeData.start_latitude;
-            //newRoute.start_longitude = routeData.start_longitude;
-            //newRoute.end_latitude = routeData.end_latitude;
-            //newRoute.end_logitude = routeData.end_logitude;
-            //newRoute.waypoint1 = routeData.waypoint1;
-            //newRoute.waypoint2 = routeData.waypoint2;
-            //newRoute.avoidstring = routeData.avoidstring;
-            //newRoute.routeRequest = routeData.routeRequest;
+            db.SavedRoutes.Add(newRoute);
+            db.SaveChanges();
+            return View("Index");
+        }
+        public ActionResult TraverseRoute()
+        {
+            ShowRouteViewModel routeData = TempData["myModel"] as ShowRouteViewModel;
+            
+            return View(routeData);
+        }
+        [HttpPost]
+        public ActionResult TraverseRoute(SavedRoute routeData)
+        {
+            SavedRoute newRoute = TempData["myRoute"] as SavedRoute;
+            newRoute.name = routeData.name;
             db.SavedRoutes.Add(newRoute);
             db.SaveChanges();
             return View("Index");

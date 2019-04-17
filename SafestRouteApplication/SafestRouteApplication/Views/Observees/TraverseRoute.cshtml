@@ -1,6 +1,6 @@
 ﻿@model  SafestRouteApplication.Models.ShowRouteViewModel
 @{
-    ViewBag.Title = "Show Route";
+    ViewBag.Title = "Traverse Route";
     TempData.Keep("myModel");
 }
 
@@ -127,10 +127,12 @@
         }
     </table>
 </div>
-<div id="StartButton">
-    <input type="button" value="Start Route" onclick="@("window.location.href='" + @Url.Action("TraverseRoute", "Observees", Model) + "'");" />
+<div id="StopButton">
+    <input type="button" value="Route Complete" onclick="@("window.location.href='" + @Url.Action("StopButton", "Observees", Model) + "'");" />
 </div>
 <div id="SaveButton">
     <input type="button" value="Save Route" onclick="@("window.location.href='" + @Url.Action("SaveRoute", "Observees", Model) + "'");" />
 </div>
+
+
 
