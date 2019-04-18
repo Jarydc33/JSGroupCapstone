@@ -403,10 +403,38 @@ namespace SafestRouteApplication.Controllers
                     //SendAlert.Send(Message, x);
                 }
             }
+            TimeStart().GetAwaiter();
             return View(routeData);
+        }
+        static bool routeComplete;
+        string asynchid;
+        public async Task TimeStart()
+        {
+            asynchid = User.Identity.GetUserId();
+            routeComplete = false;
+            await StartTimer();
+        }
+        private Task StartTimer()
+        {
+            return Task.Run(() =>
+            {
+                Thread.Sleep(10000);
+                bool completed = routeComplete;
+                if (completed == false)
+                {
+                    ApplicationDbContext db = new ApplicationDbContext();
+                    var observee = db.Observees.Where(e => e.ApplicationUserId == asynchid).FirstOrDefault();
+                    List<string> phoneNumbers = db.PhoneNumbers.Where(e => e.ObserverId == observee.ObserverId).Select(x => x.Number).ToList();
+                    foreach (string i in phoneNumbers)
+                    {
+                        SendAlert.Send("Observee has not made it to their location!", i);
+                    }
+                }
+            });
         }
         public ActionResult RouteComplete()
         {
+            routeComplete = true;
             string id = User.Identity.GetUserId();
             Observee observee = db.Observees.Where(e => e.ApplicationUserId == id).FirstOrDefault();
             string Message = observee.FirstName + " " + observee.LastName + " has completed their route safely!";
