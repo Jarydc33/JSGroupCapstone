@@ -1,0 +1,40 @@
+﻿@model SafestRouteApplication.Models.CustomSMS
+@{
+    ViewBag.Title = "CustomSMS";
+}
+
+<div class="HomePageHeader">
+    <h3>Add a Custom SMS Message</h3>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <br />
+        <div class="SideBar">
+            @Html.ActionLink(" • Edit Account Details", "Edit", "Observers", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • Add/Edit Phone Numbers", "AddPhoneNumber", "Observers", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • View Account Information", "Details", "Observers", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • Create/Remove an Avoidance Route", "AddCustomAvoidance", "Observers", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • View Saved Routes", "ViewSavedRoutes", "Observees", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • View an Avoidance Route", "ViewAvoidanceRoute", "Observers", new { @class = "ActionClass" })<br />
+        </div>
+    </div>
+    <div class="col-md-8">
+        <br/>
+        @using (Html.BeginForm())
+        {
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.Label("Custom Message", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.CustomMessage, new { htmlAttributes = new { @class = "form-control" } })
+                        <br/>
+                        <input type="submit" value="Add Comment" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
