@@ -410,6 +410,23 @@ namespace SafestRouteApplication.Controllers
 
             return RedirectToAction("Index");
         }
+        public ActionResult ViewSavedRoutes()
+        {
+            string id = User.Identity.GetUserId();
+            Observee observee = db.Observees.Where(e => e.ApplicationUserId == id).FirstOrDefault();
+            List<SavedRoute> routes = db.SavedRoutes.Where(e => e.ObserveeId == observee.id).ToList();
+
+            return View(routes);
+        }
+        public ActionResult ViewRoute(int id)
+        {
+            SavedRoute route = db.SavedRoutes.Where(e => e.id == id).FirstOrDefault();
+            return View(route);
+        }
+
+
+
+
 
     }
    
