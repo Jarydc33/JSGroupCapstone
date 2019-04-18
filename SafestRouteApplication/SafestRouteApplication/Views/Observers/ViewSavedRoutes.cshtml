@@ -17,13 +17,15 @@
         </div>
     </div>
     <div class="col-md-8">
-        <table class="table" id="IndexTable">
-            @{
-                foreach (var x in Model)
-                {
-                    <tr><td>@x.name</td><td>@Html.ActionLink(" • View Route ", "ViewRoute", x)</td></tr>
+        <div class="directions">
+            <table class="table" id="IndexTable">
+                @{
+                    foreach (var x in Model)
+                    {
+                        <tr><td>@x.name</td><td>@Html.ActionLink(" • View Route ", "ViewRoute", x)</td></tr>
+                    }
                 }
-            }
-        </table>
+            </table>
+        </div>
     </div>
 </div>

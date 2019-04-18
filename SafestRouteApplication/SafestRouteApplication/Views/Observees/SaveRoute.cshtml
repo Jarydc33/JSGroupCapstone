@@ -6,9 +6,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <div class="HomePageHeader">
-            <h3>Name This Route: </h3>
-        </div>
+        <br/>
         <div class="SideBar">
             @Html.ActionLink(" • Leave a Comment", "LeaveComment", "Observees", new { @class = "ActionClass" }) <br />
             @Html.ActionLink(" • Add/Change an Observer on Your Account", "ChangeObserver", "Observees", new { @class = "ActionClass" }) <br />
@@ -16,9 +14,10 @@
             @Html.ActionLink(" • View Account Info", "Details", "Observees", new { @class = "ActionClass" })<br />
             @Html.ActionLink(" • Navigate a Route", "Navigate", "Observees", new { @class = "ActionClass" })<br />
         </div>
-    </div>
-    <div class="col-md-8">
-        <div id="map"></div>
+
+        <div class="HomePageHeader">
+            <h3>Name This Route: </h3>
+        </div>
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -26,13 +25,17 @@
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
-                    <br/>
+                    <br />
                     <input type="submit" value="Save Route" class="btn btn-default" />
                 </div>
             </div>
-            <div class="row">
-
-                <script>
+        }
+        </div>
+    <div class="col-md-8">
+        <br/>
+        <div id="map"></div>
+        
+        <script>
         var platform = new H.service.Platform({
             'app_id': 'Ic57q8KhWDvrpuK1lsP6',
             'app_code': 'qrVujTnPZqcdy1pVuimZrQ'
@@ -122,7 +125,6 @@
                 @Scripts.Render("~/bundles/jqueryval")
             }
         }
-    </div>
 </div>
 
 @*@using (Html.BeginForm())
