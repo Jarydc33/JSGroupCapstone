@@ -3,12 +3,24 @@
     ViewBag.Title = "ViewRoute";
 }
 
-
-<h2>ViewRoute</h2>
+<div class="HomePageHeader">
+    <h3>View Route</h3>
+</div>
 
 <div class="row">
-    <div id="map"></div>
-    <script>
+    <div class="col-md-4">
+        <div class="SideBar">
+            @Html.ActionLink(" • Leave a Comment", "LeaveComment", "Observees", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • Add/Change an Observer on Your Account", "ChangeObserver", "Observees", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • Edit Account Info", "Edit", "Observees", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • View Account Info", "Details", "Observees", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • Back to Saved Routes", "ViewSavedRoutes", "Observees", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • Navigate a Route", "Navigate", "Observees", new { @class = "ActionClass" })<br />
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div id="map"></div>
+        <script>
         var platform = new H.service.Platform({
             'app_id': 'Ic57q8KhWDvrpuK1lsP6',
             'app_code': 'qrVujTnPZqcdy1pVuimZrQ'
@@ -91,6 +103,6 @@
             function (error) {
                 alert(error.message);
             });
-    </script>
+        </script>
+    </div>
 </div>
-@Html.ActionLink(" • Back to Route List", "ViewSavedRoutes", "Observees")<br />

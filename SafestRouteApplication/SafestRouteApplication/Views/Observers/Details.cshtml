@@ -20,31 +20,29 @@
         </div>
     </div>
     <div class="col-md-8">
-        <div class="SideBar">
-            <dl class="dl-horizontal">
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </dt>
-
-                <dd>
+        <table class="table" id="IndexTable">
+            <tr>
+                <th>
+                    @Html.DisplayName("First Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Last Name")
+                </th>
+            </tr>
+            <tr>
+                <td>
                     @Html.DisplayFor(model => model.FirstName)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </dt>
-
-                <dd>
+                </td>
+                <td>
                     @Html.DisplayFor(model => model.LastName)
-                </dd>
+                </td>
+            </tr>
 
-            </dl>
-        </div>
+        </table>
     </div>
 </div>
 
-<br/>
+<br />
 <table class="table" id="IndexTable">
     <tr>
         <th>

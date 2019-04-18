@@ -3,12 +3,24 @@
     ViewBag.Title = "ViewRoute";
 }
 
-
-<h2>ViewRoute</h2>
+<div class="HomePageHeader">
+    <h3>View Route</h3>
+</div>
 
 <div class="row">
-    <div id="map"></div>
-    <script>
+    <div class="col-md-4">
+        <div class="SideBar">
+            @Html.ActionLink(" • Edit Account Details", "Edit", "Observers", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • Add/Edit Phone Numbers", "AddPhoneNumber", "Observers", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • View Account Information", "Details", "Observers", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • Create/Remove an Avoidance Route", "AddCustomAvoidance", "Observers", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • View Saved Routes", "ViewSavedRoutes", "Observees", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • View an Avoidance Route", "ViewAvoidanceRoute", "Observers", new { @class = "ActionClass" })<br />
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div id="map"></div>
+        <script>
         var platform = new H.service.Platform({
             'app_id': 'Ic57q8KhWDvrpuK1lsP6',
             'app_code': 'qrVujTnPZqcdy1pVuimZrQ'
@@ -91,6 +103,6 @@
             function (error) {
                 alert(error.message);
             });
-    </script>
+        </script>
+    </div>
 </div>
-@Html.ActionLink(" • Back to Route List", "ViewSavedRoutes", "Observers")<br />

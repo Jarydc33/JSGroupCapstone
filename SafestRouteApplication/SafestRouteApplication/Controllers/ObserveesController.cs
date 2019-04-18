@@ -424,10 +424,6 @@ namespace SafestRouteApplication.Controllers
             return View(route);
         }
 
-
-
-
-
     }
    
 
