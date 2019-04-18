@@ -8,12 +8,13 @@
 <br />
 <div class="row">
     <div class="col-md-4">
-        <div class="SideBar">
-            @Html.ActionLink(" • Leave a Comment", "LeaveComment", "Observees", new { @class = "ActionClass" }) <br />
-            @Html.ActionLink(" • Add/Change an Observer on Your Account", "ChangeObserver", "Observees", new { @class = "ActionClass" }) <br />
-            @Html.ActionLink(" • Edit Account Info", "Edit", "Observees", new { @class = "ActionClass" }) <br />
-            @Html.ActionLink(" • View Account Info", "Details", "Observees", new { @class = "ActionClass" })<br />
-            @Html.ActionLink(" • Navigate a Route", "Navigate", "Observees")<br />
+        <div class="col-md-4">
+            <div class="SideBar">
+                @Html.ActionLink(" • Add/Edit Phone Numbers", "AddPhoneNumber", "Observers", new { @class = "ActionClass" })<br />
+                @Html.ActionLink(" • View Account Information", "Details", "Observers", new { @class = "ActionClass" }) <br />
+                @Html.ActionLink(" • Create/Remove an Avoidance Route", "AddCustomAvoidance", "Observers", new { @class = "ActionClass" })<br />
+                @Html.ActionLink(" • View an Avoidance Route", "ViewAvoidanceRoute", "Observers", new { @class = "ActionClass" })<br />
+            </div>
         </div>
     </div>
     <div class="col-md-8">
