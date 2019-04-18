@@ -98,7 +98,10 @@ namespace SafestRouteApplication.Controllers
         {
             Observee panicObservee = db.Observees.Find(id);
             Observer guardian = db.Observers.Where(o => o.id == panicObservee.ObserverId).FirstOrDefault();
-            ViewBag.PanicMessage = panicObservee.FirstName +" " + panicObservee.LastName + " has pushed the Panic Alert button. Their location is: "; //Add Location
+            Geolocation geo = new Geolocation();
+
+
+            ViewBag.PanicMessage = panicObservee.FirstName +" " + panicObservee.LastName + " has pushed the Panic Alert button. Their location is: "+geo.Retrieve(); 
             try
             {
                 var phoneNumbers = db.PhoneNumbers.Where(p => p.ObserverId == guardian.id).ToList();
@@ -283,7 +286,7 @@ namespace SafestRouteApplication.Controllers
             }
             
 
-            //return avoid;
+       
             return avoid;
         }
 

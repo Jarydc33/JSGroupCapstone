@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -14,41 +17,41 @@ namespace SafestRouteApplication
         public string Latitude { get { return _lat; } }
         public string Longitude { get { return _long; } }
         HttpClient client = new HttpClient();
-        public void Retrieve(string address)
+        public string Retrieve()
         {
-            string baseaddress = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCkWL84dG2bkXEffwiI8MGLOJHzYWSSdWI";
-            RunDataRetrieval(baseaddress).GetAwaiter().GetResult();
-        }
-
-        async Task RunDataRetrieval(string address)
-        {
-            client.BaseAddress = new Uri(address);
+            string Key = Keys.GoogleKey;//GoogleAPIKEY
+            string url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + Keys.GoogleKey;
+            WebRequest requestObject = WebRequest.Create(url);
+            requestObject.ContentLength = 0;
+            requestObject.Method = "POST";
+            HttpWebResponse responseObject = null;
+            responseObject = (HttpWebResponse)requestObject.GetResponse();
+            string urlResult = null;
+            using (Stream stream = responseObject.GetResponseStream())
+            {
+                StreamReader sr = new StreamReader(stream);
+                urlResult = sr.ReadToEnd();
+                sr.Close();
+            }
+            string lat;
+            string longitutde;
+            GeoLocationObj geo = JsonConvert.DeserializeObject<GeoLocationObj>(urlResult);
             try
             {
-                GeoLocationObj jsonObj = await GetRequest(address, client).ConfigureAwait(false);
-                _lat = jsonObj.results[0].geometry.location.lat;
-                _long = jsonObj.results[0].geometry.location.lng;
+                lat = geo.location.lat;
+                longitutde = geo.location.lng;
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine(e.Message);
+                return null;
             }
-        }
-        async Task<GeoLocationObj> GetRequest(string path, HttpClient client)
-        {
-            GeoLocationObj jsonObj = null;
-            HttpResponseMessage response = await client.GetAsync(path).ConfigureAwait(false);
-            if (response.IsSuccessStatusCode)
-            {
-                jsonObj = await response.Content.ReadAsAsync<GeoLocationObj>();
-
-            }
-            return jsonObj;
+            string coords = lat + "," + longitutde;
+            return coords;
         }
     }
-    class GeoLocationObj
+    public class GeoLocationObj
     {
-        public Results[] results { get; set; }
+        public Location location { get; set; }
     }
 
 }
