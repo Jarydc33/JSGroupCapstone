@@ -362,6 +362,8 @@
     <Content Include="Views\Observers\ViewSavedRoutes.cshtml" />
     <Content Include="Views\Observers\ViewRoute.cshtml" />
     <Content Include="Views\Observers\CreateRoutes.cshtml" />
+    <Content Include="Views\Observers\CustomSMS.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

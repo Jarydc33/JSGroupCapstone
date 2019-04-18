@@ -83,6 +83,25 @@ namespace SafestRouteApplication.Controllers
             return View(observer);
         }
 
+        public ActionResult CustomSMS()
+        {
+            CustomSMS newMessage = new CustomSMS();
+            return View(newMessage);
+        }
+
+        [HttpPost]
+        public ActionResult CustomSMS(CustomSMS newMessage)
+        {
+            string userId = User.Identity.GetUserId();
+            Observer user = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
+            CustomSMS messageToAdd = new CustomSMS();
+            messageToAdd.ObserverId = user.id;
+            messageToAdd.CustomMessage = newMessage.CustomMessage;
+            db.CustomSMSs.Add(messageToAdd);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         public ActionResult AddCustomAvoidance()
         {
             AvoidanceRouteViewModel newRoute = new AvoidanceRouteViewModel();

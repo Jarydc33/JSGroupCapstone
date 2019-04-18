@@ -4,45 +4,49 @@
 }
 
 
-<br/>
 <div class="row">
+    
     <div class="col-md-4">
+        <br />
         <div class="SideBar">
             @Html.ActionLink(" • Edit Account Details", "Edit", "Observers", new { @class = "ActionClass" }) <br />
             @Html.ActionLink(" • Add/Edit Phone Numbers", "AddPhoneNumber", "Observers", new { @class = "ActionClass" })<br />
             @Html.ActionLink(" • View Account Information", "Details", "Observers", new { @class = "ActionClass" }) <br />
             @Html.ActionLink(" • Create/Remove an Avoidance Route", "AddCustomAvoidance", "Observers", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • View Saved Routes", "ViewSavedRoutes", "Observees", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • Create Custom SMS", "CustomSMS", "Observees", new { @class = "ActionClass" })<br />
             @Html.ActionLink(" • View an Avoidance Route", "ViewAvoidanceRoute", "Observers", new { @class = "ActionClass" })<br />
         </div>
     </div>
     <div class="col-md-8">
-        <div class="SideBar">
-            <table class="table" id="IndexTable">
+        <div class="HomePageHeader">
+            <h3>Observees Assigned to Your Account</h3>
+        </div>
+        <table class="table" id="IndexTable">
+            <tr>
+                <th>
+                    @Html.DisplayName("First Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Last Name")
+                </th>
+
+            </tr>
+            @foreach (var item in Model)
+            {
                 <tr>
-                    <th>
-                        @Html.DisplayName("First Name")
-                    </th>
-                    <th>
-                        @Html.DisplayName("Last Name")
-                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
 
                 </tr>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FirstName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.LastName)
-                        </td>
+            }
 
-                    </tr>
-                }
-
-            </table>
-        </div>
-        <br/>
+        </table>
+        <br />
         <div id="map"></div>
         <script>
 

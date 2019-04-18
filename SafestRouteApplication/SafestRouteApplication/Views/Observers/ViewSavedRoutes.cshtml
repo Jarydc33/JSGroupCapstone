@@ -1,26 +1,25 @@
 ﻿@model List<SafestRouteApplication.Models.SavedRoute>
 @{
-    ViewBag.Title = "ViewSavedRoutes";
+    ViewBag.Title = "View Saved Routes";
 }
 
-<h2>ViewSavedRoutes</h2>
+<div class="HomePageHeader">
+    <h3>ViewSavedRoutes</h3>
+</div>
 
-<br />
 <div class="row">
     <div class="col-md-4">
-        <div class="col-md-4">
-            <div class="SideBar">
-                @Html.ActionLink(" • Add/Edit Phone Numbers", "AddPhoneNumber", "Observers", new { @class = "ActionClass" })<br />
-                @Html.ActionLink(" • View Account Information", "Details", "Observers", new { @class = "ActionClass" }) <br />
-                @Html.ActionLink(" • Create/Remove an Avoidance Route", "AddCustomAvoidance", "Observers", new { @class = "ActionClass" })<br />
-                @Html.ActionLink(" • View an Avoidance Route", "ViewAvoidanceRoute", "Observers", new { @class = "ActionClass" })<br />
-            </div>
+        <div class="SideBar">
+            @Html.ActionLink(" • Add/Edit Phone Numbers", "AddPhoneNumber", "Observers", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • View Account Information", "Details", "Observers", new { @class = "ActionClass" }) <br />
+            @Html.ActionLink(" • Create/Remove an Avoidance Route", "AddCustomAvoidance", "Observers", new { @class = "ActionClass" })<br />
+            @Html.ActionLink(" • View an Avoidance Route", "ViewAvoidanceRoute", "Observers", new { @class = "ActionClass" })<br />
         </div>
     </div>
     <div class="col-md-8">
-        <table>
-            @{ 
-                foreach(var x in Model)
+        <table class="table" id="IndexTable">
+            @{
+                foreach (var x in Model)
                 {
                     <tr><td>@x.name</td><td>@Html.ActionLink(" • View Route ", "ViewRoute", x)</td></tr>
                 }
