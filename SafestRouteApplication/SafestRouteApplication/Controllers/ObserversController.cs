@@ -185,6 +185,7 @@ namespace SafestRouteApplication.Controllers
 
         public ActionResult AddPhoneNumber()
         {
+            ViewBag.AdditionMessage = "Add a Number";
             ViewBag.RemovalMessage = "Remove a Number";
             PhoneNumber newNumber = new PhoneNumber();
             return View(newNumber);
@@ -193,6 +194,16 @@ namespace SafestRouteApplication.Controllers
         [HttpPost]
         public ActionResult AddPhoneNumber(PhoneNumber numberToAdd)
         {
+            try
+            {
+                long number = long.Parse(numberToAdd.Number);
+            }
+            catch
+            {
+                ViewBag.AdditionMessage = "Please enter a number with no other characters or spaces";
+                PhoneNumber anotherNumber = new PhoneNumber();
+                return View(anotherNumber);
+            }
             string userId = User.Identity.GetUserId();
             Observer user = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
             numberToAdd.ObserverId = user.id;
