@@ -12,6 +12,7 @@ namespace SafestRouteApplication.Models
 
         [Key]
         public int id { get; set; }
+        [Display(Name = "Route Name")]
         public string name { get; set; }
         public string start_location { set; get; }
         public string start_latitude { set; get; }

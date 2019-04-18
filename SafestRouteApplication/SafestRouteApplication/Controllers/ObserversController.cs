@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 using SafestRouteApplication.Models;
+using SafestRouteApplication;
 
 namespace SafestRouteApplication.Controllers
 {
@@ -218,6 +221,164 @@ namespace SafestRouteApplication.Controllers
             SavedRoute route = db.SavedRoutes.Where(e => e.id == id).FirstOrDefault();
             return View(route);
         }
+        public ActionResult CreateRoutes()
+        {
+            ObserverSaveRouteModel navData = new ObserverSaveRouteModel();
+            string id = User.Identity.GetUserId();
+            int observerid = db.Observers.Where(e => e.ApplicationUserId == id).Select(e => e.id).FirstOrDefault();
+            navData.observees = db.Observees.Where(e => e.ObserverId == observerid).Select(e=> new SelectListItem() { Value = e.id+"", Text = (e.FirstName+" "+e.LastName) }).ToList();
+            return View(navData);
+        }
+        [HttpPost]
+        public ActionResult CreateRoutes(ObserverSaveRouteModel navData)
+        {
+            ShowRouteViewModel model = new ShowRouteViewModel();
+            string id = User.Identity.GetUserId();
+            if (navData.nav.StartAddress != null && navData.nav.EndAddress != null)
+            {
+                GeoCode geo = new GeoCode();
+                string startcoord = geo.Retrieve(navData.nav.StartAddress);
+                string[] waypoint1 = startcoord.Split(',');
+                string stopcoord = geo.Retrieve(navData.nav.EndAddress);
+                string[] waypoint2 = stopcoord.Split(',');
+                model.observee = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e).FirstOrDefault();
+                model.avoid = GetCrimeData(Double.Parse(waypoint1[0]), Double.Parse(waypoint1[1]), Double.Parse(waypoint2[0]), Double.Parse(waypoint2[1]));
+                var thisId = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e.id).FirstOrDefault();
+                List<AvoidanceRoute> avoidMarks = db.AvoidanceRoutes.Where(e => e.ObserveeId == thisId || e.ObserveeId == null).ToList();
+                List<string> avoidCoords = new List<string>();
+                foreach (AvoidanceRoute x in avoidMarks)
+                {
+                    avoidCoords.Add(x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
+                    if (model.avoid != "")
+                    {
+                        model.avoid += "!";
+                    }
+                    model.avoid += (x.TopLeftLatitude + "," + x.TopLeftLongitude + ";" + x.BottomRightLatitude + "," + x.BottomRightLongitude);
+                }
+                model.route = CreateRoute.Retrieve(startcoord, stopcoord, model.avoid);
+
+                try
+                {
+                    SavedRoute newRoute = new SavedRoute();
+                    newRoute.name = navData.route.name;
+                    newRoute.ObserveeId = int.Parse(navData.observeeId);
+                    newRoute.start_latitude = model.route.waypoint[0].mappedPosition.latitude.ToString();
+                    newRoute.start_longitude = model.route.waypoint[0].mappedPosition.longitude.ToString();
+                    newRoute.end_latitude = model.route.waypoint[1].mappedPosition.latitude.ToString();
+                    newRoute.end_logitude = model.route.waypoint[1].mappedPosition.longitude.ToString();
+                    newRoute.waypoint1 = newRoute.start_latitude + "," + newRoute.start_longitude;
+                    newRoute.waypoint2 = newRoute.end_latitude + "," + newRoute.end_logitude;
+                    newRoute.avoidstring = model.avoid;
+                    newRoute.routeRequest = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=" + Keys.HEREAppID + "&app_code=" + Keys.HEREAppCode + "&waypoint0=" + newRoute.waypoint1 + "&waypoint1=" + newRoute.waypoint2 + "&mode=fastest;pedestrian;traffic:disabled&avoidareas=" + newRoute.avoidstring;
+
+                    db.SavedRoutes.Add(newRoute);
+                    db.SaveChanges();
+                }
+                catch
+                {
+
+                }
+            }
+            else
+            {
+                return View();
+            }
+            
+            
+            return RedirectToAction("Index");
+        }
+        public string GetCrimeData(double startlat, double startlong, double stoplat, double stoplong)
+        {
+            double NWLong;
+            double NWLat;
+            double SELong;
+            double SELat;
+            AllCrime crimeFilter = new AllCrime();
+            List<float> filtered = new List<float>();
+            string avoid = "";
+            string url = "https://data.cityofchicago.org/resource/6zsd-86xi.json";
+            WebRequest requestObject = WebRequest.Create(url);
+            requestObject.Method = "GET";
+            HttpWebResponse responseObject = null;
+            responseObject = (HttpWebResponse)requestObject.GetResponse();
+
+            string urlResult = null;
+            using (Stream stream = responseObject.GetResponseStream())
+            {
+                StreamReader sr = new StreamReader(stream);
+                urlResult = sr.ReadToEnd();
+                sr.Close();
+            }
+
+            crimeFilter.Property1 = JsonConvert.DeserializeObject<Class1[]>(urlResult);
+            if (startlat < stoplat && startlong < stoplong)
+            {
+                NWLat = stoplat;
+                NWLong = startlong;
+                SELat = startlat;
+                SELong = stoplong;
+            }
+            else if (startlat > stoplat && startlong < stoplong)
+            {
+                NWLat = startlat;
+                NWLong = startlong;
+                SELat = stoplat;
+                SELong = stoplong;
+            }
+            else if (startlat > stoplat && startlong > stoplong)
+            {
+                NWLat = startlat;
+                NWLong = stoplong;
+                SELat = stoplat;
+                SELong = startlong;
+            }
+            else
+            {
+                NWLat = stoplat;
+                NWLong = stoplong;
+                SELat = startlat;
+                SELong = startlong;
+            }
+            for (int i = 0; i < crimeFilter.Property1.Length; i++)
+            {
+                try
+                {
+
+                    double longProperty = crimeFilter.Property1[i].location.coordinates[0];
+                    double latProperty = crimeFilter.Property1[i].location.coordinates[1];
+
+                    if (longProperty >= NWLong && longProperty <= SELong)
+                    {
+                        if (latProperty <= NWLat && latProperty >= SELat)
+                        {
+                            avoid += ((latProperty + .0004) + "," + (longProperty + .0004) + ";" + (latProperty - .0004) + "," + (longProperty - .0004) + "!");
+                        }
+
+                    }
+
+                }
+                catch
+                {
+
+                }
+            }
+            if (avoid.Length > 0)
+            {
+                avoid = avoid.Remove(avoid.Length - 1);
+            }
+
+
+            //return avoid;
+            return avoid;
+        }
+
+
+
+
+
+
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

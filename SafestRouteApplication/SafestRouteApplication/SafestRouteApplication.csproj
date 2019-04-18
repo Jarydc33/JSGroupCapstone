@@ -229,6 +229,7 @@
     <Compile Include="Models\Observee.cs" />
     <Compile Include="Models\Observer.cs" />
     <Compile Include="Models\ObserverDetailsViewModel.cs" />
+    <Compile Include="Models\ObserverSaveRouteModel.cs" />
     <Compile Include="Models\PhoneNumber.cs" />
     <Compile Include="Models\SavedRoute.cs" />
     <Compile Include="Models\ShowRouteViewModel.cs" />
@@ -360,6 +361,7 @@
     <Content Include="Views\Observees\ViewRoute.cshtml" />
     <Content Include="Views\Observers\ViewSavedRoutes.cshtml" />
     <Content Include="Views\Observers\ViewRoute.cshtml" />
+    <Content Include="Views\Observers\CreateRoutes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -395,6 +395,14 @@ namespace SafestRouteApplication.Controllers
             {
                 //SendAlert.Send(Message, x);
             }
+            if(routeData.route.note != null)
+            {
+                Message = routeData.observee.FirstName + " " + routeData.observee.LastName + " has been routed through a high risk area.";
+                foreach (string x in phoneNumbers)
+                {
+                    //SendAlert.Send(Message, x);
+                }
+            }
             return View(routeData);
         }
         public ActionResult RouteComplete()
