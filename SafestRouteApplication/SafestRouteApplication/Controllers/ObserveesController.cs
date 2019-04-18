@@ -365,6 +365,7 @@ namespace SafestRouteApplication.Controllers
         {
             ShowRouteViewModel routeData = TempData["myModel"] as ShowRouteViewModel;
             SavedRoute newRoute = new SavedRoute();
+            newRoute.ObserveeId = routeData.observee.id;
             newRoute.start_latitude = routeData.route.waypoint[0].mappedPosition.latitude.ToString();
             newRoute.start_longitude = routeData.route.waypoint[0].mappedPosition.longitude.ToString();
             newRoute.end_latitude = routeData.route.waypoint[1].mappedPosition.latitude.ToString();
@@ -381,18 +382,51 @@ namespace SafestRouteApplication.Controllers
         {
             SavedRoute newRoute = TempData["myRoute"] as SavedRoute;
             newRoute.name = routeData.name;
-            //newRoute.start_latitude = routeData.start_latitude;
-            //newRoute.start_longitude = routeData.start_longitude;
-            //newRoute.end_latitude = routeData.end_latitude;
-            //newRoute.end_logitude = routeData.end_logitude;
-            //newRoute.waypoint1 = routeData.waypoint1;
-            //newRoute.waypoint2 = routeData.waypoint2;
-            //newRoute.avoidstring = routeData.avoidstring;
-            //newRoute.routeRequest = routeData.routeRequest;
             db.SavedRoutes.Add(newRoute);
             db.SaveChanges();
-            return View("Index");
+            return RedirectToAction("Index");
         }
+        public ActionResult TraverseRoute()
+        {
+            ShowRouteViewModel routeData = TempData["myModel"] as ShowRouteViewModel;
+            string Message = routeData.observee.FirstName +" "+ routeData.observee.LastName + " has begun their route";
+            List<string> phoneNumbers = db.PhoneNumbers.Where(e => e.ObserverId == routeData.observee.ObserverId).Select(e => e.Number).ToList();
+            foreach(string x in phoneNumbers)
+            {
+                //SendAlert.Send(Message, x);
+            }
+            return View(routeData);
+        }
+        public ActionResult RouteComplete()
+        {
+            string id = User.Identity.GetUserId();
+            Observee observee = db.Observees.Where(e => e.ApplicationUserId == id).FirstOrDefault();
+            string Message = observee.FirstName + " " + observee.LastName + " has completed their route safely!";
+            List<string> phoneNumbers = db.PhoneNumbers.Where(e => e.ObserverId == observee.ObserverId).Select(e => e.Number).ToList();
+            foreach (string x in phoneNumbers)
+            {
+                //SendAlert.Send(Message, x);
+            }
+
+            return RedirectToAction("Index");
+        }
+        public ActionResult ViewSavedRoutes()
+        {
+            string id = User.Identity.GetUserId();
+            Observee observee = db.Observees.Where(e => e.ApplicationUserId == id).FirstOrDefault();
+            List<SavedRoute> routes = db.SavedRoutes.Where(e => e.ObserveeId == observee.id).ToList();
+
+            return View(routes);
+        }
+        public ActionResult ViewRoute(int id)
+        {
+            SavedRoute route = db.SavedRoutes.Where(e => e.id == id).FirstOrDefault();
+            return View(route);
+        }
+
+
+
+
 
     }
    

@@ -1,48 +1,14 @@
-﻿@model  SafestRouteApplication.Models.ShowRouteViewModel
+﻿@model SafestRouteApplication.Models.SavedRoute
 @{
-    ViewBag.Title = "Show Route";
-    TempData.Keep("myModel");
+    ViewBag.Title = "ViewRoute";
 }
-<div class="HomePageHeader">
-    <h3>Your Current Route</h3>
-</div>
+
+
+<h2>ViewRoute</h2>
 
 <div class="row">
-    <div class="col-md-4">
-        <div class="SideBar">
-            @Html.ActionLink(" • Leave a Comment", "LeaveComment", "Observees", new { @class = "ActionClass" }) <br />
-            @Html.ActionLink(" • Add/Change an Observer on Your Account", "ChangeObserver", "Observees", new { @class = "ActionClass" }) <br />
-            @Html.ActionLink(" • Edit Account Info", "Edit", "Observees", new { @class = "ActionClass" }) <br />
-            @Html.ActionLink(" • View Account Info", "Details", "Observees", new { @class = "ActionClass" })<br />
-            @Html.ActionLink(" • Navigate a Route", "Navigate", "Observees", new { @class = "ActionClass" })<br />
-        </div>
-        <br/>
-        <div class="Directions">
-            <table class="table" id="IndexTable">
-                @{ foreach (var x in Model.route.leg[0].maneuver)
-                    {
-                        <tr><td>@Html.Raw(x.instruction)</td></tr>
-                    }
-                }
-            </table>
-        </div>
-        <div id="ButtonDiv">
-            <input type="button" id="PanicButton" value="PANIC BUTTON" onclick="@("window.location.href='" + @Url.Action("PanicButton", "Observees", new { id = Model.observee.id }) + "'");" />
-        </div>
-    </div>
-
-    <div class="col-md-8">
-        <div id="map"></div>
-        <br/>
-       
-        <div id="StartButton">
-            <input type="button" value="Start Route" onclick="@("window.location.href='" + @Url.Action("TraverseRoute", "Observees", new { id = Model.observee.id }) + "'");" />
-        </div>
-        <br/>
-        <div id="SaveButton">
-            <input type="button" value="Save Route" onclick="@("window.location.href='" + @Url.Action("SaveRoute", "Observees", Model) + "'");" />
-        </div>
-        <script>
+    <div id="map"></div>
+    <script>
         var platform = new H.service.Platform({
             'app_id': 'Ic57q8KhWDvrpuK1lsP6',
             'app_code': 'qrVujTnPZqcdy1pVuimZrQ'
@@ -64,12 +30,12 @@
             // The routing mode:
             'mode': 'fastest;pedestrian;traffic:disabled',
             // The start point of the route:
-            'waypoint0': 'geo!@Model.route.waypoint[0].mappedPosition.latitude,@Model.route.waypoint[0].mappedPosition.longitude',
+            'waypoint0': 'geo!@Model.waypoint1',
             // The end point of the route:
-            'waypoint1': 'geo!@Model.route.waypoint[1].mappedPosition.latitude,@Model.route.waypoint[1].mappedPosition.longitude',
+            'waypoint1': 'geo!@Model.waypoint2',
             // To retrieve the shape of the route we choose the route
             // representation mode 'display'
-            'avoidareas': '@Model.avoid',
+            'avoidareas': '@Model.avoidstring',
             'representation': 'display'
         };
         //43.038779, -87.914753
@@ -125,6 +91,6 @@
             function (error) {
                 alert(error.message);
             });
-        </script>
-    </div>
+    </script>
 </div>
+@Html.ActionLink(" • Back to Route List", "ViewSavedRoutes", "Observers")<br />

@@ -355,6 +355,11 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Observers\ViewAvoidanceRoute.cshtml" />
     <Content Include="Views\Observees\SaveRoute.cshtml" />
+    <Content Include="Views\Observees\TraverseRoute.cshtml" />
+    <Content Include="Views\Observees\ViewSavedRoutes.cshtml" />
+    <Content Include="Views\Observees\ViewRoute.cshtml" />
+    <Content Include="Views\Observers\ViewSavedRoutes.cshtml" />
+    <Content Include="Views\Observers\ViewRoute.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

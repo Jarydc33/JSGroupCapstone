@@ -196,7 +196,28 @@ namespace SafestRouteApplication.Controllers
             }
             
         }
-        
+        public ActionResult ViewSavedRoutes()
+        {
+            string id = User.Identity.GetUserId();
+            int observerid = db.Observers.Where(e => e.ApplicationUserId == id).Select(e => e.id).FirstOrDefault();
+            List<Observee> observees = db.Observees.Where(e => e.ObserverId == observerid).ToList();
+            List<SavedRoute> routes = new List<SavedRoute>();
+            List<SavedRoute> tempRoutes = new List<SavedRoute>();
+            foreach (Observee x in observees)
+            {
+                tempRoutes = db.SavedRoutes.Where(e => e.ObserveeId == x.id).ToList();
+                foreach(SavedRoute y in tempRoutes)
+                {
+                    routes.Add(y);
+                }
+            }
+            return View(routes);
+        }
+        public ActionResult ViewRoute(int id)
+        {
+            SavedRoute route = db.SavedRoutes.Where(e => e.id == id).FirstOrDefault();
+            return View(route);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

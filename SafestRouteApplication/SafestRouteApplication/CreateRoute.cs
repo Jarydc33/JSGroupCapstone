@@ -14,9 +14,10 @@ namespace SafestRouteApplication
 {
     public static class CreateRoute
     {
-        static HttpClient client = new HttpClient();
+        static HttpClient client;
         public static Route Retrieve(string start_address, string end_address, string avoidances)
         {
+            client = new HttpClient();
             GeoCode geo = new GeoCode();
             string startCoordinates = geo.Retrieve(start_address);
             string endCoordinates = geo.Retrieve(end_address);
@@ -50,6 +51,7 @@ namespace SafestRouteApplication
         static Route route;
         public static Route Retrieve(string request)
         {
+            client = new HttpClient();
             string baseaddress = request;
             RunDataRetrieval(baseaddress).GetAwaiter().GetResult();
             return route;
@@ -59,7 +61,7 @@ namespace SafestRouteApplication
             client.BaseAddress = new Uri(address);
             try
             {
-                RequestObj jsonObj = await GetRequest(address, client);
+                RequestObj jsonObj = await GetRequest(address, client).ConfigureAwait(false); ;
                 route = jsonObj.response.route[0];
             }
             catch (Exception e)
@@ -70,7 +72,7 @@ namespace SafestRouteApplication
         static async Task<RequestObj> GetRequest(string path, HttpClient client)
         {
             RequestObj jsonObj = null;
-            HttpResponseMessage response = await client.GetAsync(path);
+            HttpResponseMessage response = await client.GetAsync(path).ConfigureAwait(false); ;
             if (response.IsSuccessStatusCode)
             {
                 jsonObj = await response.Content.ReadAsAsync<RequestObj>();
