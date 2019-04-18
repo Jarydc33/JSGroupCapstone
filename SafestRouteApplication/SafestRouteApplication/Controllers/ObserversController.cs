@@ -257,11 +257,21 @@ namespace SafestRouteApplication.Controllers
             {
                 GeoCode geo = new GeoCode();
                 string startcoord = geo.Retrieve(navData.nav.StartAddress);
-                string[] waypoint1 = startcoord.Split(',');
-                string stopcoord = geo.Retrieve(navData.nav.EndAddress);
-                string[] waypoint2 = stopcoord.Split(',');
-                model.observee = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e).FirstOrDefault();
-                model.avoid = GetCrimeData(Double.Parse(waypoint1[0]), Double.Parse(waypoint1[1]), Double.Parse(waypoint2[0]), Double.Parse(waypoint2[1]));
+                string[] waypoint1;
+                string stopcoord;
+                string[] waypoint2;
+                try
+                {
+                    waypoint1 = startcoord.Split(',');
+                    stopcoord = geo.Retrieve(navData.nav.EndAddress);
+                    waypoint2 = stopcoord.Split(',');
+                    model.observee = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e).FirstOrDefault();
+                    model.avoid = GetCrimeData(Double.Parse(waypoint1[0]), Double.Parse(waypoint1[1]), Double.Parse(waypoint2[0]), Double.Parse(waypoint2[1]));
+                }
+                catch
+                {
+                    return RedirectToAction("CreateRoutes");
+                }
                 var thisId = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e.id).FirstOrDefault();
                 List<AvoidanceRoute> avoidMarks = db.AvoidanceRoutes.Where(e => e.ObserveeId == thisId || e.ObserveeId == null).ToList();
                 List<string> avoidCoords = new List<string>();
@@ -295,12 +305,12 @@ namespace SafestRouteApplication.Controllers
                 }
                 catch
                 {
-
+                    return RedirectToAction("CreateRoutes");
                 }
             }
             else
             {
-                return View();
+                return RedirectToAction("CreateRoutes");
             }
             
             
