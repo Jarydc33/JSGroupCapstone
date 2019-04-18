@@ -26,12 +26,7 @@
     background-color: #402B32;
     text-align: center;
 }
-/*.test {
-    background-color: #BFAE99;
-    color: #402B32;
-    opacity: .75;
-    border-radius: 5px 5px;
-}*/
+
 .dl-horizontal {
     opacity: .75;
     border-radius: 5px 5px;
@@ -58,14 +53,30 @@ a.ActionClass {
     color: #BFAE99;
 }
 
-label.control-label {
+.directions {
     background-color: #402B32;
+    color: #BFAE99;
+    height: 100%;
     opacity: .75;
     border-radius: 5px 5px;
     box-shadow: 5px 5px black;
-    color: #BFAE99;
+    
 }
-.table {
+
+label.control-label {
+    background-color: #402B32;
+    border-radius: 5px 5px;
+    box-shadow: 5px 5px black;
+    color: #BFAE99;
+    opacity:.75;
+}
+
+.Directions {
+    height:55vh;
+    overflow-y: scroll;
+}
+
+#IndexTable {
     background-color: #402B32;
     color: #BFAE99;
     height: 100%;
