@@ -7,13 +7,13 @@ namespace SafestRouteApplication.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class fixitplease : IMigrationMetadata
+    public sealed partial class RestablishDemobase : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(fixitplease));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(RestablishDemobase));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904171448516_fixitplease"; }
+            get { return "201904181801411_RestablishDemobase"; }
         }
         
         string IMigrationMetadata.Source

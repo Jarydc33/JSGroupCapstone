@@ -404,14 +404,14 @@ namespace SafestRouteApplication.Controllers
             List<string> phoneNumbers = db.PhoneNumbers.Where(e => e.ObserverId == routeData.observee.ObserverId).Select(e => e.Number).ToList();
             foreach(string x in phoneNumbers)
             {
-                //SendAlert.Send(Message, x);
+                SendAlert.Send(Message, x);
             }
             if(routeData.route.note != null)
             {
                 Message = routeData.observee.FirstName + " " + routeData.observee.LastName + " has been routed through a high risk area.";
                 foreach (string x in phoneNumbers)
                 {
-                    //SendAlert.Send(Message, x);
+                    SendAlert.Send(Message, x);
                 }
             }
             TimeStart().GetAwaiter();
@@ -429,7 +429,7 @@ namespace SafestRouteApplication.Controllers
         {
             return Task.Run(() =>
             {
-                Thread.Sleep(10000);
+                Thread.Sleep(100000);
                 bool completed = routeComplete;
                 if (completed == false)
                 {
@@ -452,7 +452,7 @@ namespace SafestRouteApplication.Controllers
             List<string> phoneNumbers = db.PhoneNumbers.Where(e => e.ObserverId == observee.ObserverId).Select(e => e.Number).ToList();
             foreach (string x in phoneNumbers)
             {
-                //SendAlert.Send(Message, x);
+                SendAlert.Send(Message, x);
             }
 
             return RedirectToAction("Index");

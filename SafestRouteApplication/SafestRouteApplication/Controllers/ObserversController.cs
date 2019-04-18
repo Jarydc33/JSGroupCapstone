@@ -120,10 +120,47 @@ namespace SafestRouteApplication.Controllers
             Observer observer = db.Observers.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
             newRoute.id = int.Parse(newRoute.ObserveeId);
             Observee observee = db.Observees.Where(o => o.id == newRoute.id).FirstOrDefault();
-            routeToAdd.BottomRightLatitude = newRoute.BottomRightLatitude;
-            routeToAdd.BottomRightLongitude = newRoute.BottomRightLongitude;
-            routeToAdd.TopLeftLatitude = newRoute.TopLeftLatitude;
-            routeToAdd.TopLeftLongitude = newRoute.TopLeftLongitude;
+            
+            float NWLong;
+            float NWLat;
+            float SELong;
+            float SELat;
+            float startlat = newRoute.BottomRightLatitude;
+            float startlong = newRoute.BottomRightLongitude;
+            float stoplat = newRoute.TopLeftLatitude;
+            float stoplong = newRoute.TopLeftLongitude;
+            if (startlat < stoplat && startlong < stoplong)
+            {
+                NWLat = stoplat;
+                NWLong = startlong;
+                SELat = startlat;
+                SELong = stoplong;
+            }
+            else if (startlat > stoplat && startlong < stoplong)
+            {
+                NWLat = startlat;
+                NWLong = startlong;
+                SELat = stoplat;
+                SELong = stoplong;
+            }
+            else if (startlat > stoplat && startlong > stoplong)
+            {
+                NWLat = startlat;
+                NWLong = stoplong;
+                SELat = stoplat;
+                SELong = startlong;
+            }
+            else
+            {
+                NWLat = stoplat;
+                NWLong = stoplong;
+                SELat = startlat;
+                SELong = startlong;
+            }
+            routeToAdd.BottomRightLatitude = SELat;
+            routeToAdd.BottomRightLongitude = SELong;
+            routeToAdd.TopLeftLatitude = NWLat;
+            routeToAdd.TopLeftLongitude = NWLong;
             routeToAdd.Reason = newRoute.Reason;
             routeToAdd.RouteName = newRoute.Name;
             routeToAdd.ObserveeId = observee.id;
@@ -271,20 +308,31 @@ namespace SafestRouteApplication.Controllers
                 string[] waypoint1;
                 string stopcoord;
                 string[] waypoint2;
-                try
-                {
-                    waypoint1 = startcoord.Split(',');
-                    stopcoord = geo.Retrieve(navData.nav.EndAddress);
-                    waypoint2 = stopcoord.Split(',');
-                    model.observee = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e).FirstOrDefault();
-                    model.avoid = GetCrimeData(Double.Parse(waypoint1[0]), Double.Parse(waypoint1[1]), Double.Parse(waypoint2[0]), Double.Parse(waypoint2[1]));
-                }
-                catch
-                {
-                    return RedirectToAction("CreateRoutes");
-                }
-                var thisId = db.Observees.Where(e => e.ApplicationUserId == id).Select(e => e.id).FirstOrDefault();
-                List<AvoidanceRoute> avoidMarks = db.AvoidanceRoutes.Where(e => e.ObserveeId == thisId || e.ObserveeId == null).ToList();
+                List<AvoidanceRoute> avoidMarks;
+                //try
+                //{
+                //    waypoint1 = startcoord.Split(',');
+                //    stopcoord = geo.Retrieve(navData.nav.EndAddress);
+                //    waypoint2 = stopcoord.Split(',');
+                //    model.observee = db.Observees.Where(e => e.id == int.Parse(navData.observeeId)).FirstOrDefault();
+                //    model.avoid = GetCrimeData(Double.Parse(waypoint1[0]), Double.Parse(waypoint1[1]), Double.Parse(waypoint2[0]), Double.Parse(waypoint2[1]));
+                //    avoidMarks = db.AvoidanceRoutes.Where(e => e.ObserveeId == int.Parse(navData.observeeId) || e.ObserveeId == null).ToList();
+                //}
+                //catch
+                //{
+                //    return RedirectToAction("CreateRoutes");
+                //}
+                waypoint1 = startcoord.Split(',');
+                stopcoord = geo.Retrieve(navData.nav.EndAddress);
+                waypoint2 = stopcoord.Split(',');
+                int temp = int.Parse(navData.observeeId);
+                model.observee = db.Observees.Where(e => e.id == temp).FirstOrDefault();
+                model.avoid = GetCrimeData(Double.Parse(waypoint1[0]), Double.Parse(waypoint1[1]), Double.Parse(waypoint2[0]), Double.Parse(waypoint2[1]));
+                temp = int.Parse(navData.observeeId);
+                avoidMarks = db.AvoidanceRoutes.Where(e => e.ObserveeId == temp || e.ObserveeId == null).ToList();
+
+
+
                 List<string> avoidCoords = new List<string>();
                 foreach (AvoidanceRoute x in avoidMarks)
                 {
