@@ -4,7 +4,6 @@
     background-color: #A64949;
     color: #402B32;
     background-image: url('Images/aerial.jpg');
-    
 }
 .cardp {
     font-family: 'Segoe UI';
@@ -44,7 +43,6 @@
     color: black;
     font-weight: 500;
     font-size: medium;
-    
     border-radius: 5px 5px;
 }
 .HomePageHeader {
@@ -119,8 +117,7 @@ label.control-label {
     box-shadow: 5px 5px black;
 }
 
-.SideBar {
-    
+.SideBar { 
     background-color: #402B32;
     height: 100%;
     opacity: .75;
