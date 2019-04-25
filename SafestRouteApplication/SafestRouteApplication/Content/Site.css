@@ -6,23 +6,52 @@
     background-image: url('Images/aerial.jpg');
     
 }
+.cardp {
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    font-size: medium;
+}
 
+.customcard {
+    border-radius: 5px 5px;
+    background-color: rgba(191, 174, 153, 0.9);
+    height: 400px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    align-content: center;
+    font-family: 'Segoe UI';
+    color: black;
+}
+
+.logo{
+    height:auto;
+    width: auto;
+}
+.customNav {
+    background: #402B32 !important;
+    font-family:'Segoe UI';
+    font-size: large;
+}
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
 .HomeBody {
-    background-color: #BFAE99;
-    color: #402B32;
-    opacity: .75;
+    background-color: rgba(191, 174, 153, 0.9);
+    color: black;
+    font-weight: 500;
+    font-size: medium;
+    
     border-radius: 5px 5px;
 }
 .HomePageHeader {
-    opacity: .75;
+    opacity: .9;
     border-radius: 5px 5px;
     box-shadow: 5px 5px black;
-    color: #BFAE99;
+    color: #ffffff;
     background-color: #402B32;
     text-align: center;
 }
@@ -32,7 +61,7 @@
     border-radius: 5px 5px;
     box-shadow: 5px 5px black;
     background-color: #402B32;
-    color: #BFAE99;
+    color: #ffffff;
 }
 
 #map {
@@ -40,6 +69,12 @@
     width: 700px;
     border-radius: 5px 5px;
     box-shadow: 5px 5px gray;
+}
+.cardimage {
+    height: 220px;
+    width: auto;
+    border-radius: 5px 5px;
+    opacity: 1.0;
 }
 
 #PanicButton {
@@ -55,20 +90,19 @@ a.ActionClass {
 
 .directions {
     background-color: #402B32;
-    color: #BFAE99;
+    color: #ffffff;
     height: 100%;
     opacity: .75;
     border-radius: 5px 5px;
     box-shadow: 5px 5px black;
-    
 }
 
 label.control-label {
     background-color: #402B32;
     border-radius: 5px 5px;
     box-shadow: 5px 5px black;
-    color: #BFAE99;
-    opacity:.75;
+    color: #ffffff;
+    opacity: .75;
 }
 
 .Directions {

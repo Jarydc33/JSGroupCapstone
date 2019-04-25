@@ -23,7 +23,7 @@ namespace SafestRouteApplication.Controllers
                     ViewBag.displayMenu = "Admin";
                     return RedirectToAction("Index", "Administrators");
                 }
-                else if (isObserverUser())
+                if (isObserverUser())
                 {
                     ViewBag.displayMenu = "Observer";
                     return RedirectToAction("Index", "Observers");

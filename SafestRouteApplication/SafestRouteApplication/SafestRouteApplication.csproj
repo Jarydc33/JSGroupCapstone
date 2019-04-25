@@ -246,6 +246,11 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\aerial.jpg" />
+    <Content Include="Content\Images\NewLogo.png" />
+    <Content Include="Content\Images\saferoute1.jpg" />
+    <Content Include="Content\Images\saferoute2.jpg" />
+    <Content Include="Content\Images\saferoute3.jpg" />
+    <Content Include="Content\Images\Untitled.png" />
     <Content Include="Content\Images\welivehere.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

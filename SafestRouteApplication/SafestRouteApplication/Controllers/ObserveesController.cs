@@ -33,6 +33,9 @@ namespace SafestRouteApplication.Controllers
             string userId = User.Identity.GetUserId();
             Observee observee = db.Observees.Where(o => o.ApplicationUserId == userId).FirstOrDefault();
             observee.ApplicationUser = db.Users.Find(userId);
+            observee.Observer = db.Observers.Where(e => e.id == observee.ObserverId).FirstOrDefault();
+            string appId = observee.Observer.ApplicationUserId;
+            observee.Observer.ApplicationUser = db.Users.Where(e => e.Id == appId).FirstOrDefault();
             return View(observee);
         }
 
